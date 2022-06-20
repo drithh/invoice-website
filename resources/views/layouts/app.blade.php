@@ -10,7 +10,7 @@
 
   <!-- Fonts -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
   </style>
 
   <!-- Styles -->
@@ -20,21 +20,20 @@
   <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="font-sans antialiased">
-  <div class="min-h-screen bg-primary-background">
-    @include('layouts.navigation')
+<body class="bg-primary-background flex min-h-screen font-sans antialiased">
+  @include('layouts.navigation')
 
-    {{-- <!-- Page Heading -->
+  {{-- <!-- Page Heading -->
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {{ $header }}
       </div>
     </header> --}}
 
-    <!-- Page Content -->
-    <main>
-      {{ $slot }}
-    </main>
+  <!-- Page Content -->
+  <main class="w-full">
+    {{ $slot }}
+  </main>
   </div>
 </body>
 
