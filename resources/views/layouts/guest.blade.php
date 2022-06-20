@@ -9,9 +9,11 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Fonts -->
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;900&display=swap');
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -21,7 +23,7 @@
 </head>
 
 <body class="font-sans antialiased">
-  <div class="min-h-screen bg-primary-background">
+  <div class="bg-primary-background min-h-screen">
     @include('layouts.navigation')
 
     {{-- <!-- Page Heading -->
