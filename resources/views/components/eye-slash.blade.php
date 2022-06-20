@@ -1,4 +1,5 @@
-<svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg id="eye-slash" class="hidden" width="20" height="14" viewBox="0 0 20 14" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
   <path
     d="M11.9604 6.94943L10.1017 8.81075C10.5875 8.78728 11.0472 8.58357 11.3909 8.2394C11.7345 7.89522 11.9376 7.4353 11.9604 6.94943Z"
     fill="#626679" />

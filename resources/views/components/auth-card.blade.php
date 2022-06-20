@@ -3,3 +3,18 @@
     {{ $slot }}
   </div>
 </div>
+
+<script>
+  const toggleVisibilityPassword = () => {
+    const passwordInput = document.querySelector('input#password');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+
+    document.querySelector('#eye').classList.toggle('hidden');
+    document.querySelector('#eye-slash').classList.toggle('hidden');
+  };
+</script>
