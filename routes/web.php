@@ -21,4 +21,21 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/invoice', function () {
+    return view('invoice');
+})->middleware(['auth'])->name('invoice');
+
+
+Route::get('/product', function () {
+    return view('product');
+})->middleware(['auth'])->name('product');
+
+Route::get('/report', function () {
+    return view('report');
+})->middleware(['auth'])->name('report');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware(['auth'])->name('profile');
+
+require __DIR__ . '/auth.php';
