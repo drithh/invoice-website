@@ -13,7 +13,7 @@
       <div class="text font-poppins text-xs">Silakan masuk untuk mengakses data Anda</div>
     </div>
 
-    <form method="POST" class="flex flex-col gap-y-5" action="{{ route('login') }}">
+    <form method="POST" class="flex flex-col gap-y-1" action="{{ route('login') }}">
       @csrf
 
       <!-- Email Address -->
@@ -31,11 +31,6 @@
         </div>
       </div>
 
-
-      {{-- <x-label for="email" :value="__('Email')" />
-
-        <x-input id="email" class="mt-1 block w-full" type="email" name="email" :value="old('email')" required
-          autofocus /> --}}
 
       <!-- Password -->
       <div class="input-wrapper text-primary-textgray">
