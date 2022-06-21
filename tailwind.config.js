@@ -34,5 +34,8 @@ module.exports = {
     },
   },
 
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    require("tailwindcss-plugins/pagination"),
+    require("@tailwindcss/forms"),
+  ],
 };
