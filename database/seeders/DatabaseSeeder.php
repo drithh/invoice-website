@@ -2,8 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
+use Database\Factories\InvoiceFactory;
+use Database\Factories\InvoiceItemFactory;
+use Database\Factories\ItemFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +20,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory(30)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        InvoiceFactory::new()->count(400)->create();
+        $this->call(ItemSeeder::class);
+
+        InvoiceItemFactory::new()->count(2400)->create();
+
+
+        // create admin user
+        User::create([
+            'username' => 'admin',
+            'email' => 'admin@admin',
+            'password' => bcrypt('admin'),
+            'fullname' => 'Admin',
+        ]);
     }
 }
