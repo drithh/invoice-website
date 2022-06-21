@@ -21,6 +21,17 @@ class Invoice extends Model
         'link',
     ];
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->invoice_number = 'INV-' . $model->user_id . '-' . str_pad(Invoice::count() + 1, 5, "0", STR_PAD_LEFT);
+            $model->link = $model->invoice_number;
+        });
+    }
+
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
