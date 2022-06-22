@@ -1,13 +1,6 @@
 <x-app-layout>
-  <div class="px-[30px]">
-    <x-produk-terbaru :items="$items"></x-produk-terbaru>
-  </div>
-
-  {{-- <div id="data-table"></div> --}}
-
-
   <x-header-dashboard :date="$date"></x-header-dashboard>
-  <div class="grid grid-cols-2">
+  <div class="flex place-content-between px-12">
     <x-chart-card>
 
       <!-- Session Status -->
@@ -21,14 +14,15 @@
         <canvas id="myChart" width="600" height="300"></canvas>
       </div>
     </x-chart-card>
+    <x-produk-terbaru :items="$items"></x-produk-terbaru>
 
-    <div class="item"></div>
   </div>
-</x-app-layout>
-
-
+  <div id="data-table" class="mt-10 px-[18px]"></div>
 
 </x-app-layout>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 <script>
@@ -75,7 +69,7 @@
   window.onload = function() {
     selectYear();
   };
-  
+
   document.getElementById('income').innerHTML = 0;
   if (@json($invoicesCtr)) {
     document.getElementById('income').innerHTML = `Rp.${@json($userIncome)}`;
@@ -94,7 +88,6 @@
           label: 'Total Penjualan',
           data: datas,
           backgroundColor: (context) => {
-            // const chart = (context.chart);
             return grad;
           },
           borderColor: '#7F2987',

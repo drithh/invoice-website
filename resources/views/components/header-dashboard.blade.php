@@ -1,4 +1,4 @@
-<div class="mb-8 mt-8 h-14 px-[30px]">
+<div class="mb-8 mt-8 h-14 px-12">
   <div class="flex items-center justify-between">
     <button class="flex h-14 w-14 items-center justify-center rounded-lg bg-white">
       <x-hamburger-dashboard></x-hamburger-dashboard>

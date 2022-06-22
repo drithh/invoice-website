@@ -77,16 +77,6 @@ class InvoiceController extends Controller
     //
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Invoice $invoice)
-  {
-    //
-  }
 
   public function getUserInvoice(Request $request)
   {
@@ -176,21 +166,21 @@ class InvoiceController extends Controller
     return array(null, null, null, null);
   }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        DB::table('invoice_items')->where('invoice_id', $request->id)->delete();
-        return redirect()->route('dashboard');
-    }
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\Models\Invoice  $invoice
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Request $request)
+  {
+    DB::table('invoice_items')->where('invoice_id', $request->id)->delete();
+    return redirect()->route('dashboard');
+  }
 
-    public function getDataPerYear()
-    {
-        $invoices = DB::table('invoices')
+  public function getDataPerYear()
+  {
+    $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -202,15 +192,15 @@ class InvoiceController extends Controller
       ->groupBy('users.email')
       ->paginate(20);
 
-        $invoice_select = 'year';
-        $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
+    $invoice_select = 'year';
+    $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
 
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-    }
+    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+  }
 
-    public function getDataPerMonth()
-    {
-        $invoices = DB::table('invoices')
+  public function getDataPerMonth()
+  {
+    $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -224,15 +214,15 @@ class InvoiceController extends Controller
 
 
 
-        // sum invoices
-        $invoice_select = 'month';
-        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-    }
+    // sum invoices
+    $invoice_select = 'month';
+    $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
+    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+  }
 
-    public function getDataPerWeek()
-    {
-        $invoices = DB::table('invoices')
+  public function getDataPerWeek()
+  {
+    $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -244,8 +234,8 @@ class InvoiceController extends Controller
       ->groupBy('users.email')
       ->paginate(20);
 
-        $invoice_select = 'week';
-        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-    }
+    $invoice_select = 'week';
+    $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
+    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+  }
 }

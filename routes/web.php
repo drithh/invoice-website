@@ -5,7 +5,6 @@ use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\InvoiceController;
 use Illuminate\Http\Request;
 
 /*
@@ -24,7 +23,7 @@ use Illuminate\Http\Request;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     $invoices = DB::table('invoices')
         ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.created_at, users.username, users.email'))
         ->join('users', 'invoices.user_id', '=', 'users.id')
@@ -34,7 +33,7 @@ Route::get('/', function () {
         ->groupBy('invoices.created_at')
         ->groupBy('users.username')
         ->groupBy('users.email')
-        ->paginate(20);
+        ->paginate(15);
 
     // sum invoices
     $total_invoices = DB::table('invoices')->count();
@@ -42,9 +41,9 @@ Route::get('/', function () {
     $items = DB::table('items')
         ->select('items.name', 'items.retail_price', 'items.id', 'items.last_purchase_date', 'items.category')
         ->orderBy('items.last_purchase_date', 'desc')
-        ->paginate(5);
-  
-      $date = [
+        ->paginate(6);
+
+    $date = [
         'day' => date('l'),
         'date' => date('d / m / y'),
     ];
@@ -52,18 +51,10 @@ Route::get('/', function () {
     $userInvoice = new InvoiceController();
     list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
 
-
     return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date', 'invoices', 'invoicesCtr', 'monthsName', 'userIncome'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
-Route::get('/', function (Request $request) {
-
-
-})->middleware(['auth'])->name('dashboard');
-
-
-// Route::get('/dashboard', [InvoiceController::class, 'getUserInvoice'])->middleware(['auth'])->name('dashboard');
 
 
 Route::get('/invoice', function () {
