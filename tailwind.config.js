@@ -13,6 +13,7 @@ module.exports = {
         primary: {
           background: "#F0F4FC",
           textdark: "#3F4254",
+          cloud: "#C4C4C4",
           textgray: "#626679",
           purple: "#7F2987",
           darkpink: "#F0517A",
@@ -34,5 +35,8 @@ module.exports = {
     },
   },
 
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    require("tailwindcss-plugins/pagination"),
+    require("@tailwindcss/forms"),
+  ],
 };
