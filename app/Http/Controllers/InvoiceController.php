@@ -12,88 +12,88 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function index()
-  {
-    //
-  }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    //
-  }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Invoice $invoice)
+    {
+        //
+    }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Invoice $invoice)
+    {
+        //
+    }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Invoice $invoice)
+    {
+        //
+    }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Invoice $invoice)
+    {
+        //
+    }
 
-  public function getUserInvoice(Request $request)
-  {
-    $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
-    $lastOneYearDateTime = Carbon::now()->subYear()->addMonth()->firstofMonth()->format('Y-m-d H:i:s');
+    public function getUserInvoice(Request $request)
+    {
+        $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
+        $lastOneYearDateTime = Carbon::now()->subYear()->addMonth()->firstofMonth()->format('Y-m-d H:i:s');
 
-    $invoices = Invoice::where('user_id',  Auth::id())
+        $invoices = Invoice::where('user_id', Auth::id())
       ->whereBetween('invoice_date', [
         $lastOneYearDateTime,
         $currentDateTime
@@ -101,7 +101,7 @@ class InvoiceController extends Controller
       ->orderBy('invoice_date')
       ->get();
 
-    $userIncome = Invoice::where('user_id',  Auth::id())
+        $userIncome = Invoice::where('user_id', Auth::id())
       ->whereBetween('invoice_date', [
         $lastOneYearDateTime,
         $currentDateTime
@@ -111,20 +111,20 @@ class InvoiceController extends Controller
       ->sum('retail_price');
 
 
-    // string bulan-bulan
-    if ($invoices) {
-      $temp = Carbon::parse($invoices[0]->invoice_date);
-      $monthsName = array();
-      for ($i = 0; $i < 12; $i++) {
-        $name = substr($temp->format('F'), 0, 3);
-        array_push($monthsName, $name);
-        $temp->addMonth();
-      };
+        // string bulan-bulan
+        if ($invoices) {
+            $temp = Carbon::parse($invoices[0]->invoice_date);
+            $monthsName = array();
+            for ($i = 0; $i < 12; $i++) {
+                $name = substr($temp->format('F'), 0, 3);
+                array_push($monthsName, $name);
+                $temp->addMonth();
+            };
 
-      // counter tiap bulan
-      $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      foreach ($invoices as $invoice) {
-        switch (Carbon::parse($invoice->invoice_date)->month) {
+            // counter tiap bulan
+            $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            foreach ($invoices as $invoice) {
+                switch (Carbon::parse($invoice->invoice_date)->month) {
           case 1:
             $invoicesCounter[0]++;
             break;
@@ -165,16 +165,16 @@ class InvoiceController extends Controller
             $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
             break;
         }
-      };
+            };
 
-      $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-      if ($firstMonth != 0) {
-        $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
-      }
-      return array($invoices, $invoicesCtr, $monthsName, $userIncome);
+            $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+            if ($firstMonth != 0) {
+                $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
+            }
+            return array($invoices, $invoicesCtr, $monthsName, $userIncome);
+        }
+        return array(null, null, null, null);
     }
-    return array(null, null, null, null);
-  }
 
     /**
      * Remove the specified resource from storage.
