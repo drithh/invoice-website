@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
 
@@ -15,15 +16,19 @@ use App\Http\Controllers\InvoiceController;
 */
 
 Route::get('/', function () {
-    // return view('dashboard');
-    return redirect()->route('dashboard');
+
+    $date = [
+      'day' => date('l'),
+      'date' => date('d / m / y'),
+    ];
+
+    return view('dashboard', compact('date'));
+
 })->middleware(['auth'])->name('dashboard');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
 
 Route::get('/dashboard', [InvoiceController::class, 'getUserInvoice'])->middleware(['auth'])->name('dashboard');
+
 
 Route::get('/invoice', function () {
     return view('invoice');

@@ -1,4 +1,7 @@
-<x-guest-layout>
+
+<x-app-layout>
+  <x-header-dashboard :date="$date"></x-header-dashboard>
+
   <x-chart-card>
 
     <!-- Session Status -->
@@ -25,8 +28,7 @@
     </table>
     @endforeach
   </x-chart-card> --}}
-
-</x-guest-layout>
+</x-app-layout>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0/dist/chartjs-plugin-datalabels.min.js"></script> --}}
 
@@ -104,3 +106,4 @@
       }
   });
   </script>
+
