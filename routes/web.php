@@ -43,8 +43,8 @@ Route::get('/', function () {
         ->select('items.name', 'items.retail_price', 'items.id', 'items.last_purchase_date', 'items.category')
         ->orderBy('items.last_purchase_date', 'desc')
         ->paginate(5);
-  
-      $date = [
+
+    $date = [
         'day' => date('l'),
         'date' => date('d / m / y'),
     ];
@@ -58,8 +58,6 @@ Route::get('/', function () {
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
 Route::get('/', function (Request $request) {
-
-
 })->middleware(['auth'])->name('dashboard');
 
 
