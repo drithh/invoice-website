@@ -29,6 +29,9 @@ Route::get('/', function () {
         ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
         ->join('items', 'invoice_items.item_id', '=', 'items.id')
         ->groupBy('invoices.id')
+        ->groupBy('invoices.created_at')
+        ->groupBy('users.username')
+        ->groupBy('users.email')
         ->paginate(20);
 
     // sum invoices

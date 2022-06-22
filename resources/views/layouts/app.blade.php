@@ -18,7 +18,6 @@
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body class="bg-primary-background flex min-h-screen font-sans antialiased">
@@ -32,7 +31,7 @@
     </header> --}}
 
   <!-- Page Content -->
-  <main class="w-full font-montserrat">
+  <main class="font-montserrat w-full">
     {{ $slot }}
   </main>
   </div>
