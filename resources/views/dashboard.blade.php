@@ -1,3 +1,3 @@
 <x-app-layout>
-  <div class="welcome">Dashboard</div>
+  <x-header-dashboard :date="$date"></x-header-dashboard>
 </x-app-layout>
