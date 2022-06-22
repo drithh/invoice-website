@@ -1,8 +1,12 @@
 <?php
 
+
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoiceController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,11 +43,28 @@ Route::get('/', function () {
         ->select('items.name', 'items.retail_price', 'items.id', 'items.last_purchase_date', 'items.category')
         ->orderBy('items.last_purchase_date', 'desc')
         ->paginate(5);
+  
+      $date = [
+        'day' => date('l'),
+        'date' => date('d / m / y'),
+    ];
 
-    return view('dashboard', compact('invoices', 'total_invoices', 'items'));
+    $userInvoice = new InvoiceController();
+    list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
+
+
+    return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date', 'invoices', 'invoicesCtr', 'monthsName', 'userIncome'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
+Route::get('/', function (Request $request) {
+
+
+})->middleware(['auth'])->name('dashboard');
+
+
+// Route::get('/dashboard', [InvoiceController::class, 'getUserInvoice'])->middleware(['auth'])->name('dashboard');
+
 
 Route::get('/invoice', function () {
     return view('invoice');
