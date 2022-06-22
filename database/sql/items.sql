@@ -1,3 +1,4 @@
+INSERT INTO items (name,category,supplier,content,unit,cost_of_goods_sold,retail_price,stock,max_stock,last_purchase_date) VALUES ('APO(1090A) CARAMEL CHOC 24S','BISKUIT','INDOSINMA JAYA,','12','PCs','27550','30000','46','100','2022-01-22');
 INSERT INTO items (name,category,supplier,content,unit,cost_of_goods_sold,retail_price,stock,max_stock,last_purchase_date) VALUES ('123 BENDERA COKLAT 300G','SUSU','HANSEL DNP, PT','24','PCs','18620','19600','90','140','2021-12-02');
 INSERT INTO items (name,category,supplier,content,unit,cost_of_goods_sold,retail_price,stock,max_stock,last_purchase_date) VALUES ('2.3.4 FILTER','ROKOK','ANGUANG','1','SLOF','81700','86000','128','170','2022-02-21');
 INSERT INTO items (name,category,supplier,content,unit,cost_of_goods_sold,retail_price,stock,max_stock,last_purchase_date) VALUES ('234 KERETEK','ROKOK','ANGUANG','10','BUNGKUS','11400','12000','39','50','2021-11-21');
