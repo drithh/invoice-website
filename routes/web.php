@@ -37,8 +37,12 @@ Route::get('/', function () {
     // sum invoices
     $total_invoices = DB::table('invoices')->count();
 
+    $items = DB::table('items')
+        ->select('items.name', 'items.retail_price', 'items.id', 'items.last_purchase_date', 'items.category')
+        ->orderBy('items.last_purchase_date', 'desc')
+        ->paginate(5);
 
-    return view('dashboard', compact('invoices', 'total_invoices'));
+    return view('dashboard', compact('invoices', 'total_invoices', 'items'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');

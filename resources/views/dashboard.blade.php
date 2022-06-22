@@ -1,6 +1,9 @@
 <x-app-layout>
-  <div></div>
-  <div id="data-table"></div>
+  <div class="px-[30px]">
+    <x-produk-terbaru :items="$items"></x-produk-terbaru>
+  </div>
+
+  {{-- <div id="data-table"></div> --}}
 </x-app-layout>
 
 <script>
