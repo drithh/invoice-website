@@ -31,7 +31,7 @@
     </header> --}}
 
   <!-- Page Content -->
-  <main class="w-full">
+  <main class="font-montserrat w-full">
     {{ $slot }}
   </main>
   </div>

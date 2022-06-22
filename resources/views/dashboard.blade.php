@@ -1,4 +1,11 @@
 <x-app-layout>
+  <div class="px-[30px]">
+    <x-produk-terbaru :items="$items"></x-produk-terbaru>
+  </div>
+
+  {{-- <div id="data-table"></div> --}}
+
+
   <x-header-dashboard :date="$date"></x-header-dashboard>
   <div class="grid grid-cols-2">
     <x-chart-card>
@@ -17,6 +24,7 @@
 
     <div class="item"></div>
   </div>
+</x-app-layout>
 
 
 
@@ -24,6 +32,50 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 <script>
+  const fetchData = async (url) => {
+    axios.get(url.split(window.location)[1])
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const selectYear = () => {
+    axios.get('/api/invoices/year')
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const selectMonth = () => {
+    axios.get('/api/invoices/month')
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const selectWeek = () => {
+    axios.get('/api/invoices/week')
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  window.onload = function() {
+    selectYear();
+  };
+  
   document.getElementById('income').innerHTML = 0;
   if (@json($invoicesCtr)) {
     document.getElementById('income').innerHTML = `Rp.${@json($userIncome)}`;
