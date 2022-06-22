@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="fixed left-0 top-0 h-screen w-20 bg-white">
+<nav x-data="{ open: false }" class="sticky left-0 top-0 h-screen w-20 bg-white">
 
   <div class="flex h-screen w-full flex-col place-content-between place-items-center pb-[5vh] pt-[4vh]">
     <div class="wrapper">
