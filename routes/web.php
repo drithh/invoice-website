@@ -3,6 +3,7 @@
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +16,21 @@ use App\Http\Controllers\InvoiceController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
 
     $date = [
-      'day' => date('l'),
-      'date' => date('d / m / y'),
+        'day' => date('l'),
+        'date' => date('d / m / y'),
     ];
 
-    return view('dashboard', compact('date'));
+    $userInvoice = new InvoiceController();
+    list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
 
+    return view('dashboard', compact('date', 'invoices', 'invoicesCtr', 'monthsName', 'userIncome'));
 })->middleware(['auth'])->name('dashboard');
 
 
-Route::get('/dashboard', [InvoiceController::class, 'getUserInvoice'])->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', [InvoiceController::class, 'getUserInvoice'])->middleware(['auth'])->name('dashboard');
 
 
 Route::get('/invoice', function () {

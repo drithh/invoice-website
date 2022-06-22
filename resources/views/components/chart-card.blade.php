@@ -1,21 +1,5 @@
 <div class="flex min-h-screen items-center pt-6 sm:justify-center sm:pt-0">
-    <div class="mt-6 h-fitoverflow-hidden rounded-xl bg-white p-10 pt-12 ">
-      {{ $slot }}
-    </div>
+  <div class="h-fitoverflow-hidden mt-6 rounded-xl bg-white p-10 pt-12">
+    {{ $slot }}
   </div>
-  
-  <script>
-    const toggleVisibilityPassword = () => {
-      const passwordInput = document.querySelector('input#password');
-  
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-      } else {
-        passwordInput.type = 'password';
-      }
-  
-      document.querySelector('#eye').classList.toggle('hidden');
-      document.querySelector('#eye-slash').classList.toggle('hidden');
-    };
-  </script>
-  
+</div>
