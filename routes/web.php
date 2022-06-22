@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
     $date = [
       'day' => date('l'),
       'date' => date('d / m / y'),
