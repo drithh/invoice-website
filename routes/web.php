@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth'])->name('dashboard');
 
 Route::get('/', function () {
-
-
     $invoices = DB::table('invoices')
         ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.created_at, users.username, users.email'))
         ->join('users', 'invoices.user_id', '=', 'users.id')
