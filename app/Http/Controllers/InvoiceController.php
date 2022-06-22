@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -58,6 +60,7 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         //
+
     }
 
     /**
@@ -78,8 +81,16 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Request $request)
     {
+      // dd($request);
         //
+        // dd($request->id);
+        // DB::table('invoices')->where('id', $request->id)->delete();
+        DB::table('invoice_items')->where('invoice_id', $request->id)->delete();
+
+        return redirect()->route('dashboard');
+
+
     }
 }

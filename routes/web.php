@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,13 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
 Route::get('/', function () {
-    return view('dashboard');
+
+
+    $invoices = DB::table('invoices')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.created_at, users.username, users.email'))
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->groupBy('invoices.id')
+        ->paginate(20);
+
+    // sum invoices
+    $total_invoices = DB::table('invoices')->count();
+
+
+    return view('dashboard', compact('invoices', 'total_invoices'));
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
 
 Route::get('/invoice', function () {
     return view('invoice');
@@ -37,5 +56,7 @@ Route::get('/report', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->middleware(['auth'])->name('profile');
+
+
 
 require __DIR__ . '/auth.php';

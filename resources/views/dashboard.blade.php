@@ -1,3 +1,5 @@
 <x-app-layout>
-  <div class="welcome">Dashboard</div>
+  <x-table-penjualan :invoices="$invoices" :total_invoices="$total_invoices">
+
+  </x-table-penjualan>
 </x-app-layout>
