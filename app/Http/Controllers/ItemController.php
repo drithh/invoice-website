@@ -85,7 +85,6 @@ class ItemController extends Controller
     }
 
     public function itemSearch(Request $request)
-
     {
         $name = $request->search;
         $items = Item::where('name', 'like', '%' . $name . '%')->limit(4)->get();
@@ -101,6 +100,7 @@ class ItemController extends Controller
           ->update(array('stock' => $request->stock));
     }
 
-    public function getStock(){}
-
+    public function getStock()
+    {
+    }
 }
