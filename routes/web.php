@@ -48,10 +48,10 @@ Route::get('/', function (Request $request) {
         'date' => date('d / m / y'),
     ];
 
-    $userInvoice = new InvoiceController();
-    list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
+    // $userInvoice = new InvoiceController();
+    // list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
 
-    return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date', 'invoices', 'invoicesCtr', 'monthsName', 'userIncome'));
+    return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');

@@ -1,8 +1,8 @@
 <div class="mb-8 mt-8 h-14 px-12">
   <div class="flex items-center justify-between">
-    <button class="flex h-14 w-14 items-center justify-center rounded-lg bg-white">
+    <div class="flex h-14 w-14 items-center justify-center rounded-lg bg-white">
       <x-hamburger-dashboard></x-hamburger-dashboard>
-    </button>
+    </div>
     <h2 class="text-lg font-semibold">Dashboard</h2>
     {{-- <div class="flex justify-between py-3 px-6 bg-white rounded-xl"> --}}
     <form action="">
@@ -13,7 +13,7 @@
     {{-- </div> --}}
 
     <div class="flex h-14 w-32 flex-col items-center justify-evenly rounded-lg bg-white text-center">
-      <h3 class="text-xs font-bold">{{ $date['day'] }}</h3>
+      <h3 class="text-xs font-bold">{{ date('d') }}</h3>
       <p class="font-poppins text-xs font-light">{{ $date['date'] }}</p>
     </div>
 
