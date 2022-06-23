@@ -1,5 +1,4 @@
 <x-app-layout>
-  <x-header-dashboard :date="$date"></x-header-dashboard>
   <div class="flex place-content-between px-12">
     <x-chart-card>
 
@@ -26,8 +25,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 <script>
+  const addData = () => {
+    alert('add data');
+  }
+
   const fetchData = async (url) => {
-    axios.get(url.split(window.location)[1])
+    axios.get(url.split(window.location)[0])
       .then(response => {
         document.querySelector('#data-table').innerHTML = response.data;
       })
