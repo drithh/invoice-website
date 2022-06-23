@@ -82,8 +82,7 @@
           grad.addColorStop(0, '#BDDEF1');
           grad.addColorStop(1, 'white');
 
-
-          var datas = data.invoicesCounter;
+          var datas = data.invoicesCtr;
           const myChart = new Chart(ctx, {
             type: 'line',
             data: {
