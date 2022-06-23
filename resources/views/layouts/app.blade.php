@@ -32,6 +32,7 @@
 
   <!-- Page Content -->
   <main class="font-montserrat w-full">
+    <x-header-dashboard></x-header-dashboard>
     {{ $slot }}
   </main>
   </div>

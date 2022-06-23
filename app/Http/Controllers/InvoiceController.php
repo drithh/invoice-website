@@ -77,8 +77,7 @@ class InvoiceController extends Controller
         //
     }
 
-
-    public function getUserInvoice(Request $request)
+    public function getUserInvoices(Request $request)
     {
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
         $lastOneYearDateTime = Carbon::now()->subYear()->addMonth()->firstofMonth()->format('Y-m-d H:i:s');
@@ -102,7 +101,7 @@ class InvoiceController extends Controller
 
 
         // string bulan-bulan
-        if ($invoices) {
+        if ($invoices[0]) {
             $temp = Carbon::parse($invoices[0]->invoice_date);
             $monthsName = array();
             for ($i = 0; $i < 12; $i++) {
@@ -161,9 +160,17 @@ class InvoiceController extends Controller
             if ($firstMonth != 0) {
                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
             }
-            return array($invoices, $invoicesCtr, $monthsName, $userIncome);
+            return response()->json([
+        'message' => 'Invoices found',
+        'invoices' => $invoices,
+        'invoicesCounter' => $invoicesCounter,
+        'monthsName' => $monthsName,
+        'userIncome' => $userIncome
+      ]);
         }
-        return array(null, null, null, null);
+        return response()->json([
+      'message' => 'No invoices found'
+    ]);
     }
 
     /**

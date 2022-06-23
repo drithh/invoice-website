@@ -25,3 +25,4 @@ Route::middleware('auth')->get('/user', function (Request $request) {
 Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middleware('auth')->name('invoices.year');
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
+Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');

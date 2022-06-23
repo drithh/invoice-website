@@ -50,7 +50,7 @@
     <x-nav-link :href="route('profile')" class="group relative left-0" :active="request()->routeIs('profile')">
       <x-profile-logo />
       <span
-        class="border-primary-purple absolute top-[-10px] right-[-11.5rem] flex h-10 w-36 origin-left scale-0 place-content-center place-items-center rounded-lg border-2 bg-white bg-opacity-60 text-base font-semibold transition-all group-hover:scale-100">Report</span>
+        class="border-primary-purple absolute top-[-10px] right-[-11.5rem] flex h-10 w-36 origin-left scale-0 place-content-center place-items-center rounded-lg border-2 bg-white bg-opacity-60 text-base font-semibold transition-all group-hover:scale-100">Profile</span>
       <div
         class="{{ request()->routeIs('profile') ? 'active-route bg-primary-orange absolute top-[-12px] right-[-2rem] block h-12 w-[2px]' : '' }}">
       </div>
