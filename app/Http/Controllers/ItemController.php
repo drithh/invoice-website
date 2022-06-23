@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -82,4 +83,24 @@ class ItemController extends Controller
     {
         //
     }
+
+    public function itemSearch(Request $request)
+
+    {
+        $name = $request->search;
+        $items = Item::where('name', 'like', '%' . $name . '%')->limit(4)->get();
+        // response()->json($items);
+        // return response()->json($items);
+        return view('components.edit-stock-modal', compact('items'));
+    }
+
+    public function updateStock(Request $request)
+    {
+        DB::table('items')
+          ->where('id', $request->id)
+          ->update(array('stock' => $request->stock));
+    }
+
+    public function getStock(){}
+
 }

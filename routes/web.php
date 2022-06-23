@@ -62,6 +62,7 @@ Route::get('/dashboard', function (Request $request) {
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
 
 
+
 Route::get('/invoice', function () {
     return view('invoice');
 })->middleware(['auth'])->name('invoice');
