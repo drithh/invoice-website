@@ -83,7 +83,7 @@
           </div>
         @endforeach
     
-        {{-- {{ $items->links() }} --}}
+        {{ $items->links() }}
       </div>
     </div>
   </div>
