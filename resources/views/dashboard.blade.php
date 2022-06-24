@@ -1,4 +1,6 @@
 <x-app-layout>
+
+
   <div class="flex place-content-between px-12">
     <x-chart-card>
 
@@ -25,59 +27,58 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 <script>
-  const addData = () => {
-    alert('add data');
-  }
+
+
 
   const fetchData = async (url) => {
     axios.get(url.split(window.location)[0])
-      .then(response => {
-        document.querySelector('#data-table').innerHTML = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      document.querySelector('#data-table').innerHTML = response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   };
 
   const selectYear = () => {
     axios.get('/api/invoices/year')
-      .then(response => {
-        document.querySelector('#data-table').innerHTML = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      document.querySelector('#data-table').innerHTML = response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   const selectMonth = () => {
     axios.get('/api/invoices/month')
-      .then(response => {
-        document.querySelector('#data-table').innerHTML = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      document.querySelector('#data-table').innerHTML = response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   const selectWeek = () => {
     axios.get('/api/invoices/week')
-      .then(response => {
-        document.querySelector('#data-table').innerHTML = response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      document.querySelector('#data-table').innerHTML = response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
 
 
   const getInvoicesUser = () => {
     axios.get('/api/invoices/user')
-      .then(response => {
-        if (response.data.message === 'Invoices found') {
-          const data = response.data;
-          document.getElementById('income').innerHTML = `Rp.${data.userIncome}`;
-          const ctx = document.getElementById('myChart').getContext('2d');
+    .then(response => {
+      if (response.data.message === 'Invoices found') {
+        const data = response.data;
+        document.getElementById('income').innerHTML = `Rp.${data.userIncome}`;
+        const ctx = document.getElementById('myChart').getContext('2d');
           const grad = ctx.createLinearGradient(0, 0, 0, 300);
           grad.addColorStop(0, '#BDDEF1');
           grad.addColorStop(1, 'white');
@@ -136,10 +137,12 @@
       .catch(error => {
         console.log(error);
       });
-  }
+    }
 
-  window.onload = function() {
-    selectYear();
-    getInvoicesUser();
-  };
-</script>
+    window.onload = function() {
+      selectYear();
+      getInvoicesUser();
+    };
+
+
+  </script>
