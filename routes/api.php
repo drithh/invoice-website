@@ -27,6 +27,10 @@ Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middl
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
 Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');
+
+
+Route::get('items/list', [ItemController::class, 'getItemsList'])->middleware('auth')->name('items.list');
+Route::get('items/grid', [ItemController::class, 'getItemsGrid'])->middleware('auth')->name('items.grid');
 Route::get('invoices/all', [InvoiceController::class, 'getAllInvoices'])->middleware('auth')->name('invoices.all');
 
 Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['auth'])->name('item.search');

@@ -1,4 +1,11 @@
 <x-app-layout>
+
+
+  <div id="data-table" class="mt-10 px-[18px]">
+
+  </div>
+
+
   <div id="addStock" class="hidden bg-black absolute inset-0 bg-opacity-50 w-screen h-screen items-center justify-center">
     <div class="bg-white rounded-lg w-1/2 h-[520px] px-9 py-10 relative">
       <button class="content-end absolute right-0 top-0 scale-[2] origin-center mt-10 mr-9" onclick="closeModal()">
@@ -17,6 +24,29 @@
   </div>
 </x-app-layout>
 <script>
+  const getItemList = () => {
+    axios.get('/api/items/list')
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  window.onload = function() {
+    getItemList();
+  }
+
+  const fetchData = async (url) => {
+    axios.get(url.split(window.location)[0])
+      .then(response => {
+        document.querySelector('#data-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
   const closeModal = () => {
     document.getElementById('addStock').classList.remove('flex');
     document.getElementById('addStock').classList.add('hidden');
