@@ -1,83 +1,85 @@
 <div class="mb-8 px-8">
-  <div class="mb-8 rounded-lg bg-white pt-8 pb-16 pl-10 pr-16">
-    {{-- header --}}
-    <div class="mb-16 flex items-center justify-between">
-      <div class="left w-[11rem] text-sm">
-        <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">
-          <div
-            class="bg-primary-cyan flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg text-white">
-            <x-list-icon></x-list-icon>
-            <button class="ml-1 flex cursor-pointer items-center justify-center" onclick="listView()">List</button>
-          </div>
-          <div class="flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg">
-            <x-grid-icon></x-grid-icon>
-            <button class="ml-1 flex h-[35px] w-[50%] items-center justify-center" onclick="gridView()">Grid</button>
-          </div>
+  {{-- header --}}
+  <div class="mb-10 flex items-center justify-between rounded-xl bg-white py-8 pl-8 pr-16">
+    <div class="left w-[11rem] text-sm">
+      <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">
+        <div class="flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg">
+          <x-list-icon fill="#616679"></x-list-icon>
+          <button class="ml-1 flex cursor-pointer items-center justify-center" onclick="getItemList()">List</button>
         </div>
-      </div>
-    </div>
-    <div class="mb-16 flex h-[50px] items-center rounded-xl bg-slate-50">
-      <div class='flex w-[31%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
-        <div class="ml-1 text-center">Product</div>
-      </div>
-      <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
-        <div class="ml-1 text-center">Stok</div>
-      </div>
-      <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
-        <div class="ml-1 text-center">Harga</div>
-      </div>
-      <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
-        <div class="ml-1 text-center">Penjualan</div>
-      </div>
-      <div class='flex w-[15%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
-        <div class="ml-1 text-center">Tag</div>
-      </div>
-    </div>
+        <div
+          class="bg-primary-cyan flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg text-white">
+          <x-grid-icon fill="white"></x-grid-icon>
+          <button class="ml-1 flex h-[35px] w-[50%] items-center justify-center" onclick="getItemGrid()">Grid</button>
+        </div>
 
+
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-row flex-wrap justify-between ">
     @foreach ($items as $item)
-      <div class="mb-16 flex h-[50px] items-center justify-between">
-        {{-- <div class="form-check ">
-            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="itemCheckBox">
-          </div> --}}
-        <div class="w-[20px] pl-4">
-          <div
-            class="{{ $loop->index % 3 == 0 ? 'bg-yellow-300' : ($loop->index % 3 == 1 ? 'bg-red-300' : 'bg-cyan-300') }} outline-3 mr-[42px] h-[50px] w-[50px] rounded-xl outline outline-gray-400">
+      <div class="card mb-8 flex flex-col items-center justify-between w-[240px] h-[15rem] bg-white m-3 p-5 rounded-lg shadow">
+        <div class="flex-row flex w-[100%] justify-between ">
+          <div class="flex justify-start w-[30%] h-[100%] ">
+            <div class="{{ $loop->index % 3 == 0 ? 'bg-yellow-300' : ($loop->index % 3 == 1 ? 'bg-red-300' : 'bg-cyan-300') }} h-[50px] w-[50px] rounded-xl outline outline-gray-400 outline-3"></div>
+          </div>
+          <div class="w-[65%] h-[100%] ">
+            <h3 class="inline-block text-primary-textdark text-xs font-bold align-middle">{{ $item->name }}</h3>
           </div>
         </div>
-        <div class="flex w-[300px] flex-col">
-          <h3 class="text-primary-textdark mb-2 text-sm font-semibold">{{ $item->name }}</h3>
-        </div>
-        <div class="font-poppins text-primary-textgray w-[100px] text-xs font-light">{{ $item->stock }}
-        </div>
-        <div
-          class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }} w-[150px] text-xs font-semibold">
-          Rp{{ $item->retail_price }},00
-        </div>
-        <div class="font-poppins text-primary-textgray w-[70px] text-xs font-light">{{ $item->terbeli }}
-        </div>
-        <div
-          class="{{ $loop->index % 3 == 0 ? 'bg-green-100' : ($loop->index % 3 == 1 ? 'bg-rose-100' : 'bg-orange-100') }} flex h-[35px] w-[100px] items-center justify-center rounded-xl text-center text-xs font-semibold">
-          {{ $item->category }}
-        </div>
-        <button class="pr-6" onclick=()>
-          <x-dots-icon></x-dots-icon>
-        </button>
+        <div class="flex flex-col w-[100%] ">
+          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
+            <h3 class="inline-block text-primary-textdark text-xs font-semibold align-middle">Stok</h3>
+            <span id="stock-number"  class="text-primary-textdark text-md font-semibold align-middle">{{ substr($item->remaining_stock, 0, 2).'%' }}</span>
+          </div>
+          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
+                        
+            <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+              <div class="bg-{{ $item->remaining_stock < 33 ? 'red' : ($item->remaining_stock >33 && $item->remaining_stock <66 ? 'yellow' : 'green') }}-600 h-1.5 rounded-full dark:bg-gray-300" style="width: {{$item->remaining_stock}}%"></div>
+            </div>
 
-        {{-- <form action="{{ route('item.deleteRow') }}" method="post">
-            @csrf
-            <input type="hidden" name="id" id="id" value="{{ $item->id }}">
-            <button type="submit" id="deleteRow">
-              <x-delete-row></x-delete-row>
-            </button>
-          </form> --}}
+          </div>
+        </div>
+        <div class="flex flex-col w-[100%] ">
+          <div class="w-[50%] h-[100%] ">
+            <h3 class="inline-block text-primary-textdark text-xs font-semibold align-middle">Harga</h3>
+          </div>
+          <div class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }}">
+            Rp{{ $item->retail_price }},00
+          </div>
+        </div>
       </div>
     @endforeach
-
+  </div>
+  <div class="rounded-xl bg-white py-8 pl-8 pr-16">
     {{ $items->links() }}
   </div>
 </div>
+
+
+{{-- <div class="px-[30px]">
+      <div class="">
+        <div class="mb-10 flex items-center justify-between rounded-lg bg-white py-[30px] pl-[40px] pr-[60px]">
+          <div class="left w-[11rem] text-sm">
+            <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">
+              <div class="flex flex-row h-[35px] w-[50%] items-center justify-center rounded-lg cursor-pointer ">
+                <x-list-icon></x-list-icon>
+                <button
+                  class="flex cursor-pointer items-center justify-center ml-1 "
+                  onclick="listView()">List</button>
+              </div>
+              <div class="flex flex-row h-[35px] w-[50%] items-center justify-center rounded-lg cursor-pointer 
+              bg-primary-cyan text-white">
+                <x-grid-icon></x-grid-icon>
+                <button
+                class="flex h-[35px] w-[50%] items-center justify-center ml-1"
+                onclick="gridView()">Grid</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        {{ $items->links() }}
+      </div> --}}
