@@ -30,10 +30,17 @@
           </div>
         </div>
         <div class="flex flex-col w-[100%] ">
-          <div class="w-[50%] h-[100%] ">
+          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
             <h3 class="inline-block text-primary-textdark text-xs font-semibold align-middle">Stok</h3>
+            <span id="stock-number"  class="text-primary-textdark text-md font-semibold align-middle">{{ substr($item->remaining_stock, 0, 2).'%' }}</span>
           </div>
-          <div class="t">{{ $item->remaining_stock }}</div>
+          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
+                        
+            <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+              <div class="bg-{{ $item->remaining_stock < 33 ? 'red' : ($item->remaining_stock >33 && $item->remaining_stock <66 ? 'yellow' : 'green') }}-600 h-1.5 rounded-full dark:bg-gray-300" style="width: {{$item->remaining_stock}}%"></div>
+            </div>
+
+          </div>
         </div>
         <div class="flex flex-col w-[100%] ">
           <div class="w-[50%] h-[100%] ">
