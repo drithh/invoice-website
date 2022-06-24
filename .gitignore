@@ -9,7 +9,7 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
-public/app.css
 yarn-error.log
 /.idea
 /.vscode
+public/css/app.css

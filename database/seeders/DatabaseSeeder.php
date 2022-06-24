@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Factories\InvoiceFactory;
 use Database\Factories\InvoiceItemFactory;
 use Database\Factories\ItemFactory;
+use Database\Factories\SupplierFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -21,8 +22,13 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(30)->create();
 
+        SupplierFactory::new()->count(44)->create();
+        $this->call(SupplierSeeder::class);
+
         InvoiceFactory::new()->count(400)->create();
         $this->call(ItemSeeder::class);
+
+
 
         InvoiceItemFactory::new()->count(2400)->create();
 

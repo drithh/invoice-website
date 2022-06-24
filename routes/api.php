@@ -27,6 +27,8 @@ Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middl
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
 Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');
+Route::get('invoices/all', [InvoiceController::class, 'getAllInvoices'])->middleware('auth')->name('invoices.all');
+
 Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['auth'])->name('item.search');
 Route::post('item/updateStock', [ItemController::class, 'updateStock'])->middleware(['auth'])->name('item.update.stock');
 Route::get('item/getStock', [ItemController::class, 'getStock'])->middleware(['auth'])->name('item.get.stock');
