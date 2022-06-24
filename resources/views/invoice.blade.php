@@ -1,206 +1,180 @@
 <x-app-layout>
 
   {{-- change class from hidden to flex to see --}}
-  <div id="addStock" class="hidden bg-black absolute inset-0 bg-opacity-50 w-screen h-screen items-center justify-center">
-    <div class="bg-white rounded-lg w-1/2 h-[520px] px-9 py-12 relative">
-      <button class="content-end absolute right-0 top-0 scale-[2] origin-center mt-9 mr-9" onclick="closeModal()">
-        <x-crossmark ></x-crossmark>
+  <div id="addStock" class="fixed inset-0 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+    <div class="relative w-1/2 rounded-lg bg-white px-9 py-12">
+      <button class="absolute right-0 top-0 mt-9 mr-9 origin-center scale-[2] content-end" onclick="closeModal()">
+        <x-crossmark></x-crossmark>
       </button>
-      <div class="flex justify-evenly w-full my-3">
-        <button class="w-[30%] h-12 border-2 opacity-70 hover:opacity-100 text-primary-textdark font-semibold text-lg rounded-md ">
+      <div class="my-3 flex w-full justify-evenly">
+        <button
+          class="text-primary-textdark h-12 w-[30%] rounded-md border-2 text-lg font-semibold opacity-70 hover:opacity-100" onclick="formPembelian()">
           Pembelian
         </button>
-        <button class="w-[30%] h-12 border-2 opacity-70 hover:opacity-100 text-primary-textdark font-semibold text-lg rounded-md ">
+        <button
+          class="text-primary-textdark h-12 w-[30%] rounded-md border-2 text-lg font-semibold opacity-70 hover:opacity-100" onclick="formPenjualan()">
           Penjualan
         </button>
       </div>
-      <div id="beliBarang" class="mt-10 flex justify-center flex-col px-48">
-        <h3 class="text-center text-xl font-semibold text-primary-textdark mb-8">Form pembelian barang</h3>
-        <div class="form-control flex flex-col mb-4">
-          <label for="name" class="font-medium text-lg text-primary-textgray ">Nama</label>
-          <input type="text" name="name" placeholder="Nama barang..." class="rounded-md text-sm">
+      <div id="beliBarang" class="hidden mt-10 flex-col justify-center px-16">
+        <h3 class="text-primary-textdark mb-8 text-center text-lg font-semibold">MINIMARKET SENTOSA</h3>
+        <div class="form-control mb-2 flex justify-between pb-2 border-b-4">
+          <p class="w-[300px] text-sm">Nama</p>
+          <p class="w-[70px] text-center text-sm">Qty</p>
+          <p class="w-[120px] text-center text-sm">Action</p>
         </div>
-        <div class="form-control flex flex-col mb-7">
-          <label for="name" class="font-medium text-lg text-primary-textgray ">Nama</label>
-          <input type="text" name="name" placeholder="Nama barang..." class="rounded-md text-sm">
+        <div id="body-form-pembelian" class="">
+          <div class="form-control mb-2 flex justify-between pb-1 border-b-2">
+            <input class="w-[300px] text-xs border-2 rounded-md px-2" placeholder="Masukkan nama barang.." name='nama[]' id="nama">
+            <input class="w-[70px] text-center text-xs border-2 rounded-md" name="qty[]" placeholder="qty" id="qty">
+            <div class="w-[120px] text-center flex justify-center items-center">
+              <button
+              class="text-primary-cyan font-semibold text-lg plus" onclick="addItem()">+</button>
+            </div>
+          </div>
+          <div class="w-full flex justify-center">
+            <button class="text-center mx-auto mt-6 bg-primary-blue px-4 py-2 rounded-lg font-semibold text-primary-background">
+              Submit
+            </button>
+          </div>
         </div>
-
 
       </div>
+      <div id="jualBarang" class="  mt-10 flex-col justify-center px-12">
+        <div class="relative block">
+          <input class="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-4 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm mb-4" placeholder="Cari supplier..." id="search_input" type="text" name="search"  onkeyup="searchSupplier()"/>
+          {{-- <p class="font-semibold text-base text-primary-textdark hidden" id="input_value"></p> --}}
+            <div id="search_result" class="mb-8 flex-wrap items-start gap-4">
 
-        <div id="body-form">
+            </div>
 
         </div>
+        <div class="form-control mb-2 flex justify-between pb-2 border-b-4">
+          <p class="w-[300px] text-sm">Nama</p>
+          <p class="w-[70px] text-center text-sm">Qty</p>
+          <p class="w-[120px] text-center text-sm">Action</p>
+        </div>
+        <div id="body-form-penjualan" class="">
+          <div class="form-control mb-2 flex justify-between pb-1 border-b-2">
+            <input class="w-[300px] text-xs border-2 rounded-md px-2" placeholder="Masukkan nama barang.." name='nama[]' id="nama">
+            <input class="w-[70px] text-center text-xs border-2 rounded-md" name="qty[]" placeholder="qty" id="qty">
+            <div class="w-[120px] text-center flex justify-center items-center">
+              <button
+              class="text-primary-cyan font-semibold text-lg plus" onclick="addItem()">+</button>
+            </div>
+          </div>
+          <div class="w-full flex justify-center">
+            <button class="text-center mx-auto mt-6 bg-primary-blue px-4 py-2 rounded-lg font-semibold text-primary-background">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="body-form">
+
+      </div>
 
     </div>
   </div>
 
-  {{-- change class from hidden to flex to see --}}
-  <div class="struk-pembelian hidden bg-black absolute inset-0 bg-opacity-50 w-screen h-screen items-center justify-center">
-    <div class="w-[540px] px-12 pt-8 bg-white text-sm text-primary-textgray rounded-md">
-      <h3 class="font-poppins mb-4">
-        Struk Pembelian | AB-01-12-3456
-      </h3>
-      <div class="flex justify-between mb-24 font-poppins text-xs">
-        <div class="left flex flex-col justify-start">
-          <p class="mb-2">Dari :</p>
-          <p class="w-[180px]">
-            Mami Tenong FISIP <br>
-            Jl Ciputat Raya 18 A, Dki Jakarta <br>
-            mami@gmail.com <br>
-            021-639-1897
-          </p>
-        </div>
-        <div class="right flex-col justify-start">
-          <p class="mb-2">Ke: :</p>
-          <p class="w-[180px]">
-            Minimarket Sentosa <br>
-            Jl KH Hasyim Ashari Dlm 11 L, Dki Jakarta 10310 <br>
-            sentosa@gmail.com  <br>
-            021-571-9893
-          </p>
-        </div>
+  <div id="modal"></div>
 
-      </div>
-      <h3 class="font-semibold text-base mb-8 text-primary-textdark">Deskripsi</h3>
-      <div class="flex flex-col text-xs font-poppins text-primary-textdark mb-6">
-        <div class="header flex justify-between mb-5">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-
-
-      </div>
-      <div class="flex flex-col w-[230px] ml-auto mr-0 text-xs font-poppins text-primary-textdark mb-16">
-        <div class="flex justify-between mb-2">
-          <p>Subtotal</p>
-          <p>Rp800K</p>
-        </div>
-        <div class="flex justify-between mb-[6px]">
-          <p>Tax 10%</p>
-          <p>Rp80K</p>
-        </div>
-        <div class="flex justify-between mb-[6px]">
-          <p>Total</p>
-          <p>Rp880K</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {{-- change class from hidden to flex to see --}}
-  <div class="struk-penjualan flex bg-black absolute inset-0 bg-opacity-50 w-screen h-screen items-center justify-center">
-    <div class="w-[540px] px-12 pt-8 bg-white text-sm text-primary-textgray rounded-md">
-      <h3 class="font-poppins mb-6">
-        Struk Pembelian | AB-01-12-3456
-      </h3>
-      <div class="mb-9 font-poppins">
-        <div class="flex flex-col justify-start items-center mb-12">
-          <h3 class="text-base">MINIMARKET SENTOSA</h3>
-          <p class="text-xs">Jl KH Hasyim Ashari Dlm 11 L, Dki Jakarta 10310</p>
-        </div>
-        <div class="w-full border-y-4 py-3  border-[#F6F5FA] flex justify-between text-xs">
-          <p>22-06-2022 12:15:00</p>
-          <p>Jono Gunawan</p>
-        </div>
-
-      </div>
-      <h3 class="font-semibold text-base mb-8 text-primary-textdark">Deskripsi</h3>
-      <div class="flex flex-col text-xs font-poppins text-primary-textdark mb-6">
-        <div class="header flex justify-between mb-5">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-        <div class="header flex justify-between mb-2 text-primary-textgray">
-          <p class="mb-2 w-[170px]">Item</p>
-          <p class="mb-2 w-[50px] text-center">Jumlah</p>
-          <p class="mb-2 w-[60px] text-center">Rate</p>
-          <p class="mb-2 w-[84px] text-right">Harga Total</p>
-        </div>
-
-
-      </div>
-      <div class="flex flex-col w-[230px] ml-auto mr-0 text-xs font-poppins text-primary-textdark mb-14">
-        <div class="flex justify-between mb-2">
-          <p>Subtotal</p>
-          <p>Rp800K</p>
-        </div>
-        <div class="flex justify-between mb-[6px]">
-          <p>Tax 10%</p>
-          <p>Rp80K</p>
-        </div>
-        <div class="flex justify-between mb-[6px]">
-          <p>Total</p>
-          <p>Rp880K</p>
-        </div>
-      </div>
-      <div class="text-xs font-poppins text-center w-full mb-10">LAYANAN KONSUMEN CALL 021-571-9893</div>
-    </div>
-  </div>
   <div id="invoice-table"></div>
-  
+
 </x-app-layout>
+
+
 <script>
+  let clickSearch = false;
+  const placeSearchValue= (e) =>{
+    value = e.innerHTML;
+    clickSearch = true;
+    document.getElementById('search_input').value = value;
+    document.querySelector('#search_result').innerHTML='';
+  }
+
+  const searchSupplier = () =>{
+    if(clickSearch){
+      clickSearch = false;
+      return;
+    }
+    var bodyFormData = new FormData();
+    var input = document.getElementById('search_input').value;
+    bodyFormData.set('search',input);
+
+    axios({
+      method: 'post',
+      url: '/api/supplier/search',
+      data: bodyFormData,
+    })
+    .then(response =>{
+      var button = response.data.map(item =>{
+        return `<button class="button-0 px-3 mb-2 py-1 bg-primary-textdark text-primary-background mr-2 rounded-lg" onclick="placeSearchValue(this)">${item.name}</button>`;
+      });
+
+      document.querySelector('#search_result').innerHTML = button.join('');
+   })
+  }
+
+  const formPenjualan = () =>{
+
+    document.getElementById('beliBarang').classList.add('hidden');
+    document.getElementById('jualBarang').classList.remove('hidden');
+  }
+
+  const formPembelian = () =>{
+    document.getElementById('beliBarang').classList.remove('hidden');
+    document.getElementById('jualBarang').classList.add('hidden');
+  }
+
+  const addItem = () =>{
+    let nama = document.getElementById('nama').value;
+    let qty = document.getElementById('qty').value;
+    var row = document.querySelector('#body-form-pembelian .form-control');
+    var newRow = row.cloneNode(true);
+    document.querySelector('#body-form').appendChild(newRow);
+    row.innerHTML =`
+    <p class="w-[300px] text-xs px-2">${nama}</p>
+    <p class="w-[70px] text-center text-xs">${qty}</p>
+    <div class="w-[120px] text-center flex justify-center items-center">
+      <button>
+      <x-crossmark></x-crossmark>
+      </button>
+    </div>
+
+    `;
+    row.classList.remove('form-control');
+
+
+  }
+
   const closeModal = () => {
     document.getElementById('addStock').classList.remove('flex');
     document.getElementById('addStock').classList.add('hidden');
   }
 
   const viewModal = (e) => {
-    const idInvoice = e.querySelector('input').value;
-    alert(idInvoice);
+    const invoice = e.querySelector('input');
+    const invoiceCategory = invoice.getAttribute('category');
+    if (invoiceCategory === 'penjualan') {
+      axios.get(`/api/invoices/sell/${invoice.value}`).then(
+        response => {
+          console.log(response.data);
+        }
+      )
+    } else {
+      axios.get(`/api/invoices/buy/${invoice.value}`).then(
+        response => {
+          console.log(response.data);
+        }
+      )
+    }
+
   }
 
   let globalFilter = 0;
 
   const fetchData = async (url) => {
-    console.log(url.split(window.location)[0]);
     axios.get(url.split(window.location)[0], {
         params: {
           select: globalFilter
@@ -215,6 +189,7 @@
   };
 
   const filterInvoices = (filter) => {
+
     if (filter) {
       globalFilter = filter;
     }
@@ -234,11 +209,7 @@
   }
 
   window.onload = () => {
+
     filterInvoices();
   }
-  const addData = () => {
-    var addStock = document.getElementById('addStock');
-    addStock.classList.remove('hidden');
-    addStock.classList.add('flex');
-  };
 </script>

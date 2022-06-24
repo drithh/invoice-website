@@ -108,6 +108,25 @@ class InvoiceController extends Controller
         return view('components.table-invoice', compact('invoices', 'invoice_select'));
     }
 
+    public function addNewItemInvoice(Request $request)
+    {
+    }
+
+    public function getInvoiceSell(Request $request, $id)
+    {
+        dd($id);
+
+        return view('components.struk-penjualan');
+    }
+
+    public function getInvoiceBuy(Request $request, $id)
+    {
+        return $id;
+
+
+        return view('components.struk-pembelian');
+    }
+
     public function getUserInvoices(Request $request)
     {
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
