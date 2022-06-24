@@ -36,7 +36,7 @@ class ItemController extends Controller
             ->join('invoice_items', 'invoice_items.item_id', '=', 'items.id')
             ->groupBy('item_id')
             ->groupBy('items.retail_price', 'items.category', 'items.name', 'items.stock')
-            ->paginate(10);
+            ->paginate(12);
         return view('components.product-grid', compact('items'));
     }
 
@@ -137,8 +137,8 @@ class ItemController extends Controller
     public function updateStock(Request $request)
     {
         DB::table('items')
-          ->where('id', $request->id)
-          ->update(array('stock' => $request->stock));
+            ->where('id', $request->id)
+            ->update(array('stock' => $request->stock));
     }
 
     public function getStock()

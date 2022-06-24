@@ -6,35 +6,35 @@
         <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">
           <div
             class="bg-primary-cyan flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg text-white">
-            <x-list-icon></x-list-icon>
-            <button class="ml-1 flex cursor-pointer items-center justify-center" onclick="listView()">List</button>
+            <x-list-icon fill="white"></x-list-icon>
+            <button class="ml-1 flex cursor-pointer items-center justify-center" onclick="getItemList()">List</button>
           </div>
           <div class="flex h-[35px] w-[50%] cursor-pointer flex-row items-center justify-center rounded-lg">
-            <x-grid-icon></x-grid-icon>
-            <button class="ml-1 flex h-[35px] w-[50%] items-center justify-center" onclick="gridView()">Grid</button>
+            <x-grid-icon fill="#616679"></x-grid-icon>
+            <button class="ml-1 flex h-[35px] w-[50%] items-center justify-center" onclick="getItemGrid()">Grid</button>
           </div>
         </div>
       </div>
     </div>
     <div class="mb-16 flex h-[50px] items-center rounded-xl bg-slate-50">
       <div class='flex w-[31%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
+        <x-sort></x-sort>
         <div class="ml-1 text-center">Product</div>
       </div>
       <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
+        <x-sort></x-sort>
         <div class="ml-1 text-center">Stok</div>
       </div>
       <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
+        <x-sort></x-sort>
         <div class="ml-1 text-center">Harga</div>
       </div>
       <div class='flex w-[16%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
+        <x-sort></x-sort>
         <div class="ml-1 text-center">Penjualan</div>
       </div>
       <div class='flex w-[15%] items-center justify-center align-middle'>
-        <x-sort-icon></x-sort-icon>
+        <x-sort></x-sort>
         <div class="ml-1 text-center">Tag</div>
       </div>
     </div>
@@ -65,7 +65,7 @@
           {{ $item->category }}
         </div>
         <button class="pr-6" onclick=()>
-          <x-dots-icon></x-dots-icon>
+          <x-three-dot></x-three-dot>
         </button>
 
         {{-- <form action="{{ route('item.deleteRow') }}" method="post">
