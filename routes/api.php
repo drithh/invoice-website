@@ -28,6 +28,8 @@ Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->mid
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
 Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');
 Route::get('invoices/all', [InvoiceController::class, 'getAllInvoices'])->middleware('auth')->name('invoices.all');
+Route::get('invoices/sell/{id}', [InvoiceController::class, 'getInvoiceSell'])->middleware('auth')->name('invoices.sell');
+Route::get('invoices/buy/{id}', [InvoiceController::class, 'getInvoiceBuy'])->middleware('auth')->name('invoices.buy');
 
 Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['auth'])->name('item.search');
 Route::post('item/updateStock', [ItemController::class, 'updateStock'])->middleware(['auth'])->name('item.update.stock');

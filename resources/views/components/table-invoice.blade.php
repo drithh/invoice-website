@@ -64,7 +64,8 @@
             Rp{{ $invoice->total_price }},00
           </div>
           <div>
-            <input type="hidden" name="id" id="id" value="{{ $invoice->id }}">
+            <input type="hidden" name="id" id="id" category="{{ $invoice->category }}"
+              value="{{ $invoice->id }}">
             <button type="button" class="h-full p-4" onclick="viewModal(this.parentElement)">
               <x-three-dot></x-three-dot>
             </button>
