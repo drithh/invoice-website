@@ -83,9 +83,10 @@ class SupplierController extends Controller
         //
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $search = $request->search;
         $suppliers = Supplier::where('name', 'like', '%'.$search.'%')->select('id', 'name')->limit(6)->get();
         return response()->json($suppliers);
-      }
+    }
 }
