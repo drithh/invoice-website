@@ -108,7 +108,6 @@ class ItemController extends Controller
 
     public function getData()
     {
-
         $invoices = DB::table('invoices')
             ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
             ->join('users', 'invoices.user_id', '=', 'users.id')
