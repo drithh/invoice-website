@@ -77,6 +77,37 @@ class InvoiceController extends Controller
         //
     }
 
+    public function getAllInvoices(Request $request)
+    {
+        $invoiceSelect = ['all', 'penjualan', 'pembelian'];
+        $invoice_select = $invoiceSelect[$request->select];
+
+        // invoices join with items
+        if ($invoice_select != 'all') {
+            $invoices = DB::table('invoices')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
+        ->where('invoices.category', $invoice_select)
+        ->orderBy('invoice_date', 'desc')
+        ->paginate(20);
+        } else {
+            $invoices = DB::table('invoices')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
+        ->orderBy('invoice_date', 'desc')
+        ->paginate(20);
+        }
+
+
+        return view('components.table-invoice', compact('invoices', 'invoice_select'));
+    }
+
     public function getUserInvoices(Request $request)
     {
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
@@ -193,6 +224,7 @@ class InvoiceController extends Controller
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->whereYear('invoices.invoice_date', '=', date('Y') - 1)
+      ->where('invoices.category', '=', 'penjualan')
       ->groupBy('invoices.id')
       ->groupBy('invoices.invoice_date')
       ->groupBy('users.username')
@@ -213,6 +245,7 @@ class InvoiceController extends Controller
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->where('invoices.invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))
+      ->where('invoices.category', '=', 'penjualan')
       ->groupBy('invoices.id')
       ->groupBy('invoices.invoice_date')
       ->groupBy('users.username')
@@ -235,6 +268,7 @@ class InvoiceController extends Controller
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->where('invoices.invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))
+      ->where('invoices.category', '=', 'penjualan')
       ->groupBy('invoices.id')
       ->groupBy('invoices.invoice_date')
       ->groupBy('users.username')

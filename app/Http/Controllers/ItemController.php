@@ -124,5 +124,24 @@ class ItemController extends Controller
         $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
 
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+      }
+    public function itemSearch(Request $request)
+    {
+        $name = $request->search;
+        $items = Item::where('name', 'like', '%' . $name . '%')->limit(4)->get();
+        // response()->json($items);
+        // return response()->json($items);
+        return view('components.edit-stock-modal', compact('items'));
+    }
+
+    public function updateStock(Request $request)
+    {
+        DB::table('items')
+          ->where('id', $request->id)
+          ->update(array('stock' => $request->stock));
+    }
+
+    public function getStock()
+    {
     }
 }

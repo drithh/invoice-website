@@ -4,8 +4,25 @@
   <div id="data-table" class="mt-10 px-[18px]">
 
   </div>
-</x-app-layout>
 
+
+  <div id="addStock" class="hidden bg-black absolute inset-0 bg-opacity-50 w-screen h-screen items-center justify-center">
+    <div class="bg-white rounded-lg w-1/2 h-[520px] px-9 py-10 relative">
+      <button class="content-end absolute right-0 top-0 scale-[2] origin-center mt-10 mr-9" onclick="closeModal()">
+        <x-crossmark ></x-crossmark>
+      </button>
+      <h1 class="font-semibold text-lg text-primary-textdark mb-5">Form tambahkan item</h1>
+        <input type="text" name="name" onchange="searchPosts()" onkeyup="searchPosts()" placeholder="Search item" class="border-opacity-50 rounded-lg" size="45" id="search_input">
+        <button  class="bg-primary-cyan h-[41px] font-semibold text-primary-background w-[75px] rounded-lg border-primary-textdark border-1 ml-4" type="button" >
+          Search
+        </button>
+        <div id="body-form">
+
+        </div>
+
+    </div>
+  </div>
+</x-app-layout>
 <script>
   const getItemList = () => {
     axios.get('/api/items/list')
@@ -29,5 +46,82 @@
       .catch(error => {
         console.log(error);
       });
+    }
+  const closeModal = () => {
+    document.getElementById('addStock').classList.remove('flex');
+    document.getElementById('addStock').classList.add('hidden');
+  }
+
+  const addData = () => {
+    var addStock = document.getElementById('addStock');
+    addStock.classList.remove('hidden');
+    addStock.classList.add('flex');
+  };
+
+  const cancelUpdateStock = (e) => {
+    e.querySelector('#updateStock').classList.add('invisible');
+    e.querySelector('#cancelStock').classList.add('invisible');
+    e.querySelector('#editStock').classList.remove('invisible');
+    var itemId = e.querySelector('#itemId').value;
+    var inputPlaceholder = e.querySelector('#stock input').placeholder;
+    var stock = e.querySelector('#stock');
+
+    stock.innerHTML =`<p>${inputPlaceholder}</p>`;
+
+  }
+
+  const editStock = (e) => {
+    var stock = e.querySelector('#stock p');
+    var stockVal = stock.innerHTML.trim();
+    stock.remove();
+    var input = `
+    <input type="number" class="rounded-lg w-[70px] appearance-none" name="stock" id="newStock" placeholder="${stockVal}">
+    `;
+    e.querySelector('#stock').innerHTML = input;
+
+    e.querySelector('#updateStock').classList.remove('invisible');
+    e.querySelector('#editStock').classList.add('invisible');
+    e.querySelector('#cancelStock').classList.remove('invisible');
+  }
+
+  const updateStock = (e) => {
+    var bodyFormData = new FormData();
+    var itemId = e.querySelector('#itemId').value;
+    var newStock = e.querySelector('#newStock').value;
+    bodyFormData.append('item_id', itemId);
+    bodyFormData.append('stock', newStock);
+
+    axios({
+      method: 'post',
+      url: '/api/item/updateStock',
+      data: bodyFormData,
+    })
+    .then(response => {
+      console.log(response.data);
+
+        e.querySelector('#stock input').remove();
+        e.querySelector('#stock').innerHTML = `<p>${newStock}</p>`;
+        e.querySelector('#updateStock').classList.add('invisible');
+        e.querySelector('#editStock').classList.remove('invisible');
+        e.querySelector('#cancelStock').classList.add('invisible');
+
+    })
+  }
+
+
+  const searchPosts = () => {
+    var bodyFormData = new FormData();
+    var input = document.getElementById('search_input').value;
+    bodyFormData.set('search',input);
+
+    axios({
+      method: 'post',
+      url: '/api/item/search',
+      data: bodyFormData,
+    })
+    .then(response =>{
+      document.querySelector('#body-form').innerHTML = response.data;
+      console.log(response.data);
+    })
   };
 </script>
