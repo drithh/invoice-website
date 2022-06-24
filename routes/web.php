@@ -23,7 +23,12 @@ use Illuminate\Http\Request;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-Route::get('/', function (Request $request) {
+// redirect / to dashboard
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
+
+Route::get('/dashboard', function (Request $request) {
     $invoices = DB::table('invoices')
         ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.created_at, users.username, users.email'))
         ->join('users', 'invoices.user_id', '=', 'users.id')
@@ -48,13 +53,14 @@ Route::get('/', function (Request $request) {
         'date' => date('d / m / y'),
     ];
 
-    $userInvoice = new InvoiceController();
-    list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
+    // $userInvoice = new InvoiceController();
+    // list($invoices, $invoicesCtr, $monthsName, $userIncome) = $userInvoice->getUserInvoice($request);
 
-    return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date', 'invoices', 'invoicesCtr', 'monthsName', 'userIncome'));
+    return view('dashboard', compact('invoices', 'total_invoices', 'items', 'date'));
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('deleteRow', [InvoiceController::class, 'destroy'])->middleware(['auth'])->name('invoice.deleteRow');
+
 
 
 Route::get('/invoice', function () {
