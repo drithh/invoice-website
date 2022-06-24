@@ -12,79 +12,79 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function index()
-  {
-    //
-  }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-  public function create()
-  {
-    //
-  }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
-  public function store(Request $request)
-  {
-    //
-  }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Invoice $invoice)
+    {
+        //
+    }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Invoice $invoice)
+    {
+        //
+    }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Invoice $invoice)
-  {
-    //
-  }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Invoice $invoice)
+    {
+        //
+    }
 
-  public function getAllInvoices(Request $request)
-  {
-    $invoiceSelect = ['all', 'penjualan', 'pembelian'];
-    $invoice_select = $invoiceSelect[$request->select];
+    public function getAllInvoices(Request $request)
+    {
+        $invoiceSelect = ['all', 'penjualan', 'pembelian'];
+        $invoice_select = $invoiceSelect[$request->select];
 
-    // invoices join with items
-    if ($invoice_select != 'all') {
-      $invoices = DB::table('invoices')
+        // invoices join with items
+        if ($invoice_select != 'all') {
+            $invoices = DB::table('invoices')
         ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
         ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
         ->join('items', 'invoice_items.item_id', '=', 'items.id')
@@ -93,8 +93,8 @@ class InvoiceController extends Controller
         ->where('invoices.category', $invoice_select)
         ->orderBy('invoice_date', 'desc')
         ->paginate(20);
-    } else {
-      $invoices = DB::table('invoices')
+        } else {
+            $invoices = DB::table('invoices')
         ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
         ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
         ->join('items', 'invoice_items.item_id', '=', 'items.id')
@@ -102,18 +102,18 @@ class InvoiceController extends Controller
         ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
         ->orderBy('invoice_date', 'desc')
         ->paginate(20);
+        }
+
+
+        return view('components.table-invoice', compact('invoices', 'invoice_select'));
     }
 
+    public function getUserInvoices(Request $request)
+    {
+        $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
+        $lastOneYearDateTime = Carbon::now()->subYear()->addMonth()->firstofMonth()->format('Y-m-d H:i:s');
 
-    return view('components.table-invoice', compact('invoices', 'invoice_select'));
-  }
-
-  public function getUserInvoices(Request $request)
-  {
-    $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
-    $lastOneYearDateTime = Carbon::now()->subYear()->addMonth()->firstofMonth()->format('Y-m-d H:i:s');
-
-    $invoices = Invoice::where('user_id', Auth::id())
+        $invoices = Invoice::where('user_id', Auth::id())
       ->whereBetween('invoice_date', [
         $lastOneYearDateTime,
         $currentDateTime
@@ -121,7 +121,7 @@ class InvoiceController extends Controller
       ->orderBy('invoice_date')
       ->get();
 
-    $userIncome = Invoice::where('user_id', Auth::id())
+        $userIncome = Invoice::where('user_id', Auth::id())
       ->whereBetween('invoice_date', [
         $lastOneYearDateTime,
         $currentDateTime
@@ -131,20 +131,20 @@ class InvoiceController extends Controller
       ->sum('retail_price');
 
 
-    // string bulan-bulan
-    if ($invoices[0]) {
-      $temp = Carbon::parse($invoices[0]->invoice_date);
-      $monthsName = array();
-      for ($i = 0; $i < 12; $i++) {
-        $name = substr($temp->format('F'), 0, 3);
-        array_push($monthsName, $name);
-        $temp->addMonth();
-      };
+        // string bulan-bulan
+        if ($invoices[0]) {
+            $temp = Carbon::parse($invoices[0]->invoice_date);
+            $monthsName = array();
+            for ($i = 0; $i < 12; $i++) {
+                $name = substr($temp->format('F'), 0, 3);
+                array_push($monthsName, $name);
+                $temp->addMonth();
+            };
 
-      // counter tiap bulan
-      $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      foreach ($invoices as $invoice) {
-        switch (Carbon::parse($invoice->invoice_date)->month) {
+            // counter tiap bulan
+            $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            foreach ($invoices as $invoice) {
+                switch (Carbon::parse($invoice->invoice_date)->month) {
           case 1:
             $invoicesCounter[0]++;
             break;
@@ -185,40 +185,40 @@ class InvoiceController extends Controller
             $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
             break;
         }
-      };
+            };
 
-      $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-      if ($firstMonth != 0) {
-        $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
-      }
-      return response()->json([
+            $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+            if ($firstMonth != 0) {
+                $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
+            }
+            return response()->json([
         'message' => 'Invoices found',
         'invoices' => $invoices,
         'invoicesCounter' => $invoicesCounter,
         'monthsName' => $monthsName,
         'userIncome' => $userIncome
       ]);
-    }
-    return response()->json([
+        }
+        return response()->json([
       'message' => 'No invoices found'
     ]);
-  }
+    }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Models\Invoice  $invoice
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Request $request)
-  {
-    DB::table('invoice_items')->where('invoice_id', $request->id)->delete();
-    return redirect()->route('dashboard');
-  }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        DB::table('invoice_items')->where('invoice_id', $request->id)->delete();
+        return redirect()->route('dashboard');
+    }
 
-  public function getDataPerYear()
-  {
-    $invoices = DB::table('invoices')
+    public function getDataPerYear()
+    {
+        $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -231,15 +231,15 @@ class InvoiceController extends Controller
       ->groupBy('users.email')
       ->paginate(20);
 
-    $invoice_select = 'year';
-    $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
+        $invoice_select = 'year';
+        $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
 
-    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-  }
+        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+    }
 
-  public function getDataPerMonth()
-  {
-    $invoices = DB::table('invoices')
+    public function getDataPerMonth()
+    {
+        $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -254,15 +254,15 @@ class InvoiceController extends Controller
 
 
 
-    // sum invoices
-    $invoice_select = 'month';
-    $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
-    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-  }
+        // sum invoices
+        $invoice_select = 'month';
+        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
+        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+    }
 
-  public function getDataPerWeek()
-  {
-    $invoices = DB::table('invoices')
+    public function getDataPerWeek()
+    {
+        $invoices = DB::table('invoices')
       ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
@@ -275,8 +275,8 @@ class InvoiceController extends Controller
       ->groupBy('users.email')
       ->paginate(20);
 
-    $invoice_select = 'week';
-    $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
-    return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-  }
+        $invoice_select = 'week';
+        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
+        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+    }
 }
