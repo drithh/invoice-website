@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,5 @@ Route::get('invoices/buy/{id}', [InvoiceController::class, 'getInvoiceBuy'])->mi
 Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['auth'])->name('item.search');
 Route::post('item/updateStock', [ItemController::class, 'updateStock'])->middleware(['auth'])->name('item.update.stock');
 Route::get('item/getStock', [ItemController::class, 'getStock'])->middleware(['auth'])->name('item.get.stock');
+
+Route::post('supplier/search', [SupplierController::class, 'search'])->middleware(['auth'])->name('supplier.search');

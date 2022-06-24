@@ -108,9 +108,15 @@ class InvoiceController extends Controller
     return view('components.table-invoice', compact('invoices', 'invoice_select'));
   }
 
+  public function addNewItemInvoice(Request $request)
+  {
+    
+
+  }
+
   public function getInvoiceSell(Request $request, $id)
   {
-    return $id;
+    dd($id);
 
     return view('components.struk-penjualan');
   }
@@ -118,6 +124,7 @@ class InvoiceController extends Controller
   public function getInvoiceBuy(Request $request, $id)
   {
     return $id;
+
 
     return view('components.struk-pembelian');
   }
