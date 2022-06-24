@@ -124,7 +124,7 @@ class ItemController extends Controller
         $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
 
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
-      }
+    }
     public function itemSearch(Request $request)
     {
         $name = $request->search;
