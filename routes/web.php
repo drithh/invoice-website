@@ -68,17 +68,7 @@ Route::get('/invoice', function () {
 
 
 Route::get('/product', function () {
-    $items = DB::table('invoice_items')
-            ->select(DB::raw('COUNT(invoice_items.id) as terbeli, item_id, items.retail_price, items.category, items.name, items.supplier, items.stock'))
-            ->join('items', 'invoice_items.item_id', '=', 'items.id')
-            ->groupBy('item_id')
-            ->groupBy('items.retail_price')
-            ->groupBy('items.name')
-            ->groupBy('items.supplier')
-            ->groupBy('items.stock')
-            ->groupBy('items.category')
-            ->paginate(10);
-    return view('product', compact('items'));
+    return view('product');
 })->middleware(['auth'])->name('product');
 
 Route::get('/report', function () {
