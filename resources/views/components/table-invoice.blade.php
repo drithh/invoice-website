@@ -1,7 +1,7 @@
 <div class="px-[30px]">
   <div class="mb-8 rounded-xl bg-white py-8 pl-10 pr-14">
     {{-- header --}}
-    <div class="mb-20 flex items-center justify-between">
+    <div class="mb-12 flex items-center justify-between">
       <div class="w-[320px] text-sm">
         <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">
           <button
@@ -16,17 +16,33 @@
         </div>
       </div>
     </div>
-    <div class="text-primary-textdark mb-2 ml-20 mr-44 flex flex-row place-content-between bg-slate-100 py-4 text-sm">
-      <div>Invoice</div>
-      <div>Tanggal</div>
-      <div>Kategori</div>
-      <div>Nama</div>
-      <div>Harga</div>
+    <div
+      class="text-primary-textdark mr-32 ml-20 mb-12 flex flex-row place-content-between rounded-lg bg-slate-50 py-4 pl-4 text-sm">
+      <button class="wrapper flex h-full flex-row place-items-center gap-x-4 px-9">
+        <x-sort></x-sort>
+        <div>Invoice</div>
+      </button>
+      <button class="wrapper flex h-full flex-row place-items-center gap-x-4 px-9">
+        <x-sort></x-sort>
+        <div>Tanggal</div>
+      </button>
+      <button class="wrapper flex h-full flex-row place-items-center gap-x-4 px-9">
+        <x-sort></x-sort>
+        <div>Kategori</div>
+      </button>
+      <button class="wrapper flex h-full flex-row place-items-center gap-x-4 px-9">
+        <x-sort></x-sort>
+        <div>Nama</div>
+      </button>
+      <button class="wrapper flex h-full flex-row place-items-center gap-x-4 px-9 pr-[5.3rem]">
+        <x-sort></x-sort>
+        <div>Harga</div>
+      </button>
 
     </div>
     <div class="px-8">
       @foreach ($invoices as $invoice)
-        <div class="flex place-content-between py-6">
+        <div class="flex place-content-between place-items-center py-6">
           <div>
             <x-invoice-logo></x-invoice-logo>
           </div>
@@ -47,13 +63,12 @@
             class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }} w-[10%] text-xs font-semibold">
             Rp{{ $invoice->total_price }},00
           </div>
-          <form action="{{ route('invoice.deleteRow') }}" method="post">
-            @csrf
+          <div>
             <input type="hidden" name="id" id="id" value="{{ $invoice->id }}">
-            <button type="submit" id="deleteRow">
+            <button type="button" class="h-full p-4" onclick="viewModal(this.parentElement)">
               <x-three-dot></x-three-dot>
             </button>
-          </form>
+          </div>
         </div>
       @endforeach
     </div>

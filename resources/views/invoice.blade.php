@@ -9,23 +9,48 @@
     alert('add data');
   }
 
-  const selectYear = () => {
-    const formData = new FormData();
-    formData.append('select', 0);
-    axios.get('/api/invoices/all', {
+  const viewModal = (e) => {
+    const idInvoice = e.querySelector('input').value;
+    alert(idInvoice);
+  }
+
+  let globalFilter = 0;
+
+  const fetchData = async (url) => {
+    console.log(url.split(window.location)[0]);
+    axios.get(url.split(window.location)[0], {
         params: {
-          select: 0
+          select: globalFilter
         }
       })
       .then(response => {
-        console.log(response.data);
+        document.querySelector('#invoice-table').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const filterInvoices = (filter) => {
+    if (filter) {
+      globalFilter = filter;
+    }
+    const formData = new FormData();
+    formData.append('select', filter);
+    axios.get('/api/invoices/all', {
+        params: {
+          select: globalFilter
+        }
+      })
+      .then(response => {
         document.querySelector('#invoice-table').innerHTML = response.data;
       })
       .catch(error => {
         console.log(error);
       });
   }
+
   window.onload = () => {
-    selectYear();
+    filterInvoices();
   }
 </script>

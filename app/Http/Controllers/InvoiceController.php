@@ -79,17 +79,32 @@ class InvoiceController extends Controller
 
   public function getAllInvoices(Request $request)
   {
-    // invoices join with items
-    $invoices = DB::table('invoices')
-      ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
-      ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
-      ->join('items', 'invoice_items.item_id', '=', 'items.id')
-      ->join('users', 'invoices.user_id', '=', 'users.id')
-      ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
-      ->orderBy('invoice_date', 'desc')
-      ->paginate(20);
+    $invoiceSelect = ['all', 'penjualan', 'pembelian'];
+    $invoice_select = $invoiceSelect[$request->select];
 
-    $invoice_select = $request->select;
+    // invoices join with items
+    if ($invoice_select != 'all') {
+      $invoices = DB::table('invoices')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
+        ->where('invoices.category', $invoice_select)
+        ->orderBy('invoice_date', 'desc')
+        ->paginate(20);
+    } else {
+      $invoices = DB::table('invoices')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username, users.email, invoices.category, invoices.id'))
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'users.email', 'invoices.category', 'invoices.id')
+        ->orderBy('invoice_date', 'desc')
+        ->paginate(20);
+    }
+
+
     return view('components.table-invoice', compact('invoices', 'invoice_select'));
   }
 
