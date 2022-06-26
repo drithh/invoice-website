@@ -38,6 +38,10 @@
             <span id="stock-number"
               class="text-primary-textdark text-md align-middle font-semibold">{{ substr($item->remaining_stock, 0, 2) . '%' }}</span>
           </div>
+          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
+                        
+            <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+              <div class="{{ $item->remaining_stock < 33 ? 'bg-red-600' : ($item->remaining_stock >33 && $item->remaining_stock <66 ? 'bg-yellow-600' : 'bg-green-600') }} h-1.5 rounded-full dark:bg-gray-300" style="width: {{$item->remaining_stock}}%"></div>
           <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
 
             <div class="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
