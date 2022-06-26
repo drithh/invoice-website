@@ -163,7 +163,7 @@ class InvoiceController extends Controller
             // counter tiap bulan
             $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             foreach ($invoices as $invoice) {
-              switch (Carbon::parse($invoice->invoice_date)->month) {
+                switch (Carbon::parse($invoice->invoice_date)->month) {
                 case 1:
                   $invoicesCounter[0]++;
                   break;
@@ -298,7 +298,7 @@ class InvoiceController extends Controller
         $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
     }
-    
+
     public function getAverageSale(Request $request)
     {
         $monthsDiff = 3;
@@ -314,11 +314,10 @@ class InvoiceController extends Controller
 
 
         // if ($invoices[0]) {
-          $avgPerHour = array();
-          $lower=7;
-          $upper=9;
-          for($i=0; $i<8; $i++){
-            
+        $avgPerHour = array();
+        $lower=7;
+        $upper=9;
+        for ($i=0; $i<8; $i++) {
             $temp = DB::table('invoices')
                           ->whereBetween('invoice_date', [
                             $lastThreeMonthsDateTime,
@@ -329,22 +328,21 @@ class InvoiceController extends Controller
                             $upper
                           ])
                           ->count();
-              $upper+=2;
-              $lower+=2;
-              array_push($avgPerHour, $temp);
-          }
-          return response()->json([
+            $upper+=2;
+            $lower+=2;
+            array_push($avgPerHour, $temp);
+        }
+        return response()->json([
             'message' => 'Invoices found',
             'avgPerHour' => $avgPerHour,
             'monthsDiff' => $monthsDiff
           ]);
-          
 
 
-      //   }
+
+        //   }
       //   return response()->json([
       //     'message' => 'No invoices found'
       // ]);
     }
-
 }
