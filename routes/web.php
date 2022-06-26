@@ -100,7 +100,7 @@ Route::get('/report', function () {
     // dd($column_data);
 
 
-    return view('report' ,compact('total_penjualan', 'pendapatan_bulanan'));
+    return view('report', compact('total_penjualan', 'pendapatan_bulanan'));
 })->middleware(['auth'])->name('report');
 
 Route::get('/profile', function () {
