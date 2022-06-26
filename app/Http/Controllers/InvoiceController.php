@@ -165,46 +165,46 @@ class InvoiceController extends Controller
             $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             foreach ($invoices as $invoice) {
                 switch (Carbon::parse($invoice->invoice_date)->month) {
-          case 1:
-            $invoicesCounter[0]++;
-            break;
-          case 2:
-            $invoicesCounter[1]++;
-            break;
-          case 3:
-            $invoicesCounter[2]++;
-            break;
-          case 4:
-            $invoicesCounter[3]++;
-            break;
-          case 5:
-            $invoicesCounter[4]++;
-            break;
-          case 6:
-            $invoicesCounter[5]++;
-            break;
-          case 7:
-            $invoicesCounter[6]++;
-            break;
-          case 8:
-            $invoicesCounter[7]++;
-            break;
-          case 9:
-            $invoicesCounter[8]++;
-            break;
-          case 10:
-            $invoicesCounter[9]++;
-            break;
-          case 11:
-            $invoicesCounter[10]++;
-            break;
-          case 12:
-            $invoicesCounter[11]++;
-            break;
-          default:
-            $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
-            break;
-        }
+                case 1:
+                  $invoicesCounter[0]++;
+                  break;
+                case 2:
+                  $invoicesCounter[1]++;
+                  break;
+                case 3:
+                  $invoicesCounter[2]++;
+                  break;
+                case 4:
+                  $invoicesCounter[3]++;
+                  break;
+                case 5:
+                  $invoicesCounter[4]++;
+                  break;
+                case 6:
+                  $invoicesCounter[5]++;
+                  break;
+                case 7:
+                  $invoicesCounter[6]++;
+                  break;
+                case 8:
+                  $invoicesCounter[7]++;
+                  break;
+                case 9:
+                  $invoicesCounter[8]++;
+                  break;
+                case 10:
+                  $invoicesCounter[9]++;
+                  break;
+                case 11:
+                  $invoicesCounter[10]++;
+                  break;
+                case 12:
+                  $invoicesCounter[11]++;
+                  break;
+                default:
+                  $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
+                  break;
+              }
             };
 
             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
@@ -213,16 +213,16 @@ class InvoiceController extends Controller
                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
             }
             return response()->json([
-        'message' => 'Invoices found',
-        'invoices' => $invoices,
-        'invoicesCtr' => $invoicesCtr,
-        'monthsName' => $monthsName,
-        'userIncome' => $userIncome
-      ]);
+              'message' => 'Invoices found',
+              'invoices' => $invoices,
+              'invoicesCtr' => $invoicesCtr,
+              'monthsName' => $monthsName,
+              'userIncome' => $userIncome
+            ]);
         }
         return response()->json([
-      'message' => 'No invoices found'
-    ]);
+          'message' => 'No invoices found'
+      ]);
     }
 
     /**
@@ -299,5 +299,52 @@ class InvoiceController extends Controller
         $invoice_select = 'week';
         $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+    }
+
+    public function getAverageSale(Request $request)
+    {
+        $monthsDiff = 3;
+        $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
+        $lastThreeMonthsDateTime = Carbon::now()->subMonths($monthsDiff)->firstofMonth()->format('Y-m-d H:i:s');
+
+        // $invoices = DB::table('invoices')
+        // ->whereBetween('invoice_date', [
+        //   $lastThreeMonthsDateTime,
+        //   $currentDateTime
+        // ])
+        // ->get();
+
+
+        // if ($invoices[0]) {
+        $avgPerHour = array();
+        $lower=7;
+        $upper=9;
+        for ($i=0; $i<8; $i++) {
+            $temp = DB::table('invoices')
+                          ->whereBetween('invoice_date', [
+                            $lastThreeMonthsDateTime,
+                            $currentDateTime
+                          ])
+                          ->whereBetween(DB::raw('HOUR(invoice_date)'), [
+                            $lower,
+                            $upper
+                          ])
+                          ->count();
+            $upper+=2;
+            $lower+=2;
+            array_push($avgPerHour, $temp);
+        }
+        return response()->json([
+            'message' => 'Invoices found',
+            'avgPerHour' => $avgPerHour,
+            'monthsDiff' => $monthsDiff
+          ]);
+
+
+
+        //   }
+      //   return response()->json([
+      //     'message' => 'No invoices found'
+      // ]);
     }
 }

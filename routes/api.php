@@ -29,6 +29,7 @@ Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middl
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
 Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');
+Route::get('invoices/average', [InvoiceController::class, 'getAverageSale'])->middleware('auth')->name('invoices.average');
 
 
 Route::get('items/list', [ItemController::class, 'getItemsList'])->middleware('auth')->name('items.list');
