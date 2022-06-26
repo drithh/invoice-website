@@ -1,4 +1,4 @@
-<div class="px-[30px]">
+<div class="">
   <div class="mb-8 rounded-xl bg-white py-8 pl-10 pr-14">
     {{-- header --}}
     <div class="mb-12 flex items-center justify-between">

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="sticky left-0 top-0 h-screen w-20 bg-white">
+<nav x-data="{ open: false }" class="sticky left-0 top-0 z-50 h-screen w-20 bg-white">
 
   <div class="flex h-screen w-full flex-col place-content-between place-items-center pb-[5vh] pt-[4vh]">
     <div class="wrapper">
@@ -10,7 +10,7 @@
       </div>
 
       <!-- Navigation Links -->
-      <div class="mt-12 flex flex-col place-items-center gap-y-10">
+      <div class="relative z-10 mt-12 flex flex-col place-items-center gap-y-10">
         <x-nav-link :href="route('dashboard')" class="group relative left-0" :active="request()->routeIs('dashboard')">
           <x-dashboard-logo />
           <span

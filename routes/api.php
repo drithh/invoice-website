@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middl
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
 Route::get('invoices/user', [InvoiceController::class, 'getUserInvoices'])->middleware('auth')->name('invoices.user');
+Route::get('invoices/average', [InvoiceController::class, 'getAverageSale'])->middleware('auth')->name('invoices.average');
 
 
 Route::get('items/list', [ItemController::class, 'getItemsList'])->middleware('auth')->name('items.list');
@@ -39,5 +41,9 @@ Route::get('invoices/buy/{id}', [InvoiceController::class, 'getInvoiceBuy'])->mi
 Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['auth'])->name('item.search');
 Route::post('item/updateStock', [ItemController::class, 'updateStock'])->middleware(['auth'])->name('item.update.stock');
 Route::get('item/getStock', [ItemController::class, 'getStock'])->middleware(['auth'])->name('item.get.stock');
+Route::get('item/pieChart', [ItemController::class, 'pieChart'])->middleware(['auth'])->name('item.pie.chart');
+Route::get('item/getTopSix/{search}', [ItemController::class, 'getTopSix'])->middleware(['auth'])->name('item.get.top.six');
 
 Route::post('supplier/search', [SupplierController::class, 'search'])->middleware(['auth'])->name('supplier.search');
+
+Route::get('user/get', [UserController::class, 'index'])->middleware(['auth'])->name('user.get');

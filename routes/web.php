@@ -73,7 +73,34 @@ Route::get('/product', function () {
 })->middleware(['auth'])->name('product');
 
 Route::get('/report', function () {
-    return view('report');
+
+    // Pie chart
+    $total_penjualan = DB::select('SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as total_price, items.category FROM invoice_items
+    JOIN items ON invoice_items.item_id = items.id
+    JOIN invoices ON invoice_items.invoice_id = invoices.id
+    WHERE invoices.category = "penjualan"
+    GROUP BY items.category
+    ORDER BY total_price
+    DESC LIMIT 6');
+
+    // Column chart
+    $pendapatan_bulanan = DB::select('SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as untung_kotor, SUM(items.retail_price - items.cost_of_goods_sold) as untung_bersih, SUM(items.cost_of_goods_sold) as pengeluaran, YEAR(invoices.invoice_date) as tahun, MONTH(invoices.invoice_date) as bulan FROM invoice_items
+    JOIN items ON invoice_items.item_id = items.id
+    JOIN invoices ON invoice_items.invoice_id = invoices.id
+    WHERE (
+      (YEAR(invoices.invoice_date) = YEAR(CURRENT_TIMESTAMP) - 1 AND MONTH(invoices.invoice_date) > MONTH(CURRENT_TIMESTAMP))
+      AND invoices.category = "penjualan"
+      )
+    OR (
+      (YEAR(invoices.invoice_date) = YEAR(CURRENT_TIMESTAMP) AND MONTH(invoices.invoice_date) <= MONTH(CURRENT_TIMESTAMP))
+      AND invoices.category = "penjualan"
+      )
+    GROUP BY YEAR(invoices.invoice_date), MONTH(invoices.invoice_date)');
+    // dd($pendapatan_bulanan);
+    // dd($column_data);
+
+
+    return view('report', compact('total_penjualan', 'pendapatan_bulanan'));
 })->middleware(['auth'])->name('report');
 
 Route::get('/profile', function () {
