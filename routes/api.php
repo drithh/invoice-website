@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,5 @@ Route::get('item/pieChart', [ItemController::class, 'pieChart'])->middleware(['a
 Route::get('item/getTopSix/{search}', [ItemController::class, 'getTopSix'])->middleware(['auth'])->name('item.get.top.six');
 
 Route::post('supplier/search', [SupplierController::class, 'search'])->middleware(['auth'])->name('supplier.search');
+
+Route::get('user/get', [UserController::class, 'index'])->middleware(['auth'])->name('user.get');
