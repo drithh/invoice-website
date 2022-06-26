@@ -1,4 +1,4 @@
-<div class="px-[30px]">
+<div class="">
 
   <div class="mb-8 w-[40rem] rounded-xl bg-white py-8 px-8">
     <div class="title font-montserrat text-primary-purple mt-6 pb-12 text-2xl font-bold tracking-wide drop-shadow-xl">

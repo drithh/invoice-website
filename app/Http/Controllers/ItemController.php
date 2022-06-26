@@ -38,14 +38,14 @@ class ItemController extends Controller
     public function getItemsGrid(Request $request)
     {
         $items = DB::table('invoice_items')
-                ->select(DB::raw('item_id, items.retail_price, items.name, (CAST(items.stock as float)/CAST(items.max_stock as float))*100 as remaining_stock'))
-                ->join('items', 'invoice_items.item_id', '=', 'items.id')
-                ->groupBy('item_id')
-                ->groupBy('items.retail_price')
-                ->groupBy('items.name')
-                // ->groupBy('items.category')
-                ->groupBy('remaining_stock')
-                ->paginate(20);
+            // ->select(DB::raw('item_id, items.retail_price, items.name, (CAST(items.stock as float)/CAST(items.max_stock as float))*100 as remaining_stock'))
+            // ->join('items', 'invoice_items.item_id', '=', 'items.id')
+            // ->groupBy('item_id')
+            // ->groupBy('items.retail_price')
+            // ->groupBy('items.name')
+            // // ->groupBy('items.category')
+            // ->groupBy('remaining_stock')
+            // ->paginate(20);
             ->select(DB::raw('COUNT(invoice_items.id) as terbeli, item_id, items.retail_price, items.category, items.name, items.stock, (CAST(items.stock as float)/CAST(items.max_stock as float))*100 as remaining_stock'))
             ->join('items', 'invoice_items.item_id', '=', 'items.id')
             ->groupBy('item_id', 'items.retail_price', 'items.category', 'items.name', 'items.stock', 'items.max_stock')

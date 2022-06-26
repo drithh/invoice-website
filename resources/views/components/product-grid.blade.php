@@ -21,7 +21,7 @@
   <div class="grid grid-cols-5 justify-between gap-x-6">
     @foreach ($items as $item)
       <div
-        class="card mb-8 flex min-h-[16rem] w-full flex-col items-center justify-between rounded-xl bg-white p-5 shadow">
+        class="card mb-8 flex min-h-[18rem] w-full flex-col items-center justify-between rounded-xl bg-white p-8 shadow">
         <div class="flex w-[100%] flex-row justify-between">
           <div class="flex h-[100%] w-[30%] justify-start">
             <div
@@ -32,33 +32,39 @@
             <h3 class="text-primary-textdark inline-block align-middle text-xs font-bold">{{ $item->name }}</h3>
           </div>
         </div>
-        <div class="flex w-[100%] flex-col">
-          <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
-            <h3 class="text-primary-textdark inline-block align-middle text-xs font-semibold">Stok</h3>
-            <span id="stock-number"
-              class="text-primary-textdark text-md align-middle font-semibold">{{ substr($item->remaining_stock, 0, 2) . '%' }}</span>
-          </div>
-          <div class="w-[100%] h-[50%] flex flex-row justify-between items-center">
-                        
-            <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
-              <div class="{{ $item->remaining_stock < 33 ? 'bg-red-600' : ($item->remaining_stock >33 && $item->remaining_stock <66 ? 'bg-yellow-600' : 'bg-green-600') }} h-1.5 rounded-full dark:bg-gray-300" style="width: {{$item->remaining_stock}}%"></div>
-          <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
-
-            <div class="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-              <div
-                class="bg-{{ $item->remaining_stock < 33 ? 'red' : ($item->remaining_stock > 33 && $item->remaining_stock < 66 ? 'yellow' : 'green') }}-600 h-1.5 rounded-full dark:bg-gray-300"
-                style="width: {{ $item->remaining_stock }}%"></div>
+        <div class="flex h-2/5 w-[100%] flex-col place-content-between">
+          <div>
+            <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
+              <h3 class="text-primary-textdark inline-block align-middle text-xs font-semibold">Stok</h3>
+              <span id="stock-number"
+                class="text-primary-textdark text-md align-middle font-semibold">{{ substr($item->remaining_stock, 0, 2) . '%' }}</span>
             </div>
+            <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
 
+              <div class="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+                <div
+                  class="{{ $item->remaining_stock < 33 ? 'bg-red-600' : ($item->remaining_stock > 33 && $item->remaining_stock < 66 ? 'bg-yellow-600' : 'bg-green-600') }} h-1.5 rounded-full dark:bg-gray-300"
+                  style="width: {{ $item->remaining_stock }}%"></div>
+                <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
+
+                  <div class="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div
+                      class="bg-{{ $item->remaining_stock < 33 ? 'red' : ($item->remaining_stock > 33 && $item->remaining_stock < 66 ? 'yellow' : 'green') }}-600 h-1.5 rounded-full dark:bg-gray-300"
+                      style="width: {{ $item->remaining_stock }}%"></div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="flex w-[100%] flex-col">
-          <div class="h-[100%] w-[50%]">
-            <h3 class="text-primary-textdark inline-block align-middle text-xs font-semibold">Harga</h3>
-          </div>
-          <div
-            class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }}">
-            Rp{{ $item->retail_price }},00
+          <div class="flex w-[100%] flex-col">
+            <div class="h-[100%] w-[50%]">
+              <h3 class="text-primary-textdark inline-block align-middle text-xs font-semibold">Harga</h3>
+            </div>
+            <div
+              class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }}">
+              Rp{{ $item->retail_price }},00
+            </div>
           </div>
         </div>
       </div>
