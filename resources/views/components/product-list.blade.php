@@ -41,9 +41,7 @@
 
     @foreach ($items as $item)
       <div class="mb-16 flex h-[50px] items-center justify-between">
-        {{-- <div class="form-check ">
-            <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="itemCheckBox">
-          </div> --}}
+
         <div class="w-[20px] pl-4">
           <div
             class="{{ $loop->index % 3 == 0 ? 'bg-yellow-300' : ($loop->index % 3 == 1 ? 'bg-red-300' : 'bg-cyan-300') }} outline-3 mr-[42px] h-[50px] w-[50px] rounded-xl outline outline-gray-400">
