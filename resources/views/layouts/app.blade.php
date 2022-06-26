@@ -18,6 +18,8 @@
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
+  
+
 </head>
 
 <body class="bg-primary-background flex min-h-screen font-sans antialiased">

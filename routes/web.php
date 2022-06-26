@@ -73,7 +73,14 @@ Route::get('/product', function () {
 })->middleware(['auth'])->name('product');
 
 Route::get('/report', function () {
-    return view('report');
+
+    // Pie chart
+    $total_penjualan = DB::select('SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as total_price, items.category FROM invoice_items JOIN items ON invoice_items.item_id = items.id
+    GROUP BY category
+    ORDER BY total_price
+    DESC LIMIT 6');
+
+    return view('report' ,compact('total_penjualan'));
 })->middleware(['auth'])->name('report');
 
 Route::get('/profile', function () {

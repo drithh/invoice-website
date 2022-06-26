@@ -102,5 +102,10 @@ class ItemController extends Controller
 
     public function getStock()
     {
+
+    }
+
+    public function pieChart(){
+      
     }
 }
