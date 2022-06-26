@@ -14,10 +14,16 @@
   </style>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
   <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   <script src="{{ asset('js/app.js') }}" defer></script>
+  
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 </head>
 
 <body class="bg-primary-background flex min-h-screen font-sans antialiased">
