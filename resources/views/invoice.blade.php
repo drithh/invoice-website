@@ -310,7 +310,8 @@
         }
       })
       .then(response => {
-        document.querySelector('#invoice-table').innerHTML = response.data;
+        console.log(response.data);
+        // document.querySelector('#invoice-table').innerHTML = response.data;
       })
       .catch(error => {
         console.log(error);
