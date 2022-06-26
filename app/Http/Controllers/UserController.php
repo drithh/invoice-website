@@ -21,7 +21,7 @@ class UserController extends Controller
             ->where('invoices.created_at', '>=', date('Y-m-01'))
             ->groupBy('users.id', 'users.username', 'users.email')
             ->orderBy('invoice_count', 'desc')
-            ->paginate(7);
+            ->paginate(8);
 
         return view('components.table-karyawan', compact('users'));
     }

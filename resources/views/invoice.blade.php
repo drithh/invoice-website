@@ -100,7 +100,7 @@
 
   <div id="modal"></div>
 
-  <div id="invoice-table"></div>
+  <div id="invoice-table" class="px-12"></div>
 
 </x-app-layout>
 

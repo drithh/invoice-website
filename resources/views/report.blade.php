@@ -1,39 +1,41 @@
 <x-app-layout>
 
-  <div class="mx-12 flex flex-col">
+  <div class="flex flex-wrap place-content-between gap-8 px-12">
     {{-- Pie Chart Produk Terjual --}}
-    <div class="rounded-lg bg-white w-[650px] h-[514px] p-8 overflow-hidden">
-      <h3 class="text-primary-textdark font-semibold text-lg">Produk Terjual</h3>
-      <p class="text-primary-textgray font-light text-sm">dalam Rupiah (Rp)</p>
+    <div class="h-[37rem] w-[49rem] overflow-hidden rounded-xl bg-white p-8">
+      <h3 class="title font-montserrat text-primary-purple text-2xl font-bold tracking-wide drop-shadow-xl">Produk
+        Terjual</h3>
+      <p class="text-primary-textgray pb-8 text-lg font-medium text-opacity-40">dalam Rupiah (Rp)</p>
       <div class="overflow-hidden">
-        <div id="donutchart" class="w-auto h-full mt-[-70px]">
-
-
-    <div class="flex w-full items-center sm:justify-center">
-      <div class="h-fitoverflow-hidden h-[35rem] w-full rounded-xl bg-white p-10 pt-12">
-        <div class="place-items-left flex flex-col place-content-center">
-          <div class="title font-montserrat text-primary-purple pb-8 text-2xl font-bold tracking-wide drop-shadow-xl">
-            Rata-rata Transaksi
-            <span id='rate' class="font-montserrat text-xs font-bold tracking-wide drop-shadow-xl"></span>
-          </div>
-          <canvas id="myChart" width="600" height="300"></canvas>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="rounded-lg bg-white w-[884px] h-[421px] p-8 overflow-hidden">
-      <h3 class="text-primary-textdark font-semibold text-lg ">Pendapatan per bulan</h3>
-      <p class="text-primary-textgray font-light text-sm">dalam Rupiah (Rp)</p>
-      <div class="overflow-hidden mt-20">
-        <div id="columnchart_material" class="w-auto h-full">
-
+        <div id="donutchart" class="mt-[-70px] h-full w-auto">
         </div>
       </div>
     </div>
 
+
+    <div class="h-[37rem] w-[57rem] overflow-hidden rounded-xl bg-white p-10 pt-12">
+      <div class="place-items-left flex flex-col place-content-center">
+        <div class="title font-montserrat text-primary-purple pb-8 text-2xl font-bold tracking-wide drop-shadow-xl">
+          Rata-rata Transaksi
+          <span id='rate' class="font-montserrat text-xs font-bold tracking-wide drop-shadow-xl"></span>
+        </div>
+        <canvas id="myChart" width="600" height="300"></canvas>
+      </div>
+    </div>
 
     <div id="table-karyawan"></div>
+
+    <div class="h-fit w-[66rem] overflow-hidden rounded-lg bg-white p-8">
+      <h3 class="title font-montserrat text-primary-purple text-2xl font-bold tracking-wide drop-shadow-xl">Pendapatan
+        per bulan</h3>
+      <p class="text-primary-textgray pb-8 text-lg font-medium text-opacity-40">dalam Rupiah (Rp)</p>
+      <div class="mt-[-2rem] overflow-hidden">
+        <div id="columnchart_material" class="ml-[-4.5rem] h-full w-auto">
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </x-app-layout>
 
@@ -43,68 +45,40 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
 
 <script defer>
-  // Pie Chart Script
-  setTimeout(() => {
-    google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var isi_data =[
-          ['Category', 'Total harga']
-        ];
-        @foreach ($total_penjualan as $data )
-          isi_data.push(['{{ucwords(strtolower($data->category))}}', {{$data->total_price}}]);
-        @endforeach
+  const blockChart = () => {
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
 
-        var data = google.visualization.arrayToDataTable(isi_data);
+    function drawChart() {
+      var column_data = [
+        ['Month', 'Pengeluaran', 'Pendapatan']
+      ];
+      var bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-        var options = {
-          pieSliceText: "none",
-          pieHole: 0.5,
-          colors : ['#7F2987', "#F26689", "#D51C53" ,"#2390CF", "#23A7AC", "#F79747"],
-          fontName : 'Montserrat',
-          height: 600,
-          legend : {
-            position : 'right',
-            textStyle: {
-              fontSize: 12,
-              color: '#626679',
-              fontName: 'Montserrat',
-            }
-          }
-        };
+      @foreach ($pendapatan_bulanan as $data)
+        column_data.push([bulan[{{ $data->bulan }} - 1], {{ $data->pengeluaran }}, {{ $data->untung_kotor }}]);
+      @endforeach
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-  }, 500);
+      var data = google.visualization.arrayToDataTable(column_data);
 
-  // Column Chart Script
-  setTimeout(() => {
-    google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
+      var options = {
+        legend: {
+          position: 'bottom',
+          alignment: 'start'
+        },
+        fontName: "Montserrat",
+        fontSize: 12,
+        height: 400,
+        width: 1200,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_material'));
+      // var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
 
-      function drawChart() {
-        var column_data = [
-          ['Month', 'Pengeluaran', 'Pendapatan']
-        ];
-        var bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-        @foreach ($pendapatan_bulanan as $data )
-          column_data.push([bulan[{{ $data->bulan }}-1], {{$data->pengeluaran}}, {{$data->untung_kotor}}]);
-        @endforeach
-
-        var data = google.visualization.arrayToDataTable(column_data);
-
-        var options = {
-          fontName : "Montserrat",
-          fontSize : 12,
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-      }
-    }, 500);
+      chart.draw(data, options);
+    }
+  }
 
   const fetchData = async (url) => {
     axios.get(url.split(window.location)[0])
@@ -119,7 +93,6 @@
   const listKaryawan = () => {
     axios.get('/api/user/get')
       .then(response => {
-        console.log(response.data);
         document.querySelector('#table-karyawan').innerHTML = response.data;
       })
   }
@@ -239,6 +212,7 @@
     pieChart();
     listKaryawan();
     getSaleAverage();
+    blockChart();
 
   };
 </script>
