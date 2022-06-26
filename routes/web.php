@@ -80,7 +80,7 @@ Route::get('/report', function () {
     ORDER BY total_price
     DESC LIMIT 6');
 
-    return view('report' ,compact('total_penjualan'));
+    return view('report', compact('total_penjualan'));
 })->middleware(['auth'])->name('report');
 
 Route::get('/profile', function () {
