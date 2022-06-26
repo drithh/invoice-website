@@ -153,7 +153,6 @@ class InvoiceController extends Controller
         // string bulan-bulan
         if ($invoices[0]) {
             $temp = Carbon::parse($invoices[0]->invoice_date);
-            // $temp = Carbon::parse($lastOneYearDateTime);
             $monthsName = array();
             for ($i = 0; $i < 12; $i++) {
                 $name = substr($temp->format('F'), 0, 3);
@@ -165,64 +164,121 @@ class InvoiceController extends Controller
             $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             foreach ($invoices as $invoice) {
                 switch (Carbon::parse($invoice->invoice_date)->month) {
-                case 1:
-                  $invoicesCounter[0]++;
-                  break;
-                case 2:
-                  $invoicesCounter[1]++;
-                  break;
-                case 3:
-                  $invoicesCounter[2]++;
-                  break;
-                case 4:
-                  $invoicesCounter[3]++;
-                  break;
-                case 5:
-                  $invoicesCounter[4]++;
-                  break;
-                case 6:
-                  $invoicesCounter[5]++;
-                  break;
-                case 7:
-                  $invoicesCounter[6]++;
-                  break;
-                case 8:
-                  $invoicesCounter[7]++;
-                  break;
-                case 9:
-                  $invoicesCounter[8]++;
-                  break;
-                case 10:
-                  $invoicesCounter[9]++;
-                  break;
-                case 11:
-                  $invoicesCounter[10]++;
-                  break;
-                case 12:
-                  $invoicesCounter[11]++;
-                  break;
-                default:
-                  $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
-                  break;
-              }
+          case 1:
+            $invoicesCounter[0]++;
+            break;
+          case 2:
+            $invoicesCounter[1]++;
+            break;
+          case 3:
+            $invoicesCounter[2]++;
+            break;
+          case 4:
+            $invoicesCounter[3]++;
+            break;
+          case 5:
+            $invoicesCounter[4]++;
+            break;
+          case 6:
+            $invoicesCounter[5]++;
+            break;
+          case 7:
+            $invoicesCounter[6]++;
+            break;
+          case 8:
+            $invoicesCounter[7]++;
+            break;
+          case 9:
+            $invoicesCounter[8]++;
+            break;
+          case 10:
+            $invoicesCounter[9]++;
+            break;
+          case 11:
+            $invoicesCounter[10]++;
+            break;
+          case 12:
+            $invoicesCounter[11]++;
+            break;
+          default:
+            $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
+            break;
+        }
             };
 
-            // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-            $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
+            $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
             if ($firstMonth != 0) {
                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
             }
             return response()->json([
-              'message' => 'Invoices found',
-              'invoices' => $invoices,
-              'invoicesCtr' => $invoicesCtr,
-              'monthsName' => $monthsName,
-              'userIncome' => $userIncome
-            ]);
+        'message' => 'Invoices found',
+        'invoices' => $invoices,
+        'invoicesCounter' => $invoicesCounter,
+        'monthsName' => $monthsName,
+        'userIncome' => $userIncome
+      ]);
         }
         return response()->json([
-          'message' => 'No invoices found'
-      ]);
+      'message' => 'No invoices found'
+    ]);
+//                 case 1:
+//                   $invoicesCounter[0]++;
+//                   break;
+//                 case 2:
+//                   $invoicesCounter[1]++;
+//                   break;
+//                 case 3:
+//                   $invoicesCounter[2]++;
+//                   break;
+//                 case 4:
+//                   $invoicesCounter[3]++;
+//                   break;
+//                 case 5:
+//                   $invoicesCounter[4]++;
+//                   break;
+//                 case 6:
+//                   $invoicesCounter[5]++;
+//                   break;
+//                 case 7:
+//                   $invoicesCounter[6]++;
+//                   break;
+//                 case 8:
+//                   $invoicesCounter[7]++;
+//                   break;
+//                 case 9:
+//                   $invoicesCounter[8]++;
+//                   break;
+//                 case 10:
+//                   $invoicesCounter[9]++;
+//                   break;
+//                 case 11:
+//                   $invoicesCounter[10]++;
+//                   break;
+//                 case 12:
+//                   $invoicesCounter[11]++;
+//                   break;
+//                 default:
+//                   $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
+//                   break;
+//               }
+//             };
+
+//             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+//             $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
+//             if ($firstMonth != 0) {
+//                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
+//             }
+//             return response()->json([
+//               'message' => 'Invoices found',
+//               'invoices' => $invoices,
+//               'invoicesCtr' => $invoicesCtr,
+//               'monthsName' => $monthsName,
+//               'userIncome' => $userIncome
+//             ]);
+//         }
+//         return response()->json([
+//           'message' => 'No invoices found'
+//       ]);
     }
 
     /**
