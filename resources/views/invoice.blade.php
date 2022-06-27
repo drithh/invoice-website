@@ -223,13 +223,11 @@
   }
 
   const addItem = (e) => {
-    console.log(e);
 
     const nama = e.querySelector('.nama').value;
     const quantity = e.querySelector('.quantity').value;
     const inputRow = e.querySelector('.input-wrapper');
     const newRow = inputRow.cloneNode(true);
-    console.log(newRow);
     // set inputRow input disabled
     newRow.querySelector('.nama').value = nama;
     newRow.querySelector('.quantity').value = quantity;
@@ -310,8 +308,8 @@
         }
       })
       .then(response => {
-        console.log(response.data);
-        // document.querySelector('#invoice-table').innerHTML = response.data;
+        // console.log(response.data);
+        document.querySelector('#invoice-table').innerHTML = response.data;
       })
       .catch(error => {
         console.log(error);
