@@ -221,64 +221,64 @@ class InvoiceController extends Controller
         return response()->json([
       'message' => 'No invoices found'
     ]);
-//                 case 1:
-//                   $invoicesCounter[0]++;
-//                   break;
-//                 case 2:
-//                   $invoicesCounter[1]++;
-//                   break;
-//                 case 3:
-//                   $invoicesCounter[2]++;
-//                   break;
-//                 case 4:
-//                   $invoicesCounter[3]++;
-//                   break;
-//                 case 5:
-//                   $invoicesCounter[4]++;
-//                   break;
-//                 case 6:
-//                   $invoicesCounter[5]++;
-//                   break;
-//                 case 7:
-//                   $invoicesCounter[6]++;
-//                   break;
-//                 case 8:
-//                   $invoicesCounter[7]++;
-//                   break;
-//                 case 9:
-//                   $invoicesCounter[8]++;
-//                   break;
-//                 case 10:
-//                   $invoicesCounter[9]++;
-//                   break;
-//                 case 11:
-//                   $invoicesCounter[10]++;
-//                   break;
-//                 case 12:
-//                   $invoicesCounter[11]++;
-//                   break;
-//                 default:
-//                   $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
-//                   break;
-//               }
-//             };
+        //                 case 1:
+    //                   $invoicesCounter[0]++;
+    //                   break;
+    //                 case 2:
+    //                   $invoicesCounter[1]++;
+    //                   break;
+    //                 case 3:
+    //                   $invoicesCounter[2]++;
+    //                   break;
+    //                 case 4:
+    //                   $invoicesCounter[3]++;
+    //                   break;
+    //                 case 5:
+    //                   $invoicesCounter[4]++;
+    //                   break;
+    //                 case 6:
+    //                   $invoicesCounter[5]++;
+    //                   break;
+    //                 case 7:
+    //                   $invoicesCounter[6]++;
+    //                   break;
+    //                 case 8:
+    //                   $invoicesCounter[7]++;
+    //                   break;
+    //                 case 9:
+    //                   $invoicesCounter[8]++;
+    //                   break;
+    //                 case 10:
+    //                   $invoicesCounter[9]++;
+    //                   break;
+    //                 case 11:
+    //                   $invoicesCounter[10]++;
+    //                   break;
+    //                 case 12:
+    //                   $invoicesCounter[11]++;
+    //                   break;
+    //                 default:
+    //                   $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
+    //                   break;
+    //               }
+    //             };
 
-//             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-//             $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
-//             if ($firstMonth != 0) {
-//                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
-//             }
-//             return response()->json([
-//               'message' => 'Invoices found',
-//               'invoices' => $invoices,
-//               'invoicesCtr' => $invoicesCtr,
-//               'monthsName' => $monthsName,
-//               'userIncome' => $userIncome
-//             ]);
-//         }
-//         return response()->json([
-//           'message' => 'No invoices found'
-//       ]);
+    //             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+    //             $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
+    //             if ($firstMonth != 0) {
+    //                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
+    //             }
+    //             return response()->json([
+    //               'message' => 'Invoices found',
+    //               'invoices' => $invoices,
+    //               'invoicesCtr' => $invoicesCtr,
+    //               'monthsName' => $monthsName,
+    //               'userIncome' => $userIncome
+    //             ]);
+    //         }
+    //         return response()->json([
+    //           'message' => 'No invoices found'
+    //       ]);
     }
 
     /**
@@ -296,16 +296,14 @@ class InvoiceController extends Controller
     public function getDataPerYear()
     {
         $invoices = DB::table('invoices')
-      ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
+      ->select('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email')
+      ->selectRaw('SUM(retail_price) as total_price, COUNT(items.retail_price) as total_items')
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->whereYear('invoices.invoice_date', '=', date('Y') - 1)
       ->where('invoices.category', '=', 'penjualan')
-      ->groupBy('invoices.id')
-      ->groupBy('invoices.invoice_date')
-      ->groupBy('users.username')
-      ->groupBy('users.email')
+      ->groupBy('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.user_id', 'invoices.category')
       ->paginate(20);
 
         $invoice_select = 'year';
@@ -373,34 +371,34 @@ class InvoiceController extends Controller
 
         // if ($invoices[0]) {
         $avgPerHour = array();
-        $lower=7;
-        $upper=9;
-        for ($i=0; $i<8; $i++) {
+        $lower = 7;
+        $upper = 9;
+        for ($i = 0; $i < 8; $i++) {
             $temp = DB::table('invoices')
-                          ->whereBetween('invoice_date', [
-                            $lastThreeMonthsDateTime,
-                            $currentDateTime
-                          ])
-                          ->whereBetween(DB::raw('HOUR(invoice_date)'), [
-                            $lower,
-                            $upper
-                          ])
-                          ->count();
-            $upper+=2;
-            $lower+=2;
+        ->whereBetween('invoice_date', [
+          $lastThreeMonthsDateTime,
+          $currentDateTime
+        ])
+        ->whereBetween(DB::raw('HOUR(invoice_date)'), [
+          $lower,
+          $upper
+        ])
+        ->count();
+            $upper += 2;
+            $lower += 2;
             array_push($avgPerHour, $temp);
         }
         return response()->json([
-            'message' => 'Invoices found',
-            'avgPerHour' => $avgPerHour,
-            'monthsDiff' => $monthsDiff
-          ]);
+      'message' => 'Invoices found',
+      'avgPerHour' => $avgPerHour,
+      'monthsDiff' => $monthsDiff
+    ]);
 
 
 
         //   }
-      //   return response()->json([
-      //     'message' => 'No invoices found'
-      // ]);
+    //   return response()->json([
+    //     'message' => 'No invoices found'
+    // ]);
     }
 }
