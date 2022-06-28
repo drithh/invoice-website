@@ -88,9 +88,9 @@ class SupplierController extends Controller
     /**
      * It takes a search term from the request, searches the database for suppliers with names that
      * contain the search term, and returns the results as a JSON response
-     * 
+     *
      * @param Request request The request object.
-     * 
+     *
      * @return A JSON object containing the id and name of the supplier.
      */
     public function search(Request $request)

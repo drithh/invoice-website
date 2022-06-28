@@ -41,7 +41,7 @@ class Invoice extends Model
 
     /**
      * > This function returns a collection of all the invoice items associated with this invoice
-     * 
+     *
      * @return A collection of InvoiceItem objects.
      */
     public function items()
@@ -51,7 +51,7 @@ class Invoice extends Model
 
     /**
      * > This function returns the user that owns the phone
-     * 
+     *
      * @return A collection of all the replies associated with the question.
      */
     public function user()

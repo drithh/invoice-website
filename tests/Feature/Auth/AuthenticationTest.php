@@ -25,7 +25,7 @@ class AuthenticationTest extends TestCase
 
     /**
      * "Users can authenticate using the login screen."
-     * 
+     *
      * The first line of the function is a comment. It's a one sentence summary of the function. It's a
      * good idea to write this comment before you write the function. It helps you to focus on what
      * you're trying to test
@@ -45,7 +45,7 @@ class AuthenticationTest extends TestCase
 
     /**
      * "Users can not authenticate with invalid password."
-     * 
+     *
      * The first line of the function is a comment. It's a good idea to include a comment at the top of
      * each test function that describes what the test is doing
      */

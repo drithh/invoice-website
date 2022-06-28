@@ -22,7 +22,7 @@ class ItemController extends Controller
 
     /**
      * Get the top six items from the database, ordered by name, and return them.
-     * 
+     *
      * @return An array of items
      */
     public function getTopSix()
@@ -33,9 +33,9 @@ class ItemController extends Controller
 
     /**
      * It gets the items list from the database, and then returns the view
-     * 
+     *
      * @param Request request the request object
-     * 
+     *
      * @return a view of the product list.
      */
     public function getItemsList(Request $request)
@@ -51,9 +51,9 @@ class ItemController extends Controller
 
     /**
      * It gets the items from the database and returns a view with the items
-     * 
+     *
      * @param Request request The request object.
-     * 
+     *
      * @return a view of the product-grid.blade.php file.
      */
     public function getItemsGrid(Request $request)
@@ -142,7 +142,7 @@ class ItemController extends Controller
 
     /**
      * It gets the data from the database and returns it to the view
-     * 
+     *
      * @return The data is being returned in the form of a view.
      */
     public function getData()
@@ -166,9 +166,9 @@ class ItemController extends Controller
     }
     /**
      * It searches for items in the database and returns a view with the results
-     * 
+     *
      * @param Request request The request object.
-     * 
+     *
      * @return The view is being returned.
      */
     public function itemSearch(Request $request)
@@ -182,7 +182,7 @@ class ItemController extends Controller
 
     /**
      * It updates the stock of an item in the database
-     * 
+     *
      * @param Request request The request object.
      */
     public function updateStock(Request $request)
