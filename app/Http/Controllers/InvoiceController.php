@@ -10,6 +10,8 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
 
+/* Creating a class called InvoiceController that extends the Controller class. */
+
 class InvoiceController extends Controller
 {
     /**
@@ -77,6 +79,13 @@ class InvoiceController extends Controller
         //
     }
 
+    /**
+     * It gets all invoices from the database, and then returns a view with the data
+     *
+     * @param Request request The request object.
+     *
+     * @return The view of the table-invoice.blade.php
+     */
     public function getAllInvoices(Request $request)
     {
         $invoiceSelect = ['all', 'penjualan', 'pembelian'];
@@ -108,10 +117,23 @@ class InvoiceController extends Controller
         return view('components.table-invoice', compact('invoices', 'invoice_select'));
     }
 
+    /**
+     *
+     *
+     * @param Request request The request object.
+     */
     public function addNewItemInvoice(Request $request)
     {
     }
 
+    /**
+     * I want to get the data from the database and display it in the view
+     *
+     * @param Request request The request object.
+     * @param id The id of the invoice
+     *
+     * @return The view of the invoice.
+     */
     public function getInvoiceSell(Request $request, $id)
     {
         dd($id);
@@ -119,6 +141,14 @@ class InvoiceController extends Controller
         return view('components.struk-penjualan');
     }
 
+    /**
+     * I want to return the view of the invoice, but I want to pass the id of the invoice to the view
+     *
+     * @param Request request The request object.
+     * @param id The id of the invoice
+     *
+     * @return The id of the invoice.
+     */
     public function getInvoiceBuy(Request $request, $id)
     {
         return $id;
@@ -127,6 +157,15 @@ class InvoiceController extends Controller
         return view('components.struk-pembelian');
     }
 
+    /**
+     * It gets all the invoices of the current user, then it counts the number of invoices per month,
+     * and finally it returns the invoices, the number of invoices per month, and the user's income
+     *
+     * @param Request request The request object.
+     *
+     * @return an array of invoices, an array of invoice counters, an array of months name, and the
+     * user income.
+     */
     public function getUserInvoices(Request $request)
     {
         $currentDateTime = Carbon::now()->format('Y-m-d H:i:s');
@@ -293,6 +332,11 @@ class InvoiceController extends Controller
         return redirect()->route('dashboard');
     }
 
+    /**
+     * It gets the data from the database and returns it to the view
+     *
+     * @return The data is being returned in the form of a table.
+     */
     public function getDataPerYear()
     {
         $invoices = DB::table('invoices')
@@ -312,6 +356,13 @@ class InvoiceController extends Controller
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
     }
 
+    /**
+     * It gets the total price, total items, invoice id, invoice date, username, and email of all
+     * invoices that are created in the last month, and groups them by invoice id, invoice date,
+     * username, and email
+     *
+     * @return a view of the table-penjualan.blade.php file.
+     */
     public function getDataPerMonth()
     {
         $invoices = DB::table('invoices')
@@ -326,15 +377,18 @@ class InvoiceController extends Controller
       ->groupBy('users.username')
       ->groupBy('users.email')
       ->paginate(20);
-
-
-
-        // sum invoices
         $invoice_select = 'month';
         $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
     }
 
+    /**
+     * It gets the total price and total items of each invoice, the invoice id, invoice date, username,
+     * and email of the user who made the invoice, and then groups them by invoice id, invoice date,
+     * username, and email, and then paginates them
+     *
+     * @return a view of the table-penjualan.blade.php file.
+     */
     public function getDataPerWeek()
     {
         $invoices = DB::table('invoices')
@@ -355,6 +409,13 @@ class InvoiceController extends Controller
         return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
     }
 
+    /**
+     * It returns the average number of sales per hour for the last three months
+     *
+     * @param Request request The request object.
+     *
+     * @return The average number of sales per hour for the last 3 months.
+     */
     public function getAverageSale(Request $request)
     {
         $monthsDiff = 3;

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/* It reads the contents of the `supplier.sql` file and runs it against the database */
+
 class SupplierSeeder extends Seeder
 {
     /**

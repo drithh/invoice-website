@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/* Extending the Controller class. */
+
 class UserController extends Controller
 {
     /**

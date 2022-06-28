@@ -7,6 +7,8 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+/* A class that extends the ServiceProvider class. */
+
 class EventServiceProvider extends ServiceProvider
 {
     /**

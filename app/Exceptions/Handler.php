@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+/* Extending the ExceptionHandler class. */
+
 class Handler extends ExceptionHandler
 {
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
 
+/* Extending the Middleware class. */
+
 class TrustHosts extends Middleware
 {
     /**
