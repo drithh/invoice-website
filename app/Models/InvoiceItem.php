@@ -23,7 +23,7 @@ class InvoiceItem extends Model
 
     /**
      * > This function returns the invoice that this payment belongs to
-     * 
+     *
      * @return The invoice that is associated with the payment.
      */
     public function invoice()
@@ -33,7 +33,7 @@ class InvoiceItem extends Model
 
     /**
      * `->belongsTo(Item::class)` means that the `Item` model is the parent of the `ItemDetail` model
-     * 
+     *
      * @return A collection of all the items that belong to the category.
      */
     public function item()

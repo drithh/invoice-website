@@ -28,7 +28,7 @@ class Item extends Model
     /**
      * > This function returns a collection of InvoiceItem objects that are associated with the Invoice
      * object
-     * 
+     *
      * @return A collection of InvoiceItem objects.
      */
     public function invoiceItems()
@@ -38,7 +38,7 @@ class Item extends Model
 
     /**
      * A customer can have many invoices.
-     * 
+     *
      * @return A collection of invoices
      */
     public function invoices()
