@@ -11,6 +11,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/* Extending the Seeder class. */
+
 class DatabaseSeeder extends Seeder
 {
     /**

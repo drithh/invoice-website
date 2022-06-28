@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 
+/* Extending the Controller class. */
+
 class InvoiceItemController extends Controller
 {
     /**

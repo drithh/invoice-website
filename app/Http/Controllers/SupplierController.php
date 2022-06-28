@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 
+/* Extending the Controller class. */
+
 class SupplierController extends Controller
 {
     /**
@@ -83,10 +85,18 @@ class SupplierController extends Controller
         //
     }
 
+    /**
+     * It takes a search term from the request, searches the database for suppliers with names that
+     * contain the search term, and returns the results as a JSON response
+     * 
+     * @param Request request The request object.
+     * 
+     * @return A JSON object containing the id and name of the supplier.
+     */
     public function search(Request $request)
     {
         $search = $request->search;
-        $suppliers = Supplier::where('name', 'like', '%'.$search.'%')->select('id', 'name')->limit(6)->get();
+        $suppliers = Supplier::where('name', 'like', '%' . $search . '%')->select('id', 'name')->limit(6)->get();
         return response()->json($suppliers);
     }
 }
