@@ -57,7 +57,7 @@ class EmailVerificationTest extends TestCase
     /**
      * "If the user's email is not verified, and the user visits a verification URL with an invalid
      * hash, then the user's email should not be verified."
-     * 
+     *
      * The first line of the function creates a user with an unverified email. The second line creates
      * a verification URL with an invalid hash. The third line visits the verification URL. The fourth
      * line asserts that the user's email is not verified

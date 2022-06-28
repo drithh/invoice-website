@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-
 /* Extending the TestCase class. */
 
 class PasswordConfirmationTest extends TestCase

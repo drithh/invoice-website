@@ -26,7 +26,7 @@ class PasswordResetTest extends TestCase
 
     /**
      * "When a user requests a password reset, a notification is sent to them."
-     * 
+     *
      * The first line of the function is a call to `Notification::fake()`. This is a helper function
      * provided by Laravel that allows us to fake notifications
      */
@@ -43,7 +43,7 @@ class PasswordResetTest extends TestCase
 
     /**
      * It asserts that when a user requests a password reset, the reset password screen can be rendered
-     * 
+     *
      * @return The return value of the callback function is used to determine whether the notification
      * was sent with the given values.
      */
@@ -66,7 +66,7 @@ class PasswordResetTest extends TestCase
 
     /**
      * It asserts that a user can reset their password with a valid token
-     * 
+     *
      * @return The return value of the callback function is used to determine whether the notification
      * was sent with the given data.
      */
