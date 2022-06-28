@@ -117,10 +117,23 @@ class InvoiceController extends Controller
     return view('components.table-invoice', compact('invoices', 'invoice_select'));
   }
 
+  /**
+   * 
+   * 
+   * @param Request request The request object.
+   */
   public function addNewItemInvoice(Request $request)
   {
   }
 
+  /**
+   * I want to get the data from the database and display it in the view
+   * 
+   * @param Request request The request object.
+   * @param id The id of the invoice
+   * 
+   * @return The view of the invoice.
+   */
   public function getInvoiceSell(Request $request, $id)
   {
     dd($id);
@@ -128,6 +141,14 @@ class InvoiceController extends Controller
     return view('components.struk-penjualan');
   }
 
+  /**
+   * I want to return the view of the invoice, but I want to pass the id of the invoice to the view
+   * 
+   * @param Request request The request object.
+   * @param id The id of the invoice
+   * 
+   * @return The id of the invoice.
+   */
   public function getInvoiceBuy(Request $request, $id)
   {
     return $id;

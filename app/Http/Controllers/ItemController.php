@@ -192,10 +192,16 @@ class ItemController extends Controller
             ->update(array('stock' => $request->stock));
     }
 
+    /**
+     * It returns the stock of the product.
+     */
     public function getStock()
     {
     }
 
+    /**
+     * > This function creates a pie chart
+     */
     public function pieChart()
     {
     }
