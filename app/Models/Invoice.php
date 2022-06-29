@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/* This is a class declaration. It is saying that the class Invoice extends the Model class. */
+
 class Invoice extends Model
 {
     use HasFactory;
@@ -22,6 +24,10 @@ class Invoice extends Model
     ];
 
 
+    /**
+     * When creating a new invoice, set the invoice number to INV-{user_id}-{invoice_count} and the link to
+     * the invoice number
+     */
     protected static function boot()
     {
         parent::boot();
@@ -32,11 +38,22 @@ class Invoice extends Model
         });
     }
 
+
+    /**
+     * > This function returns a collection of all the invoice items associated with this invoice
+     *
+     * @return A collection of InvoiceItem objects.
+     */
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
     }
 
+    /**
+     * > This function returns the user that owns the phone
+     *
+     * @return A collection of all the replies associated with the question.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

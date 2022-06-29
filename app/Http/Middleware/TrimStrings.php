@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\TrimStrings as Middleware;
 
+/* Extending the Middleware class. */
+
 class TrimStrings extends Middleware
 {
     /**

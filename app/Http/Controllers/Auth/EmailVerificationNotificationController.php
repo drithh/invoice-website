@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
+/* Extending the Controller class. */
+
 class EmailVerificationNotificationController extends Controller
 {
     /**

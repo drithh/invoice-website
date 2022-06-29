@@ -11,6 +11,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
+/* Extending the Seeder class. */
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -21,6 +23,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory(30)->create();
+
+
 
         SupplierFactory::new()->count(44)->create();
         $this->call(SupplierSeeder::class);
@@ -38,7 +42,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin',
             'password' => bcrypt('admin'),
-            'fullname' => 'Admin',
         ]);
     }
 }
