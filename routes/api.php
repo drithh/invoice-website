@@ -34,6 +34,7 @@ Route::get('invoices/average', [InvoiceController::class, 'getAverageSale'])->mi
 
 Route::get('items/list', [ItemController::class, 'getItemsList'])->middleware('auth')->name('items.list');
 Route::get('items/grid', [ItemController::class, 'getItemsGrid'])->middleware('auth')->name('items.grid');
+Route::get('item/getItemDetails/{id}', [ItemController::class, 'getItemDetail'])->middleware(['auth'])->name('item.get.detail');
 Route::get('invoices/all', [InvoiceController::class, 'getAllInvoices'])->middleware('auth')->name('invoices.all');
 Route::get('invoices/sell/{id}', [InvoiceController::class, 'getInvoiceSell'])->middleware('auth')->name('invoices.sell');
 Route::get('invoices/buy/{id}', [InvoiceController::class, 'getInvoiceBuy'])->middleware('auth')->name('invoices.buy');

@@ -31,6 +31,15 @@ class ItemController extends Controller
         return $items;
     }
 
+    public function getItemDetail(Request $request)
+    {
+        $item = Item::find($request->id);
+
+        return view('components.per-product', compact('item'));
+    }
+
+
+
     /**
      * It gets the items list from the database, and then returns the view
      *
@@ -41,7 +50,7 @@ class ItemController extends Controller
     public function getItemsList(Request $request)
     {
         $items = DB::table('items')
-            ->select(DB::raw('COUNT(invoice_items.id) as terbeli, item_id, items.retail_price, items.category, items.name, items.stock'))
+            ->select(DB::raw('COUNT(invoice_items.id) as terbeli, items.id, items.retail_price, items.category, items.name, items.stock'))
             ->join('invoice_items', 'invoice_items.item_id', '=', 'items.id')
             ->groupBy('item_id')
             ->groupBy('items.retail_price', 'items.category', 'items.name', 'items.stock')
