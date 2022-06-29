@@ -180,8 +180,7 @@ class InvoiceController extends Controller
      */
     public function getInvoiceBuy(Request $request)
     {
-
-      $struk = DB::table('invoices')->where('invoices.id', $request->id)
+        $struk = DB::table('invoices')->where('invoices.id', $request->id)
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date'))
@@ -189,33 +188,33 @@ class InvoiceController extends Controller
       ->orderBy('items.retail_price', 'asc')
       ->get();
 
-      $supplier = DB::table('invoices')->where('invoices.id', $request->id)
+        $supplier = DB::table('invoices')->where('invoices.id', $request->id)
       ->join('suppliers', 'invoices.supplier_id', '=', 'suppliers.id')
       ->select(DB::raw('suppliers.name, suppliers.email, suppliers.phone, suppliers.address'))
       ->first();
 
 
-      $total_price = DB::table('invoices')->where('invoices.id', $request->id)
+        $total_price = DB::table('invoices')->where('invoices.id', $request->id)
       ->select(DB::raw('SUM(items.retail_price) as total_struk', 'invoices.id'))
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->groupBy('invoices.id')
       ->first();
 
-      $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+        $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->select(DB::raw('items.name, items.retail_price'))
       ->orderBy('items.retail_price', 'asc')
       ->get();
 
-      $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+        $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->select(DB::raw('COUNT(items.id) as total_items'))
       ->groupBy('items.id')
       ->orderBy('items.retail_price', 'asc')
       ->get();
 
-      // dd($struk);
+        // dd($struk);
 
 
         return view('components.struk-pembelian', compact('struk', 'total_price', 'items', 'banyak_items', 'supplier'));
