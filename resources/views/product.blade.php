@@ -14,12 +14,12 @@
       </button>
       <h1 class="text-primary-textdark mb-5 text-lg font-semibold">Form tambahkan item</h1>
       <input type="text" name="name" onchange="searchPosts()" onkeyup="searchPosts()" placeholder="Search item"
-      class="rounded-lg border-opacity-50" size="45" id="search_input">
+        class="rounded-lg border-opacity-50" size="45" id="search_input">
       <button
-      class="bg-primary-cyan text-primary-background border-primary-textdark border-1 ml-4 h-[41px] w-[75px] rounded-lg font-semibold"
-      type="button">
-      Search
-    </button>
+        class="bg-primary-cyan text-primary-background border-primary-textdark border-1 ml-4 h-[41px] w-[75px] rounded-lg font-semibold"
+        type="button">
+        Search
+      </button>
       <div id="body-form">
 
       </div>
@@ -53,11 +53,11 @@
       })
   }
 
-  const closeProductDetails = () =>{
+  const closeProductDetails = () => {
     document.querySelector('#item-details').innerHTML = '';
   }
 
-  const showProductDetails = (e) =>{
+  const showProductDetails = (e) => {
 
     const items_id = e.querySelector("#item_id").innerHTML;
     var bodyFormData = new FormData();
@@ -146,28 +146,28 @@
     e.querySelector('#cancelStock').classList.remove('invisible');
   }
 
-  const updateStock = (e) => {
-    var bodyFormData = new FormData();
-    var itemId = e.querySelector('#itemId').value;
-    var newStock = e.querySelector('#newStock').value;
-    bodyFormData.append('item_id', itemId);
-    bodyFormData.append('stock', newStock);
+  // const updateStock = (e) => {
+  //   var bodyFormData = new FormData();
+  //   var itemId = e.querySelector('#itemId').value;
+  //   var newStock = e.querySelector('#newStock').value;
+  //   bodyFormData.append('item_id', itemId);
+  //   bodyFormData.append('stock', newStock);
 
-    axios({
-        method: 'post',
-        url: '/api/item/updateStock',
-        data: bodyFormData,
-      })
-      .then(response => {
+  //   axios({
+  //       method: 'post',
+  //       url: '/api/item/updateStock',
+  //       data: bodyFormData,
+  //     })
+  //     .then(response => {
 
-        e.querySelector('#stock input').remove();
-        e.querySelector('#stock').innerHTML = `<p>${newStock}</p>`;
-        e.querySelector('#updateStock').classList.add('invisible');
-        e.querySelector('#editStock').classList.remove('invisible');
-        e.querySelector('#cancelStock').classList.add('invisible');
+  //       e.querySelector('#stock input').remove();
+  //       e.querySelector('#stock').innerHTML = `<p>${newStock}</p>`;
+  //       e.querySelector('#updateStock').classList.add('invisible');
+  //       e.querySelector('#editStock').classList.remove('invisible');
+  //       e.querySelector('#cancelStock').classList.add('invisible');
 
-      })
-  }
+  //     })
+  // }
 
 
   const searchPosts = () => {

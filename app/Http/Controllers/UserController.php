@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 /* Extending the Controller class. */
 
@@ -99,32 +100,32 @@ class UserController extends Controller
         try {
             $dataValidation =
                 $this->validate($request, [
-                        'username' => ['required', 'min:3', 'max:255'],
-                        'email' =>  'required|email|unique:users,email,'.$request->user()->id,
-                        // 'password' => 'required',
-                        'address' => 'nullable',
-                        'phone' => 'nullable',
-                        'nik' => 'nullable|digits:16',
-                        'birthday' => 'nullable|date',
+                    'username' => ['required', 'min:3', 'max:255'],
+                    'email' =>  'required|email|unique:users,email,' . $request->user()->id,
+                    // 'password' => 'required',
+                    'address' => 'nullable',
+                    'phone' => 'nullable',
+                    'nik' => 'nullable|digits:16',
+                    'birthday' => 'nullable|date',
                 ]);
             $request->validate([
-                        'password' => 'required',
-                    ]);
+                'password' => 'required',
+            ]);
 
             if (!Hash::check($request->password, $request->user()->password)) {
                 return response()->json([
-                            'err' => 'Password Salah',
-                        ], 422);
+                    'err' => 'Password Salah',
+                ], 422);
             }
 
             $request->user()->password = Hash::make($request->password);
             $request->user()->save();
         } catch (ValidationException $exception) {
             return response()->json([
-                    'status' => 'error',
-                    'msg'    => 'Error',
-                    'errors' => $exception->errors(),
-                ], 422);
+                'status' => 'error',
+                'msg'    => 'Error',
+                'errors' => $exception->errors(),
+            ], 422);
         }
 
         // return response()->json([
@@ -134,8 +135,8 @@ class UserController extends Controller
         User::where('id', $request->user()->id)->update($dataValidation);
 
         return response()->json([
-                'success' => 'Data telah berhasil diupdate'
-            ]);
+            'success' => 'Data telah berhasil diupdate'
+        ]);
 
         // $validatedData = $request->validate($rules);
 

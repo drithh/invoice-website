@@ -53,7 +53,7 @@ class ItemController extends Controller
             ->select(DB::raw('COUNT(invoice_items.id) as terbeli, items.id, items.retail_price, items.category, items.name, items.stock'))
             ->join('invoice_items', 'invoice_items.item_id', '=', 'items.id')
             ->groupBy('item_id')
-            ->groupBy('items.retail_price', 'items.category', 'items.name', 'items.stock')
+            ->groupBy('items.retail_price', 'items.category', 'items.name', 'items.stock', 'items.id')
             ->paginate(10);
         return view('components.product-list', compact('items'));
     }

@@ -13,7 +13,8 @@
     "laravel/framework": "^9.11",
     "laravel/sanctum": "^2.14.1",
     "laravel/tinker": "^2.7",
-    "fakerphp/faker": "^1.9.1"
+    "fakerphp/faker": "^1.9.1",
+    "rakutentech/laravel-request-docs": "^1.22"
   },
   "require-dev": {
     "laravel/breeze": "^1.9",
@@ -21,7 +22,6 @@
     "mockery/mockery": "^1.4.4",
     "nunomaduro/collision": "^6.1",
     "phpunit/phpunit": "^9.5.10",
-    "rakutentech/laravel-request-docs": "^1.22",
     "spatie/laravel-ignition": "^1.0"
   },
   "autoload": {
