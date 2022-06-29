@@ -25,7 +25,7 @@
             {{ $karyawan->invoice_count }}
           </div>
           <div>
-            <input type="hidden" name="id" value="{{ $karyawan->id }}">
+            <input type="hidden" class="id" name="id" value="{{ $karyawan->id }}">
             <button type="button" class="h-full p-4" onclick="viewModal(this.parentElement)">
               <x-three-dot></x-three-dot>
             </button>

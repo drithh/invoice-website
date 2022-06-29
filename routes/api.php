@@ -46,4 +46,5 @@ Route::get('item/getTopSix/{search}', [ItemController::class, 'getTopSix'])->mid
 
 Route::post('supplier/search', [SupplierController::class, 'search'])->middleware(['auth'])->name('supplier.search');
 
-Route::get('user/get', [UserController::class, 'index'])->middleware(['auth'])->name('user.get');
+Route::get('user/get', [UserController::class, 'index'])->middleware(['auth'])->name('user.index');
+Route::get('user/get/{id}', [UserController::class, 'get'])->middleware(['auth'])->name('user.get');

@@ -2,7 +2,7 @@
 
   {{-- change class from hidden to flex to see --}}
   <div id="add-stock" class="hidden">
-    <div class="fixed inset-0 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+    <div class="fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
       <div class="relative w-1/2 rounded-lg bg-white px-9 py-12">
         <button class="absolute right-0 top-0 mt-9 mr-9 origin-center scale-[2] content-end" onclick="toggleModal()">
           <x-crossmark></x-crossmark>
@@ -102,7 +102,7 @@
 
   <div id="invoice-table" class="px-12"></div>
 
-  <div id="struck-modal" >
+  <div id="struck-modal">
 
   </div>
 
@@ -269,22 +269,20 @@
     const invoiceCategory = invoice.getAttribute('category');
     if (invoiceCategory === 'penjualan') {
       axios.get(`/api/invoices/sell/${invoice.value}`)
-      .then(
-        response => {
-          console.log(response.data);
-          const struckModal = document.querySelector('#struck-modal');
-          struckModal.innerHTML = response.data;
-        }
-      )
+        .then(
+          response => {
+            const struckModal = document.querySelector('#struck-modal');
+            struckModal.innerHTML = response.data;
+          }
+        )
     } else {
       axios.get(`/api/invoices/buy/${invoice.value}`)
-      .then(
-        response => {
-          console.log(response.data);
-          const struckModal = document.querySelector('#struck-modal');
-          struckModal.innerHTML = response.data
-        }
-      )
+        .then(
+          response => {
+            const struckModal = document.querySelector('#struck-modal');
+            struckModal.innerHTML = response.data
+          }
+        )
     }
 
   }

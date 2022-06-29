@@ -1,4 +1,5 @@
 <x-app-layout>
+  <div id="modal-karyawan"></div>
 
   <div class="flex flex-wrap place-content-between gap-8 px-12">
     {{-- Pie Chart Produk Terjual --}}
@@ -34,6 +35,7 @@
         </div>
       </div>
     </div>
+
 
 
   </div>
@@ -97,6 +99,21 @@
       })
   }
 
+
+  const viewModal = (e) => {
+    const id = e.querySelector('.id').value;
+    axios.get('/api/user/get/' + id)
+      .then(response => {
+        document.querySelector('#modal-karyawan').innerHTML = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  const closeModal = () => {
+    document.querySelector('#modal-karyawan').innerHTML = '';
+  }
 
 
   const getSaleAverage = () => {
