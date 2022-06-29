@@ -102,6 +102,10 @@
 
   <div id="invoice-table" class="px-12"></div>
 
+  <div id="struck-modal" >
+
+  </div>
+
 </x-app-layout>
 
 
@@ -140,6 +144,12 @@
 
 
   }
+
+  const closeStruk = () => {
+    document.querySelector('#struck-modal').innerHTML = '';
+  }
+
+
 
   const searchItem = () => {
     const input = document.getElementById('.nama').value;
@@ -258,21 +268,21 @@
     const invoice = e.querySelector('input');
     const invoiceCategory = invoice.getAttribute('category');
     if (invoiceCategory === 'penjualan') {
-      axios.get(` / api / invoices / sell / $ {
-        invoice.value
-      }
-      `).then(
+      axios.get(`/api/invoices/sell/${invoice.value}`)
+      .then(
         response => {
           console.log(response.data);
+          const struckModal = document.querySelector('#struck-modal');
+          struckModal.innerHTML = response.data;
         }
       )
     } else {
-      axios.get(` / api / invoices / buy / $ {
-        invoice.value
-      }
-      `).then(
+      axios.get(`/api/invoices/buy/${invoice.value}`)
+      .then(
         response => {
           console.log(response.data);
+          const struckModal = document.querySelector('#struck-modal');
+          struckModal.innerHTML = response.data
         }
       )
     }

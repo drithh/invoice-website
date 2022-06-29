@@ -136,9 +136,38 @@ class InvoiceController extends Controller
      */
     public function getInvoiceSell(Request $request, $id)
     {
-        dd($id);
+        $struk = DB::table('invoices')->where('invoices.id', $request->id)
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->join('users', 'invoices.user_id', '=', 'users.id')
+        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username'))
+        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'items.retail_price')
+        ->orderBy('items.retail_price', 'asc')
+        ->get();
 
-        return view('components.struk-penjualan');
+        $total_price = DB::table('invoices')->where('invoices.id', $request->id)
+        ->select(DB::raw('SUM(items.retail_price) as total_struk', 'invoices.id'))
+        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->groupBy('invoices.id')
+        ->first();
+
+        $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->select(DB::raw('items.name, items.retail_price'))
+        ->orderBy('items.retail_price', 'asc')
+        ->get();
+
+        $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+        ->join('items', 'invoice_items.item_id', '=', 'items.id')
+        ->select(DB::raw('COUNT(items.id) as total_items'))
+        ->groupBy('items.id')
+        ->orderBy('items.retail_price', 'asc')
+        ->get();
+        // dd($total_price);
+
+
+        return view('components.struk-penjualan', compact('struk', 'total_price', 'items', 'banyak_items'));
     }
 
     /**
@@ -149,12 +178,47 @@ class InvoiceController extends Controller
      *
      * @return The id of the invoice.
      */
-    public function getInvoiceBuy(Request $request, $id)
+    public function getInvoiceBuy(Request $request)
     {
-        return $id;
+
+      $struk = DB::table('invoices')->where('invoices.id', $request->id)
+      ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date'))
+      ->groupBy('invoice_number', 'invoice_date', 'items.retail_price')
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
+
+      $supplier = DB::table('invoices')->where('invoices.id', $request->id)
+      ->join('suppliers', 'invoices.supplier_id', '=', 'suppliers.id')
+      ->select(DB::raw('suppliers.name, suppliers.email, suppliers.phone, suppliers.address'))
+      ->first();
 
 
-        return view('components.struk-pembelian');
+      $total_price = DB::table('invoices')->where('invoices.id', $request->id)
+      ->select(DB::raw('SUM(items.retail_price) as total_struk', 'invoices.id'))
+      ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->groupBy('invoices.id')
+      ->first();
+
+      $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('items.name, items.retail_price'))
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
+
+      $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('COUNT(items.id) as total_items'))
+      ->groupBy('items.id')
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
+
+      // dd($struk);
+
+
+        return view('components.struk-pembelian', compact('struk', 'total_price', 'items', 'banyak_items', 'supplier'));
     }
 
     /**
