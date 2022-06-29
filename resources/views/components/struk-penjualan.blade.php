@@ -1,11 +1,11 @@
 <div
-  class="struk-penjualan fixed inset-0 h-screen w-screen items-center justify-center bg-black bg-opacity-50 flex">
+  class="struk-penjualan fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
   <div class="text-primary-textgray w-[540px] rounded-md bg-white px-12 pt-8 text-sm">
-    <div class="flex justify-between items-center">
+    <div class="flex items-center justify-between">
       <h3 class="font-poppins mb-6">
         Struk Penjualan | {{ $struk[0]->invoice_number }}
       </h3>
-      <button class="mb-8 pl-4 origin-center scale-[2] content-end" onclick="closeStruk()">
+      <button class="mb-8 origin-center scale-[2] content-end pl-4" onclick="closeStruk()">
         <x-crossmark></x-crossmark>
       </button>
     </div>
@@ -29,12 +29,12 @@
         <p class="mb-2 w-[84px] text-right">Harga Total</p>
       </div>
       @foreach ($struk as $key => $item)
-      <div class="header text-primary-textgray mb-2 flex justify-between">
-        <p class="mb-2 w-[170px]">{{ $items[$key]->name }}</p>
-        <p class="mb-2 w-[50px] text-center">{{ $banyak_items[$key]->total_items }}</p>
-        <p class="mb-2 w-[60px] text-center">{{ $items[$key]->retail_price }}</p>
-        <p class="mb-2 w-[84px] text-right">{{ $item->total_price }}</p>
-      </div>
+        <div class="header text-primary-textgray mb-2 flex justify-between">
+          <p class="mb-2 w-[170px]">{{ $items[$key]->name }}</p>
+          <p class="mb-2 w-[50px] text-center">{{ $banyak_items[$key]->total_items }}</p>
+          <p class="mb-2 w-[60px] text-center">{{ $items[$key]->retail_price }}</p>
+          <p class="mb-2 w-[84px] text-right">{{ $item->total_price }}</p>
+        </div>
       @endforeach
 
     </div>
@@ -45,11 +45,11 @@
       </div>
       <div class="mb-[6px] flex justify-between">
         <p>Tax 10%</p>
-        <p>{{ $total_price->total_struk * 10/100 }}</p>
+        <p>{{ ($total_price->total_struk * 10) / 100 }}</p>
       </div>
       <div class="mb-[6px] flex justify-between">
         <p>Total</p>
-        <p>{{ $total_price->total_struk + ($total_price->total_struk * 10/100) }}</p>
+        <p>{{ $total_price->total_struk + ($total_price->total_struk * 10) / 100 }}</p>
       </div>
     </div>
     <div class="font-poppins mb-10 w-full text-center text-xs">LAYANAN KONSUMEN CALL 021-571-9893</div>

@@ -7,7 +7,7 @@
 
 
   <div id="addStock"
-    class="absolute inset-0 hidden h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+    class="fixed inset-0 z-50 hidden h-screen w-screen items-center justify-center bg-black bg-opacity-50">
     <div class="relative h-[520px] w-1/2 rounded-lg bg-white px-9 py-10">
       <button class="absolute right-0 top-0 mt-10 mr-9 origin-center scale-[2] content-end" onclick="closeModal()">
         <x-crossmark></x-crossmark>
@@ -146,6 +146,28 @@
     e.querySelector('#cancelStock').classList.remove('invisible');
   }
 
+  const updateStock = (e) => {
+    var bodyFormData = new FormData();
+    var itemId = e.querySelector('#itemId').value;
+    var newStock = e.querySelector('#newStock').value;
+    bodyFormData.append('item_id', itemId);
+    bodyFormData.append('stock', newStock);
+
+    axios({
+        method: 'post',
+        url: '/api/item/updateStock',
+        data: bodyFormData,
+      })
+      .then(response => {
+
+        e.querySelector('#stock input').remove();
+        e.querySelector('#stock').innerHTML = `<p>${newStock}</p>`;
+        e.querySelector('#updateStock').classList.add('invisible');
+        e.querySelector('#editStock').classList.remove('invisible');
+        e.querySelector('#cancelStock').classList.add('invisible');
+
+      })
+  }
 
 
   const searchPosts = () => {
@@ -160,7 +182,6 @@
       })
       .then(response => {
         document.querySelector('#body-form').innerHTML = response.data;
-        console.log(response.data);
       })
   };
 </script>

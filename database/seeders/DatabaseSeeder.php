@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(30)->create();
 
+
+
         SupplierFactory::new()->count(44)->create();
         $this->call(SupplierSeeder::class);
 
@@ -40,7 +42,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin',
             'password' => bcrypt('admin'),
-            'fullname' => 'Admin',
         ]);
     }
 }

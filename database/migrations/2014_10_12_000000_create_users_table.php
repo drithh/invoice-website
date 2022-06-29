@@ -19,13 +19,12 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
 
-            $table->string('fullname')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('nik')->nullable();
             $table->date('birthday')->nullable();
-            $table->date('registration_number')->nullable();
-            $table->string('role')->nullable();
+            $table->string('registration_number')->nullable();
+            $table->string('role')->default('Karyawan');
 
             $table->rememberToken();
             $table->timestamps();

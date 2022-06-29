@@ -42,3 +42,5 @@ UPDATE suppliers SET name = 'SUMBER SARI,CV' WHERE id = 41;
 UPDATE suppliers SET name = 'GAJAH MADA' WHERE id = 42;
 UPDATE suppliers SET name = 'BATAM PAPER CV' WHERE id = 43;
 UPDATE suppliers SET name = 'PT MARGA NUSANT' WHERE id = 44;
+
+UPDATE users SET role = 'Manajer' WHERE id = 1;
