@@ -307,25 +307,24 @@ class InvoiceController extends Controller
                     $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
                     break;
                 }
-              };
+            };
 
-              // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-              $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
-              if ($firstMonth != 0) {
-                  $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
-              }
-              return response()->json([
+            // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+            $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
+            if ($firstMonth != 0) {
+                $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
+            }
+            return response()->json([
                 'message' => 'Invoices found',
                 'invoices' => $invoices,
                 'invoicesCtr' => $invoicesCtr,
                 'monthsName' => $monthsName,
                 'userIncome' => $userIncome
               ]);
-          }
-          return response()->json([
+        }
+        return response()->json([
             'message' => 'No invoices found'
         ]);
-                        
     }
 
     /**
