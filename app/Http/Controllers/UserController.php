@@ -82,9 +82,8 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        
-            try {
-                $dataValidation = 
+        try {
+            $dataValidation =
                 $this->validate($request, [
                         'username' => ['required', 'min:3', 'max:255'],
                         'email' =>  'required|email|unique:users,email,'.$request->user()->id,
@@ -94,34 +93,33 @@ class UserController extends Controller
                         'nik' => 'nullable|digits:16',
                         'birthday' => 'nullable|date',
                 ]);
-                    $request->validate([
+            $request->validate([
                         'password' => 'required',
                     ]);
 
-                    if (!Hash::check($request->password, $request->user()->password)) {
-                        return response()->json([
+            if (!Hash::check($request->password, $request->user()->password)) {
+                return response()->json([
                             'err' => 'Password Salah',
                         ], 422);
-                    }
-
-                    $request->user()->password = Hash::make($request->password);
-                    $request->user()->save();
             }
-            catch (ValidationException $exception) {
-                return response()->json([
+
+            $request->user()->password = Hash::make($request->password);
+            $request->user()->save();
+        } catch (ValidationException $exception) {
+            return response()->json([
                     'status' => 'error',
                     'msg'    => 'Error',
                     'errors' => $exception->errors(),
                 ], 422);
-            }
+        }
 
-            // return response()->json([
-            //     'data' => $request->user()->id
-            // ]);
+        // return response()->json([
+        //     'data' => $request->user()->id
+        // ]);
 
-            User::where('id', $request->user()->id)->update($dataValidation);
-            
-            return response()->json([
+        User::where('id', $request->user()->id)->update($dataValidation);
+
+        return response()->json([
                 'success' => 'Data telah berhasil diupdate'
             ]);
 
