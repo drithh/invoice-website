@@ -35,7 +35,7 @@ class UserController extends Controller
     public function get($id)
     {
         $user = DB::table('users')
-            ->select('users.username', 'users.email', DB::raw('count(invoices.id) as invoice_count'), 'users.registration_number',  'users.address', 'users.phone', 'users.nik', 'users.birthday', 'users.registration_number', 'users.role')
+            ->select('users.username', 'users.email', DB::raw('count(invoices.id) as invoice_count'), 'users.registration_number', 'users.address', 'users.phone', 'users.nik', 'users.birthday', 'users.registration_number', 'users.role')
             ->join('invoices', 'invoices.user_id', '=', 'users.id')
             ->where('users.id', '=', $id)
             ->groupBy('users.username', 'users.email', 'users.address', 'users.phone', 'users.nik', 'users.birthday', 'users.registration_number', 'users.registration_number', 'users.role')
