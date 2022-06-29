@@ -41,7 +41,9 @@
 
     @foreach ($items as $item)
       <div class="mb-16 flex h-[50px] items-center justify-between">
-
+        <div class="hidden" id="item_id">
+          {{ $item->id }}
+        </div>
         <div class="w-[20px] pl-4">
           <div
             class="{{ $loop->index % 3 == 0 ? 'bg-yellow-300' : ($loop->index % 3 == 1 ? 'bg-red-300' : 'bg-cyan-300') }} outline-3 mr-[42px] h-[50px] w-[50px] rounded-xl outline outline-gray-400">
@@ -62,7 +64,7 @@
           class="{{ $loop->index % 3 == 0 ? 'bg-green-100' : ($loop->index % 3 == 1 ? 'bg-rose-100' : 'bg-orange-100') }} flex h-[35px] w-[100px] items-center justify-center rounded-xl text-center text-xs font-semibold">
           {{ $item->category }}
         </div>
-        <button class="pr-6" onclick=()>
+        <button class="pr-6" onclick="showProductDetails(this.parentElement)">
           <x-three-dot></x-three-dot>
         </button>
 
@@ -75,7 +77,9 @@
           </form> --}}
       </div>
     @endforeach
+      <div id="item-details">
 
+      </div>
     {{ $items->links() }}
   </div>
 </div>
