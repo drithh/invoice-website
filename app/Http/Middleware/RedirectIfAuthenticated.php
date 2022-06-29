@@ -7,6 +7,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/* A middleware that redirects the user to the home page if they are already authenticated. */
+
 class RedirectIfAuthenticated
 {
     /**

@@ -6,10 +6,15 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/* Extending the TestCase class. */
+
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * The registration screen can be rendered.
+     */
     public function test_registration_screen_can_be_rendered()
     {
         $response = $this->get('/register');
@@ -17,6 +22,9 @@ class RegistrationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * It creates a new user, logs them in, and redirects them to the home page
+     */
     public function test_new_users_can_register()
     {
         $response = $this->post('/register', [
