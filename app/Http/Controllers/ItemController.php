@@ -25,9 +25,9 @@ class ItemController extends Controller
      *
      * @return An array of items
      */
-    public function getTopSix()
+    public function getAll()
     {
-        $items = Item::orderBy('name', 'desc')->take(6)->get();
+        $items = Item::orderBy('name', 'desc')->select('name')->get();
         return $items;
     }
 

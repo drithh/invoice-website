@@ -25,6 +25,10 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('invoices/create/penjualan', [InvoiceController::class, 'createPenjualan'])->middleware(['auth'])->name('invoices.penjualan');
+Route::post('invoices/create/pembelian', [InvoiceController::class, 'createPembelian'])->middleware(['auth'])->name('invoices.pembelian');
+
 Route::get('invoices/year', [InvoiceController::class, 'getDataPerYear'])->middleware('auth')->name('invoices.year');
 Route::get('invoices/month', [InvoiceController::class, 'getDataPerMonth'])->middleware('auth')->name('invoices.month');
 Route::get('invoices/week', [InvoiceController::class, 'getDataPerWeek'])->middleware('auth')->name('invoices.week');
@@ -43,7 +47,7 @@ Route::post('item/search', [ItemController::class, 'itemSearch'])->middleware(['
 Route::post('item/updateStock', [ItemController::class, 'updateStock'])->middleware(['auth'])->name('item.update.stock');
 Route::get('item/getStock', [ItemController::class, 'getStock'])->middleware(['auth'])->name('item.get.stock');
 Route::get('item/pieChart', [ItemController::class, 'pieChart'])->middleware(['auth'])->name('item.pie.chart');
-Route::get('item/getTopSix/{search}', [ItemController::class, 'getTopSix'])->middleware(['auth'])->name('item.get.top.six');
+Route::get('item/getAll', [ItemController::class, 'getAll'])->middleware(['auth'])->name('item.get.all');
 
 Route::post('supplier/search', [SupplierController::class, 'search'])->middleware(['auth'])->name('supplier.search');
 
