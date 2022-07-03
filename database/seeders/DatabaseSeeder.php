@@ -48,6 +48,5 @@ class DatabaseSeeder extends Seeder
 
 
         // create admin user
-
     }
 }
