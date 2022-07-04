@@ -28,17 +28,19 @@
         <div>
           <div class="bg-primary-cloud mr-[42px] h-[50px] w-[50px] rounded-xl"></div>
         </div>
-        <div class="flex w-[500px] flex-col">
+        <div class="flex w-[480px] flex-col">
           <h3 class="text-primary-textdark mb-2 text-sm font-semibold">{{ $invoice->username }}</h3>
           <p class="text-primary-textgray text-xs font-light">{{ $invoice->email }}</p>
         </div>
-        <div
-          class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }} w-[320px] text-xs font-semibold">
-          Rp{{ $invoice->total_price }},00</div>
-        <div class="font-poppins text-primary-textgray w-[200px] text-xs font-light">{{ $invoice->total_items }}
+        <div class="invoice-number font-poppins text-primary-textgray w-[320px] text-xs font-light">
+          {{ $invoice->invoice_number }}
         </div>
+
+        <div
+          class="{{ $loop->index % 3 == 0 ? 'text-primary-warmblue' : ($loop->index % 3 == 1 ? 'text-primary-orange' : 'text-primary-warmpink') }} w-[200px] text-xs font-semibold">
+          Rp{{ $invoice->total_price }},00</div>
         <div class="w-[50px]">
-          <x-on-button></x-on-button>
+          <x-on-button invoiceLink="{{ $invoice->link }}"></x-on-button>
         </div>
         {{-- <div><x-off-button></x-off-button></div> --}}
         <form action="">

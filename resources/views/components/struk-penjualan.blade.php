@@ -1,5 +1,5 @@
 <div
-  class="struk-penjualan fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-50">
+  class="struk-penjualan fixed inset-0 z-50 flex h-screen w-screen items-center justify-center overflow-y-scroll bg-black bg-opacity-50 py-20">
   <div class="text-primary-textgray w-[540px] rounded-md bg-white px-12 pt-8 text-sm">
     <div class="flex items-center justify-between">
       <h3 class="font-poppins mb-6">
