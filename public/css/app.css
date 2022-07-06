@@ -824,9 +824,6 @@ select {
 .top-\[3px\] {
   top: 3px;
 }
-.top-20 {
-  top: 5rem;
-}
 .z-0 {
   z-index: 0;
 }
@@ -1058,16 +1055,16 @@ select {
   height: -moz-fit-content;
   height: fit-content;
 }
+.h-max {
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
 .h-12 {
   height: 3rem;
 }
 .h-10 {
   height: 2.5rem;
-}
-.h-max {
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
 }
 .h-full {
   height: 100%;
@@ -1177,6 +1174,11 @@ select {
 .w-\[26rem\] {
   width: 26rem;
 }
+.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .w-1\/2 {
   width: 50%;
 }
@@ -1255,6 +1257,9 @@ select {
 .w-6 {
   width: 1.5rem;
 }
+.w-\[480px\] {
+  width: 480px;
+}
 .w-\[130px\] {
   width: 130px;
 }
@@ -1311,18 +1316,13 @@ select {
 .w-48 {
   width: 12rem;
 }
-.w-\[480px\] {
-  width: 480px;
-}
-.w-fit {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
 .min-w-min {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
   min-width: min-content;
+}
+.max-w-\[50rem\] {
+  max-width: 50rem;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -1332,9 +1332,6 @@ select {
 }
 .max-w-7xl {
   max-width: 80rem;
-}
-.max-w-\[50rem\] {
-  max-width: 50rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1540,9 +1537,6 @@ select {
 }
 .overflow-hidden {
   overflow: hidden;
-}
-.overflow-scroll {
-  overflow: scroll;
 }
 .overflow-x-hidden {
   overflow-x: hidden;
@@ -1755,6 +1749,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(255 237 213 / var(--tw-bg-opacity));
 }
+.bg-primary-background {
+  --tw-bg-opacity: 1;
+  background-color: rgb(240 244 252 / var(--tw-bg-opacity));
+}
 .bg-primary-blue {
   --tw-bg-opacity: 1;
   background-color: rgb(69 158 216 / var(--tw-bg-opacity));
@@ -1762,10 +1760,6 @@ select {
 .bg-primary-textdark {
   --tw-bg-opacity: 1;
   background-color: rgb(63 66 84 / var(--tw-bg-opacity));
-}
-.bg-primary-background {
-  --tw-bg-opacity: 1;
-  background-color: rgb(240 244 252 / var(--tw-bg-opacity));
 }
 .bg-primary-warmblue {
   --tw-bg-opacity: 1;
@@ -1930,6 +1924,10 @@ select {
   padding-left: 2rem;
   padding-right: 2rem;
 }
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
 .px-9 {
   padding-left: 2.25rem;
   padding-right: 2.25rem;
@@ -1957,10 +1955,6 @@ select {
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
-}
-.py-20 {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
 }
 .px-\[30px\] {
   padding-left: 30px;

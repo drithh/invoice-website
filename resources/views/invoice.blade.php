@@ -70,7 +70,7 @@
           <div class="input-box">
             <div class="result"></div>
             <div class="input-wrapper mb-2 flex h-10 justify-between border-b-2 pb-1">
-              <select class="nama w-80 rounded-md border-2 px-2 text-xs" name="state">
+              <select class="nama w-80 rounded-md border-2 px-2 text-sm" name="state">
               </select>
               <input class="quantity w-[70px] rounded-md border-2 text-center text-sm" name="qty[]" placeholder="qty">
               <div class="flex w-[120px] items-center justify-center text-center">
@@ -277,11 +277,9 @@
   const addData = () => {
     toggleModal();
     if (!items) {
-      const url = '/api/item/getAll/';
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          items = data;
+      axios.get('/api/item/getAll')
+        .then(response => {
+          items = response.data;
           if (items) {
             const nama = items.map((item, index) => {
               return {
