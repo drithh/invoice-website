@@ -19,7 +19,7 @@ class InvoiceFactory extends Factory
         $penjualan = rand(1, 5);
         return [
             'user_id' => $this->faker->numberBetween(1, 15),
-            'invoice_date' => $this->faker->dateTimeBetween('-1 years', '+1 months'),
+            'invoice_date' => $this->faker->dateTimeBetween('-1 years', 'now'),
             'category' => $penjualan < 5 ? 'penjualan' : 'pembelian',
             'supplier_id' => $penjualan < 5 ? null : $this->faker->numberBetween(1, 44),
 

@@ -132,10 +132,16 @@
 
     });
 
+    const supplier = document.querySelector('#search-input').value;
+
     axios({
         method: 'POST',
         url: '/api/invoices/create/pembelian',
-        data: formItem,
+        data: {
+          form: formItem,
+          supplier: supplier
+        }
+
       })
       .then(response => {
         alert('Struk berhasil dibuat')
