@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\Item;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -24,15 +27,74 @@ class InvoiceController extends Controller
         //
     }
 
+    public function toggleLink($invoiceNumber)
+    {
+        $invoice = DB::table('invoices')->where('invoice_number', $invoiceNumber)->get()->first();
+        DB::table('invoices')->where('invoice_number', $invoiceNumber)->update(['link' => !$invoice->link]);
+
+        return response()->json(['success' => true]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createPenjualan(Request $request)
     {
-        //
+        $datas = $request->all();
+        $invoice = new Invoice();
+        $invoice->user_id = Auth::user()->id;
+        $invoice->invoice_date = Carbon::now();
+        $invoice->category = 'penjualan';
+        $invoice->save();
+        foreach ($datas as $data) {
+            $item = DB::table('items')->where('name', $data['name'])->first();
+            $item->stock = $item->stock - $data['quantity'];
+            DB::table('items')->where('name', $data['name'])->update(['stock' => $item->stock]);
+
+            for ($i = 0; $i < $data['quantity']; $i++) {
+                $invoiceItem = new InvoiceItem();
+                $invoiceItem->invoice_id = $invoice->id;
+                $invoiceItem->item_id = $item->id;
+                $invoiceItem->save();
+            }
+        }
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createPembelian(Request $request)
+    {
+        $supplierId = DB::table('suppliers')->where('name', $request->supplier)->first()->id;
+
+        $datas = $request->form;
+        $invoice = new Invoice();
+        $invoice->user_id = Auth::user()->id;
+        $invoice->invoice_date = Carbon::now();
+        $invoice->category = 'pembelian';
+        $invoice->supplier_id = $supplierId;
+        $invoice->save();
+
+        foreach ($datas as $data) {
+            $item = DB::table('items')->where('name', $data['name'])->first();
+            $item->stock = $item->stock + $data['quantity'];
+            DB::table('items')->where('name', $data['name'])->update(['stock' => $item->stock]);
+
+            for ($i = 0; $i < $data['quantity']; $i++) {
+                $invoiceItem = new InvoiceItem();
+                $invoiceItem->invoice_id = $invoice->id;
+                $invoiceItem->item_id = $item->id;
+                $invoiceItem->save();
+            }
+        }
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -114,6 +176,7 @@ class InvoiceController extends Controller
         }
 
 
+
         return view('components.table-invoice', compact('invoices', 'invoice_select'));
     }
 
@@ -137,34 +200,33 @@ class InvoiceController extends Controller
     public function getInvoiceSell(Request $request, $id)
     {
         $struk = DB::table('invoices')->where('invoices.id', $request->id)
-        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
-        ->join('items', 'invoice_items.item_id', '=', 'items.id')
-        ->join('users', 'invoices.user_id', '=', 'users.id')
-        ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username'))
-        ->groupBy('invoice_number', 'invoice_date', 'users.username', 'items.retail_price')
-        ->orderBy('items.retail_price', 'asc')
-        ->get();
+      ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->join('users', 'invoices.user_id', '=', 'users.id')
+      ->select(DB::raw('SUM(items.retail_price) as total_price, invoice_number, invoice_date, users.username'))
+      ->groupBy('invoice_number', 'invoice_date', 'users.username', 'items.retail_price')
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
 
         $total_price = DB::table('invoices')->where('invoices.id', $request->id)
-        ->select(DB::raw('SUM(items.retail_price) as total_struk', 'invoices.id'))
-        ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
-        ->join('items', 'invoice_items.item_id', '=', 'items.id')
-        ->groupBy('invoices.id')
-        ->first();
+      ->select(DB::raw('SUM(items.retail_price) as total_struk', 'invoices.id'))
+      ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->groupBy('invoices.id')
+      ->first();
 
         $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
-        ->join('items', 'invoice_items.item_id', '=', 'items.id')
-        ->select(DB::raw('items.name, items.retail_price'))
-        ->orderBy('items.retail_price', 'asc')
-        ->get();
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('items.name, items.retail_price'))
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
 
         $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $request->id)
-        ->join('items', 'invoice_items.item_id', '=', 'items.id')
-        ->select(DB::raw('COUNT(items.id) as total_items'))
-        ->groupBy('items.id')
-        ->orderBy('items.retail_price', 'asc')
-        ->get();
-        // dd($total_price);
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('COUNT(items.id) as total_items'))
+      ->groupBy('items.id')
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
 
 
         return view('components.struk-penjualan', compact('struk', 'total_price', 'items', 'banyak_items'));
@@ -214,7 +276,6 @@ class InvoiceController extends Controller
       ->orderBy('items.retail_price', 'asc')
       ->get();
 
-        // dd($struk);
 
 
         return view('components.struk-pembelian', compact('struk', 'total_price', 'items', 'banyak_items', 'supplier'));
@@ -239,6 +300,7 @@ class InvoiceController extends Controller
         $lastOneYearDateTime,
         $currentDateTime
       ])
+      ->where('category', 'penjualan')
       ->orderBy('invoice_date')
       ->get();
 
@@ -251,7 +313,7 @@ class InvoiceController extends Controller
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->sum('retail_price');
 
-
+        $userIncome = round($userIncome / 1000) * 1000  . ',00';
         // string bulan-bulan
         if ($invoices[0]) {
             $temp = Carbon::parse($invoices[0]->invoice_date);
@@ -308,14 +370,15 @@ class InvoiceController extends Controller
         }
             };
 
-            $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+            // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
+            $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
             if ($firstMonth != 0) {
                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
             }
             return response()->json([
         'message' => 'Invoices found',
         'invoices' => $invoices,
-        'invoicesCounter' => $invoicesCounter,
+        'invoicesCtr' => $invoicesCtr,
         'monthsName' => $monthsName,
         'userIncome' => $userIncome
       ]);
@@ -323,64 +386,6 @@ class InvoiceController extends Controller
         return response()->json([
       'message' => 'No invoices found'
     ]);
-        //                 case 1:
-    //                   $invoicesCounter[0]++;
-    //                   break;
-    //                 case 2:
-    //                   $invoicesCounter[1]++;
-    //                   break;
-    //                 case 3:
-    //                   $invoicesCounter[2]++;
-    //                   break;
-    //                 case 4:
-    //                   $invoicesCounter[3]++;
-    //                   break;
-    //                 case 5:
-    //                   $invoicesCounter[4]++;
-    //                   break;
-    //                 case 6:
-    //                   $invoicesCounter[5]++;
-    //                   break;
-    //                 case 7:
-    //                   $invoicesCounter[6]++;
-    //                   break;
-    //                 case 8:
-    //                   $invoicesCounter[7]++;
-    //                   break;
-    //                 case 9:
-    //                   $invoicesCounter[8]++;
-    //                   break;
-    //                 case 10:
-    //                   $invoicesCounter[9]++;
-    //                   break;
-    //                 case 11:
-    //                   $invoicesCounter[10]++;
-    //                   break;
-    //                 case 12:
-    //                   $invoicesCounter[11]++;
-    //                   break;
-    //                 default:
-    //                   $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
-    //                   break;
-    //               }
-    //             };
-
-    //             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
-    //             $firstMonth = Carbon::parse($lastOneYearDateTime)->month;
-    //             if ($firstMonth != 0) {
-    //                 $invoicesCtr = array_values(array_slice($invoicesCounter, $firstMonth - 1, count($invoicesCounter) - ($firstMonth - 1), true) + array_slice($invoicesCounter, 0, $firstMonth - 1, true));
-    //             }
-    //             return response()->json([
-    //               'message' => 'Invoices found',
-    //               'invoices' => $invoices,
-    //               'invoicesCtr' => $invoicesCtr,
-    //               'monthsName' => $monthsName,
-    //               'userIncome' => $userIncome
-    //             ]);
-    //         }
-    //         return response()->json([
-    //           'message' => 'No invoices found'
-    //       ]);
     }
 
     /**
@@ -395,6 +400,38 @@ class InvoiceController extends Controller
         return redirect()->route('dashboard');
     }
 
+    public function getInvoice($invoiceNumber)
+    {
+        $invoice = DB::table('invoices')->where('invoice_number', $invoiceNumber)
+      ->select('invoices.id', 'invoices.link', 'invoices.supplier_id', 'invoices.invoice_number', 'invoices.invoice_date', 'users.username', 'invoices.category')
+      ->join('users', 'invoices.user_id', '=', 'users.id')->first();
+        if (!$invoice->link) {
+            return view('components.invoice-not-found');
+        }
+        $items = DB::table('invoice_items')->where('invoice_items.invoice_id', $invoice->id)
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select('items.name', 'items.retail_price', 'items.id')
+      ->selectRaw('COUNT(items.id) as quantity')
+      ->groupBy('items.id', 'items.name', 'items.retail_price')
+      ->orderBy('items.retail_price', 'asc')
+      ->get();
+
+        $banyak_items = DB::table('invoice_items')->where('invoice_items.invoice_id', $invoice->id)
+      ->join('items', 'invoice_items.item_id', '=', 'items.id')
+      ->select(DB::raw('COUNT(items.id) as total_items, SUM(items.retail_price) as total_price'))
+      ->groupBy('invoice_items.invoice_id')
+      ->orderBy('total_items', 'asc')
+      ->get()
+      ->first();
+
+        if ($invoice->supplier_id) {
+            $supplier = Supplier::find($invoice->supplier_id);
+            return view('components.public-struk-pembelian', compact('invoice', 'items', 'banyak_items', 'supplier'));
+        } else {
+            return view('components.public-struk-penjualan', compact('invoice', 'items', 'banyak_items'));
+        }
+    }
+
     /**
      * It gets the data from the database and returns it to the view
      *
@@ -403,20 +440,21 @@ class InvoiceController extends Controller
     public function getDataPerYear()
     {
         $invoices = DB::table('invoices')
-      ->select('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email')
+
+      ->select('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.link', 'invoice_number')
       ->selectRaw('SUM(retail_price) as total_price, COUNT(items.retail_price) as total_items')
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
-      ->whereYear('invoices.invoice_date', '=', date('Y') - 1)
+      ->whereYear('invoices.invoice_date', '>=', date('Y') - 1)
+      ->orderBy('invoices.invoice_date', 'desc')
       ->where('invoices.category', '=', 'penjualan')
-      ->groupBy('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.user_id', 'invoices.category')
+      ->groupBy('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.user_id', 'invoices.category', 'invoices.link', 'invoice_number')
       ->paginate(20);
-
         $invoice_select = 'year';
-        $total_invoices = DB::table('invoices')->whereYear('invoice_date', '=', date('Y') - 1)->count();
 
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+
+        return view('components.table-penjualan', compact('invoices', 'invoice_select'));
     }
 
     /**
@@ -429,20 +467,17 @@ class InvoiceController extends Controller
     public function getDataPerMonth()
     {
         $invoices = DB::table('invoices')
-      ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
+      ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email, invoices.link, invoice_number'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->where('invoices.invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))
       ->where('invoices.category', '=', 'penjualan')
-      ->groupBy('invoices.id')
-      ->groupBy('invoices.invoice_date')
-      ->groupBy('users.username')
-      ->groupBy('users.email')
+      ->groupBy('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.link', 'invoice_number')
       ->paginate(20);
+
         $invoice_select = 'month';
-        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-1 months')))->count();
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+        return view('components.table-penjualan', compact('invoices', 'invoice_select'));
     }
 
     /**
@@ -455,21 +490,17 @@ class InvoiceController extends Controller
     public function getDataPerWeek()
     {
         $invoices = DB::table('invoices')
-      ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email'))
+      ->select(DB::raw('SUM(items.retail_price) as total_price, COUNT(items.retail_price) as total_items, invoices.id, invoices.invoice_date, users.username, users.email, invoices.link, invoice_number'))
       ->join('users', 'invoices.user_id', '=', 'users.id')
       ->join('invoice_items', 'invoices.id', '=', 'invoice_items.invoice_id')
       ->join('items', 'invoice_items.item_id', '=', 'items.id')
       ->where('invoices.invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))
       ->where('invoices.category', '=', 'penjualan')
-      ->groupBy('invoices.id')
-      ->groupBy('invoices.invoice_date')
-      ->groupBy('users.username')
-      ->groupBy('users.email')
+      ->groupBy('invoices.id', 'invoices.invoice_date', 'users.username', 'users.email', 'invoices.link', 'invoice_number')
       ->paginate(20);
 
         $invoice_select = 'week';
-        $total_invoices = DB::table('invoices')->where('invoice_date', '>=', date('Y-m-d', strtotime('-7 days')))->count();
-        return view('components.table-penjualan', compact('invoices', 'total_invoices', 'invoice_select'));
+        return view('components.table-penjualan', compact('invoices', 'invoice_select'));
     }
 
     /**

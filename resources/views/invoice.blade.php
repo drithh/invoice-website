@@ -22,16 +22,16 @@
         <div id="jual-barang" class="mt-10 flex-col justify-center px-16">
           <h3 class="text-primary-textdark mb-8 text-center text-lg font-semibold">MINIMARKET SENTOSA</h3>
           <div class="form-control mb-2 flex justify-between border-b-4 pb-2">
-            <p class="w-[300px] text-sm">Nama</p>
+            <p class="w-80 text-sm">Nama</p>
             <p class="w-[70px] text-center text-sm">Qty</p>
             <p class="w-[120px] text-center text-sm">Action</p>
           </div>
           <div class="input-box">
             <div class="result"></div>
             <div class="input-wrapper mb-2 flex h-10 justify-between border-b-2 pb-1">
-              <input class="nama w-[300px] rounded-md border-2 px-2 text-xs" placeholder="Masukkan nama barang.."
-                name='nama[]'>
-              <input class="quantity w-[70px] rounded-md border-2 text-center text-xs" name="qty[]" placeholder="qty">
+              <select class="nama w-80 rounded-md border-2 px-2 text-sm" name="state">
+              </select>
+              <input class="quantity w-[70px] rounded-md border-2 text-center text-sm" name="qty[]" placeholder="qty">
               <div class="flex w-[120px] items-center justify-center text-center">
                 <button class="text-primary-cyan plus text-lg font-semibold" type="button"
                   onclick="addItem(this.parentElement.parentElement.parentElement)">+</button>
@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="flex w-full justify-center">
-            <button
+            <button onclick="decreaseStock()"
               class="bg-primary-blue text-primary-background mx-auto mt-6 rounded-lg px-4 py-2 text-center font-semibold">
               Submit
             </button>
@@ -63,16 +63,16 @@
 
           </div>
           <div class="form-control mb-2 flex justify-between border-b-4 pb-2">
-            <p class="w-[300px] text-sm">Nama</p>
+            <p class="w-80 text-sm">Nama</p>
             <p class="w-[70px] text-center text-sm">Qty</p>
             <p class="w-[120px] text-center text-sm">Action</p>
           </div>
           <div class="input-box">
             <div class="result"></div>
             <div class="input-wrapper mb-2 flex h-10 justify-between border-b-2 pb-1">
-              <select onclick="getNamaItem()" class="nama w-[300px] rounded-md border-2 px-2 text-xs" name="state">
+              <select class="nama w-80 rounded-md border-2 px-2 text-sm" name="state">
               </select>
-              <input class="quantity w-[70px] rounded-md border-2 text-center text-xs" name="qty[]" placeholder="qty">
+              <input class="quantity w-[70px] rounded-md border-2 text-center text-sm" name="qty[]" placeholder="qty">
               <div class="flex w-[120px] items-center justify-center text-center">
                 <button class="text-primary-cyan plus text-lg font-semibold" type="button"
                   onclick="addItem(this.parentElement.parentElement.parentElement)">+</button>
@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="flex w-full justify-center">
-            <button
+            <button onclick="increaseStock()"
               class="bg-primary-blue text-primary-background mx-auto mt-6 rounded-lg px-4 py-2 text-center font-semibold">
               Submit
             </button>
@@ -111,27 +111,6 @@
 
 <script defer>
   // event listener keypress select2
-  document.addEventListener('keypress', function(e) {
-    if (e.target.classList.contains('select2-search__field')) {
-      e.preventDefault();
-      const url = `/api/item/getTopSix/${e.value}`;
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          const nama = data.map((item, index) => {
-            return {
-              id: index,
-              text: item.name
-            }
-          });
-          $('select[name="state"]').select2({
-            data: nama,
-            placeholder: 'Pilih nama barang',
-            allowClear: true
-          });
-        });
-    }
-  });
   $('select[name="state"]').select2({
     data: [{
       id: 0,
@@ -140,9 +119,56 @@
     placeholder: 'Pilih nama barang',
     allowClear: true
   });
-  const getNamaItem = () => {
 
+  const increaseStock = () => {
+    const result = [...document.querySelectorAll('#beli-barang .name-result')]
+    const formItem = result.map(item => {
+      const nama = item.querySelector('.nama').innerHTML.trim();
+      const qty = parseInt(item.querySelector('.quantity-result').innerHTML.trim());
+      return {
+        name: nama,
+        quantity: qty
+      }
 
+    });
+
+    const supplier = document.querySelector('#search-input').value;
+
+    axios({
+        method: 'POST',
+        url: '/api/invoices/create/pembelian',
+        data: {
+          form: formItem,
+          supplier: supplier
+        }
+
+      })
+      .then(response => {
+        alert('Struk berhasil dibuat')
+      })
+
+  };
+
+  const decreaseStock = () => {
+    const result = [...document.querySelectorAll('#jual-barang .name-result')]
+    const formItem = result.map(item => {
+      const nama = item.querySelector('.nama').innerHTML.trim();
+      const qty = parseInt(item.querySelector('.quantity-result').innerHTML.trim());
+      return {
+        name: nama,
+        quantity: qty
+      }
+
+    });
+
+    axios({
+        method: 'POST',
+        url: '/api/invoices/create/penjualan',
+        data: formItem,
+      })
+      .then(response => {
+        alert('Struk berhasil dibuat')
+      })
   }
 
   const closeStruk = () => {
@@ -151,25 +177,6 @@
 
 
 
-  const searchItem = () => {
-    const input = document.getElementById('.nama').value;
-    const url = `/api/getTopSix?search=${input}`;
-
-    // $(".nama").select2({
-    //   data: data
-    // })
-    axios.get(url).then(res => {
-      const data = res.data;
-      // const result = document.getElementById('search-result');
-      console.log(data);
-      // result.innerHTML = '';
-      // data.forEach(item => {
-      //   $(".nama").select2({
-      //     data: data
-      //   })
-      // });
-    });
-  }
 
   let clickSearch = false;
   const placeSearchValue = (e) => {
@@ -211,6 +218,8 @@
     document.querySelector('#jual-barang').classList.add('flex');
     e.querySelector('.pembelian').classList.remove('opacity-100');
     e.querySelector('.pembelian').classList.add('opacity-70');
+
+
   }
 
   const formPembelian = (e) => {
@@ -233,33 +242,68 @@
   }
 
   const addItem = (e) => {
+    console.log(e.querySelector('.quantity'));
+    const templateRow = `
+    <div class="name-result mb-2 flex h-10 justify-between border-b-2 pb-1">
+      <div class="nama w-80 rounded-md border-2 px-2 text-base flex place-items-center "> ${e.querySelector('.select2-selection__rendered').innerHTML.trim()} </div>
+      <div class="quantity-result w-[70px] rounded-md border-2 text-center text-base flex place-items-center place-content-center"> ${e.querySelector('.quantity').value} </div>
+      <div class="flex w-[120px] items-center justify-center text-center">
+        <button class="text-primary-cyan minus text-lg font-semibold"
+          onclick="removeElement(this.parentElement.parentElement)">
+          <x-crossmark></x-crossmark>
+        </button>
+      </div>
+    </div>
+    `;
 
-    const nama = e.querySelector('.nama').value;
-    const quantity = e.querySelector('.quantity').value;
+
+    // const nama = e.querySelector('.nama').value;
+    // const quantity = e.querySelector('.quantity').value;
     const inputRow = e.querySelector('.input-wrapper');
-    const newRow = inputRow.cloneNode(true);
+    // const newRow = inputRow.cloneNode(true);
     // set inputRow input disabled
-    newRow.querySelector('.nama').value = nama;
-    newRow.querySelector('.quantity').value = quantity;
-    newRow.querySelector('.nama').disabled = true;
-    newRow.querySelector('.quantity').disabled = true;
-    newRow.querySelector('.plus').classList.add('hidden');
-    newRow.querySelector('.minus').classList.remove('hidden');
+    // newRow.querySelector('.nama').value = nama;
+    // newRow.querySelector('.quantity').value = quantity;
+    // newRow.querySelector('.nama').disabled = true;
+    // newRow.querySelector('.quantity').disabled = true;
+    // newRow.querySelector('.plus').classList.add('hidden');
+    // newRow.querySelector('.minus').classList.remove('hidden');
 
-    inputRow.querySelector('.nama').value = '';
     inputRow.querySelector('.quantity').value = '';
+    // inputRow.querySelector('.select2-selection__rendered').innerHTML = 'Masukkan Nama Item';
 
 
     // var newRow = row.cloneNode(true);
-    e.querySelector('.result').appendChild(newRow);
+    e.querySelector('.result').innerHTML += templateRow;
 
 
   }
+  let items;
 
   const addData = () => {
     toggleModal();
-  }
+    if (!items) {
+      axios.get('/api/item/getAll')
+        .then(response => {
+          items = response.data;
+          if (items) {
+            const nama = items.map((item, index) => {
+              return {
+                id: index,
+                text: item.name
+              }
+            });
+            $('select[name="state"]').select2({
+              data: nama,
+              placeholder: 'Pilih nama barang',
+              allowClear: true
+            });
+          }
+        });
+    }
 
+
+  }
   const toggleModal = () => {
     document.querySelector('#add-stock').classList.toggle('hidden');
   }

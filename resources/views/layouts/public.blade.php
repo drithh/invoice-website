@@ -22,20 +22,22 @@
   <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="bg-primary-background flex min-h-screen overflow-x-hidden font-sans antialiased">
-  @include('layouts.navigation')
+<body class="font-sans antialiased">
+  <div class="bg-primary-background min-h-screen">
+    {{-- @include('layouts.navigation') --}}
 
-  {{-- <!-- Page Heading -->
+    {{-- <!-- Page Heading -->
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {{ $header }}
       </div>
     </header> --}}
 
-  <!-- Page Content -->
-  <main class="font-montserrat w-full">
-    {{ $slot }}
-  </main>
+    <!-- Page Content -->
+    <main>
+      {{ $slot }}
+    </main>
+  </div>
 </body>
 
 </html>

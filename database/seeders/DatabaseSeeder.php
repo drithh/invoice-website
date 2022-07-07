@@ -22,26 +22,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(30)->create();
+        User::create([
+            'username' => 'admin',
+            'email' => 'admin@admin',
+            'password' => bcrypt('admin'),
+        ]);
+        User::create([
+            'username' => 'user',
+            'email' => 'user@user',
+            'password' => bcrypt('user'),
+        ]);
+        User::factory(13)->create();
 
 
 
         SupplierFactory::new()->count(44)->create();
         $this->call(SupplierSeeder::class);
 
-        InvoiceFactory::new()->count(400)->create();
+        InvoiceFactory::new()->count(800)->create();
         $this->call(ItemSeeder::class);
 
 
 
-        InvoiceItemFactory::new()->count(2400)->create();
+        InvoiceItemFactory::new()->count(4000)->create();
 
 
         // create admin user
-        User::create([
-            'username' => 'admin',
-            'email' => 'admin@admin',
-            'password' => bcrypt('admin'),
-        ]);
     }
 }

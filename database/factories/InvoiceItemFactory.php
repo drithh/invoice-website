@@ -17,7 +17,7 @@ class InvoiceItemFactory extends Factory
     public function definition()
     {
         return [
-            'invoice_id' => $this->faker->numberBetween(1, 400),
+            'invoice_id' => $this->faker->numberBetween(1, 800),
             'item_id' => $this->faker->numberBetween(1, 800),
         ];
     }

@@ -34,7 +34,6 @@ class Invoice extends Model
 
         static::creating(function ($model) {
             $model->invoice_number = 'INV-' . $model->user_id . '-' . str_pad(Invoice::count() + 1, 5, "0", STR_PAD_LEFT);
-            $model->link = $model->invoice_number;
         });
     }
 

@@ -45,15 +45,6 @@
                 <div
                   class="{{ $item->remaining_stock < 33 ? 'bg-red-600' : ($item->remaining_stock > 33 && $item->remaining_stock < 66 ? 'bg-yellow-600' : 'bg-green-600') }} h-1.5 rounded-full dark:bg-gray-300"
                   style="width: {{ $item->remaining_stock }}%"></div>
-                <div class="flex h-[50%] w-[100%] flex-row items-center justify-between">
-
-                  <div class="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-                    <div
-                      class="bg-{{ $item->remaining_stock < 33 ? 'red' : ($item->remaining_stock > 33 && $item->remaining_stock < 66 ? 'yellow' : 'green') }}-600 h-1.5 rounded-full dark:bg-gray-300"
-                      style="width: {{ $item->remaining_stock }}%"></div>
-                  </div>
-
-                </div>
               </div>
             </div>
           </div>
