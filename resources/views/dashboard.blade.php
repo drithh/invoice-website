@@ -82,6 +82,7 @@
     axios.get('/api/invoices/user')
       .then(response => {
         if (response.data.message === 'Invoices found') {
+          console.log(response.data);
           const data = response.data;
           document.getElementById('income').innerHTML = `Rp.${data.userIncome}`;
           const ctx = document.getElementById('myChart').getContext('2d');

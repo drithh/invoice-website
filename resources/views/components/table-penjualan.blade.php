@@ -4,7 +4,7 @@
     <div class="mb-20 flex items-center justify-between">
       <div class="left">
         <h2 class="text-primary-textdark mb-[0.75rem] text-xl font-semibold">Penjualan Terbaru</h2>
-        <p class="text-primary-textgray text-sm">Ada {{ $total_invoices }} struk</p>
+        <p class="text-primary-textgray text-sm">Ada {{ $invoices->total() }} struk</p>
       </div>
       <div class="right w-[254px] text-sm">
         <div class="text-primary-textgray my-auto flex items-center justify-between rounded-lg bg-[#EFF1F9]">

@@ -22,7 +22,11 @@
       </div>
       <div class="header text-primary-textgray mb-2 flex">
         <p class="mb-2 w-[100px]">Kategori</p>
-        <p class="mb-2">: {{ $item->name }}</p>
+        <p class="mb-2">: {{ $item->category }}</p>
+      </div>
+      <div class="header text-primary-textgray mb-2 flex">
+        <p class="mb-2 w-[100px]">Content</p>
+        <p class="mb-2 w-[100px]">: {{ $item->content }}</p>
       </div>
       <div class="header text-primary-textgray mb-2 flex">
         <p class="mb-2 w-[100px]">Unit</p>
