@@ -75,27 +75,43 @@ Route::get('/product', function () {
 Route::get('/report', function () {
 
     // Pie chart
-    $total_penjualan = DB::select('SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as total_price, items.category FROM invoice_items
+    $total_penjualan = DB::select("SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as total_price, items.category FROM invoice_items
     JOIN items ON invoice_items.item_id = items.id
     JOIN invoices ON invoice_items.invoice_id = invoices.id
-    WHERE invoices.category = "penjualan"
+    WHERE invoices.category = 'penjualan'
     GROUP BY items.category
     ORDER BY total_price
-    DESC LIMIT 6');
+    DESC LIMIT 6");
 
     // Column chart
-    $pendapatan_bulanan = DB::select('SELECT COUNT(invoice_items.item_id), SUM(items.retail_price) as untung_kotor, SUM(items.retail_price - items.cost_of_goods_sold) as untung_bersih, SUM(items.cost_of_goods_sold) as pengeluaran, YEAR(invoices.invoice_date) as tahun, MONTH(invoices.invoice_date) as bulan FROM invoice_items
-    JOIN items ON invoice_items.item_id = items.id
-    JOIN invoices ON invoice_items.invoice_id = invoices.id
-    WHERE (
-      (YEAR(invoices.invoice_date) = YEAR(CURRENT_TIMESTAMP) - 1 AND MONTH(invoices.invoice_date) > MONTH(CURRENT_TIMESTAMP))
-      AND invoices.category = "penjualan"
-      )
-    OR (
-      (YEAR(invoices.invoice_date) = YEAR(CURRENT_TIMESTAMP) AND MONTH(invoices.invoice_date) <= MONTH(CURRENT_TIMESTAMP))
-      AND invoices.category = "penjualan"
-      )
-    GROUP BY YEAR(invoices.invoice_date), MONTH(invoices.invoice_date)');
+    $pendapatan_bulanan = DB::select("    
+    SELECT
+        COUNT(invoice_items.item_id) as count,
+        SUM(items.retail_price) as untung_kotor,
+        SUM(items.retail_price - items.cost_of_goods_sold) as untung_bersih,
+        SUM(items.cost_of_goods_sold) as pengeluaran,
+        EXTRACT(YEAR FROM CAST(invoices.invoice_date AS DATE)) as tahun,
+        EXTRACT(MONTH FROM CAST(invoices.invoice_date AS DATE)) as bulan
+    FROM
+        invoice_items
+        JOIN items ON invoice_items.item_id = items.id
+        JOIN invoices ON invoice_items.invoice_id = invoices.id
+    WHERE
+        (
+            (EXTRACT(YEAR FROM CAST(invoices.invoice_date AS DATE)) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP) - 1
+            AND EXTRACT(MONTH FROM CAST(invoices.invoice_date AS DATE)) > EXTRACT(MONTH FROM CURRENT_TIMESTAMP))
+            AND invoices.category = 'penjualan'
+        )
+        OR
+        (
+            (EXTRACT(YEAR FROM CAST(invoices.invoice_date AS DATE)) = EXTRACT(YEAR FROM CURRENT_TIMESTAMP)
+            AND EXTRACT(MONTH FROM CAST(invoices.invoice_date AS DATE)) <= EXTRACT(MONTH FROM CURRENT_TIMESTAMP))
+            AND invoices.category = 'penjualan'
+        )
+    GROUP BY
+        EXTRACT(YEAR FROM CAST(invoices.invoice_date AS DATE)),
+        EXTRACT(MONTH FROM CAST(invoices.invoice_date AS DATE))
+    ");
     // dd($pendapatan_bulanan);
     // dd($column_data);
 

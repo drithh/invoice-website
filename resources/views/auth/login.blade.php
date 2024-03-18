@@ -8,6 +8,10 @@
       <div class="title font-montserrat text-primary-text text-[22px] font-bold tracking-wide drop-shadow-xl">Welcome
         Back</div>
       <div class="text font-poppins text-xs">Silakan masuk untuk mengakses data Anda</div>
+      <div class="flex flex-col text text-xs gap-2 mt-2">
+        <div>Admin: email=admin@admin pass=admin</div>
+        <div>User: email=user@user pass=user</div>
+      </div>
     </div>
 
     <form method="POST" class="flex flex-col gap-y-1" action="{{ route('login') }}">
