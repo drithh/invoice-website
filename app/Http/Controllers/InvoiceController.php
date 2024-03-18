@@ -328,46 +328,46 @@ class InvoiceController extends Controller
             $invoicesCounter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             foreach ($invoices as $invoice) {
                 switch (Carbon::parse($invoice->invoice_date)->month) {
-          case 1:
-            $invoicesCounter[0]++;
-            break;
-          case 2:
-            $invoicesCounter[1]++;
-            break;
-          case 3:
-            $invoicesCounter[2]++;
-            break;
-          case 4:
-            $invoicesCounter[3]++;
-            break;
-          case 5:
-            $invoicesCounter[4]++;
-            break;
-          case 6:
-            $invoicesCounter[5]++;
-            break;
-          case 7:
-            $invoicesCounter[6]++;
-            break;
-          case 8:
-            $invoicesCounter[7]++;
-            break;
-          case 9:
-            $invoicesCounter[8]++;
-            break;
-          case 10:
-            $invoicesCounter[9]++;
-            break;
-          case 11:
-            $invoicesCounter[10]++;
-            break;
-          case 12:
-            $invoicesCounter[11]++;
-            break;
-          default:
-            $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
-            break;
-        }
+                    case 1:
+                        $invoicesCounter[0]++;
+                        break;
+                    case 2:
+                        $invoicesCounter[1]++;
+                        break;
+                    case 3:
+                        $invoicesCounter[2]++;
+                        break;
+                    case 4:
+                        $invoicesCounter[3]++;
+                        break;
+                    case 5:
+                        $invoicesCounter[4]++;
+                        break;
+                    case 6:
+                        $invoicesCounter[5]++;
+                        break;
+                    case 7:
+                        $invoicesCounter[6]++;
+                        break;
+                    case 8:
+                        $invoicesCounter[7]++;
+                        break;
+                    case 9:
+                        $invoicesCounter[8]++;
+                        break;
+                    case 10:
+                        $invoicesCounter[9]++;
+                        break;
+                    case 11:
+                        $invoicesCounter[10]++;
+                        break;
+                    case 12:
+                        $invoicesCounter[11]++;
+                        break;
+                    default:
+                        $invoicesCounter[Carbon::parse($invoice->invoice_date)->month]++;
+                        break;
+                }
             };
 
             // $firstMonth = Carbon::parse($invoices[0]->invoice_date)->month;
@@ -552,8 +552,8 @@ class InvoiceController extends Controller
 
 
         //   }
-    //   return response()->json([
-    //     'message' => 'No invoices found'
-    // ]);
+        //   return response()->json([
+        //     'message' => 'No invoices found'
+        // ]);
     }
 }
