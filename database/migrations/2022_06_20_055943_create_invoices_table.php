@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('invoice_number');
-            $table->string('invoice_date');
+            $table->timestamp('invoice_date');
             $table->boolean('link')->default(false);
             $table->string('category');
             $table->foreignId('supplier_id')->nullable()->constrained();

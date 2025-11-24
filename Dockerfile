@@ -24,14 +24,26 @@ COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 # Set working directory to ...
 WORKDIR /app
 
+# Copy composer files first for better layer caching
+COPY --chown=www-data:www-data composer.json composer.lock ./
+
+# Install PHP dependencies
+RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+
 # Copy files from current folder to container current folder (set in workdir).
 COPY --chown=www-data:www-data . .
+
+# Make entrypoint script executable
+RUN chmod +x docker/entrypoint.sh
 
 # Create laravel caching folders.
 RUN mkdir -p ./storage/framework
 RUN mkdir -p ./storage/framework/{cache, testing, sessions, views}
 RUN mkdir -p ./storage/framework/bootstrap
 RUN mkdir -p ./storage/framework/bootstrap/cache
+
+# Clear bootstrap cache to remove any dev package references
+RUN rm -f bootstrap/cache/packages.php bootstrap/cache/services.php || true
 
 # Adjust user permission & group.
 RUN usermod --uid 1000 www-data

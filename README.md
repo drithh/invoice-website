@@ -1,64 +1,293 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Invoice Management System
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive invoice management system built with Laravel for handling sales and purchase invoices, inventory management, and business reporting.
 
-## About Laravel
+**Live Demo:** [https://invoice-website.adriel.id](https://invoice-website.adriel.id)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Invoice Management
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Sales Invoices (Penjualan)**: Create and manage sales invoices
+- **Purchase Invoices (Pembelian)**: Track purchases from suppliers
+- **Automatic Invoice Numbering**: Auto-generates invoice numbers in format `INV-{user_id}-{count}`
+- **Public Invoice Links**: Share invoices via public URLs with toggleable visibility
+- **Invoice History**: View invoices filtered by all, sales, or purchases
 
-## Learning Laravel
+### Inventory Management
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Item Management**: Track items with categories, pricing, and stock levels
+- **Automatic Stock Updates**: Stock automatically adjusts when creating invoices
+- **Stock Tracking**: Monitor current stock, max stock, and last purchase dates
+- **Item Search**: Quick search functionality for items
+- **Cost Tracking**: Track cost of goods sold (COGS) and retail prices
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Reporting & Analytics
 
-## Laravel Sponsors
+- **Dashboard**: Overview of invoices, items, and key metrics
+- **Sales Reports**:
+  - Pie charts showing sales by category
+  - Column charts for monthly revenue (gross profit, net profit, expenses)
+- **Time-based Filtering**: View sales data by week, month, or year
+- **Average Sales Analysis**: Hourly sales patterns over the last 3 months
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### User Management
 
-### Premium Partners
+- **Authentication**: Laravel Breeze authentication system
+- **User Profiles**: Manage user information
+- **Multi-user Support**: Each user can manage their own invoices
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Supplier Management
 
-## Contributing
+- **Supplier Database**: Store supplier information (name, email, phone, address)
+- **Supplier Search**: Quick supplier lookup for purchase invoices
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Tech Stack
 
-## Code of Conduct
+- **Backend**: Laravel 9.x
+- **Frontend**:
+  - Tailwind CSS
+  - Alpine.js
+  - Laravel Mix
+- **Database**: MySQL/PostgreSQL (configurable)
+- **PHP**: 8.1+
+- **Containerization**: Docker
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Requirements
 
-## Security Vulnerabilities
+- PHP 8.1 or higher
+- Composer
+- Node.js and npm (or bun)
+- MySQL or PostgreSQL
+- Docker (optional, for containerized deployment)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Installation
+
+### Using Docker (Recommended)
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd invoice-website
+```
+
+2. Build and run with Docker:
+
+```bash
+docker build -t invoice-website .
+docker run -p 8080:8080 invoice-website
+```
+
+### Manual Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd invoice-website
+```
+
+2. Install PHP dependencies:
+
+```bash
+composer install
+```
+
+3. Install Node dependencies:
+
+```bash
+npm install
+# or if using bun
+bun install
+```
+
+4. Copy environment file:
+
+```bash
+cp .env.example .env
+```
+
+5. Generate application key:
+
+```bash
+php artisan key:generate
+```
+
+6. Configure your `.env` file with database credentials:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=invoice_db
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+7. Run migrations:
+
+```bash
+php artisan migrate
+```
+
+8. Seed the database (optional):
+
+```bash
+php artisan db:seed
+```
+
+9. Compile assets:
+
+```bash
+npm run dev
+# or for production
+npm run production
+```
+
+10. Start the development server:
+
+```bash
+php artisan serve
+```
+
+## Database Structure
+
+### Main Tables
+
+- **users**: User accounts and authentication
+- **invoices**: Invoice records (sales and purchases)
+- **items**: Product/item catalog
+- **invoice_items**: Junction table linking invoices to items
+- **suppliers**: Supplier information
+
+### Key Relationships
+
+- Users have many Invoices
+- Invoices have many InvoiceItems
+- Items belong to many Invoices through InvoiceItems
+- Invoices can belong to a Supplier (for purchases)
+
+## API Endpoints
+
+### Invoice Endpoints
+
+- `POST /api/invoices/create/penjualan` - Create sales invoice
+- `POST /api/invoices/create/pembelian` - Create purchase invoice
+- `GET /api/invoices/all` - Get all invoices (filtered)
+- `GET /api/invoices/year` - Get yearly sales data
+- `GET /api/invoices/month` - Get monthly sales data
+- `GET /api/invoices/week` - Get weekly sales data
+- `GET /api/invoices/user` - Get user's invoices
+- `GET /api/invoices/average` - Get average sales per hour
+- `GET /api/invoices/sell/{id}` - Get sales invoice details
+- `GET /api/invoices/buy/{id}` - Get purchase invoice details
+- `POST /api/invoices/toggle/{invoiceNumber}` - Toggle public link visibility
+- `GET /invoices/{invoiceNumber}` - Public invoice view
+
+### Item Endpoints
+
+- `GET /api/items/list` - Get items list
+- `GET /api/items/grid` - Get items grid view
+- `GET /api/item/getItemDetails/{id}` - Get item details
+- `POST /api/item/search` - Search items
+- `POST /api/item/updateStock` - Update item stock
+- `GET /api/item/getStock` - Get stock information
+- `GET /api/item/pieChart` - Get pie chart data
+- `GET /api/item/getAll` - Get all items
+
+### Supplier Endpoints
+
+- `POST /api/supplier/search` - Search suppliers
+
+### User Endpoints
+
+- `GET /api/user/get` - Get current user
+- `GET /api/user/get/{id}` - Get user by ID
+- `POST /api/user/update` - Update user information
+
+## Routes
+
+### Web Routes
+
+- `/` - Redirects to dashboard
+- `/dashboard` - Main dashboard (requires authentication)
+- `/invoice` - Invoice creation page
+- `/product` - Product/item management page
+- `/report` - Sales reports and analytics
+- `/profile` - User profile page
+
+## Features in Detail
+
+### Invoice Categories
+
+- **Penjualan (Sales)**: For tracking sales transactions
+- **Pembelian (Purchase)**: For tracking purchases from suppliers
+
+### Stock Management
+
+- Stock automatically decreases when creating sales invoices
+- Stock automatically increases when creating purchase invoices
+- Track last purchase date for inventory management
+
+### Public Invoice Sharing
+
+- Each invoice can be made publicly accessible via a unique link
+- Toggle visibility on/off for each invoice
+- Public invoices are accessible without authentication
+
+## Development
+
+### Running Tests
+
+```bash
+php artisan test
+```
+
+### Code Style
+
+The project follows PSR-12 coding standards.
+
+### Asset Compilation
+
+```bash
+# Development
+npm run dev
+
+# Watch for changes
+npm run watch
+
+# Production build
+npm run production
+```
+
+## Deployment
+
+The project includes a Dockerfile for containerized deployment. The Docker setup includes:
+
+- PHP 8.1-FPM
+- Nginx web server
+- Optimized for production with OPcache enabled
+- Composer dependencies pre-installed
+
+### Environment Variables
+
+Ensure the following are set in production:
+
+- `APP_ENV=production`
+- `APP_DEBUG=false`
+- `APP_URL` - Your application URL
+- Database credentials
+- `APP_KEY` - Application encryption key
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+For issues and questions, please open an issue on the repository.

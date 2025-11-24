@@ -23,6 +23,14 @@ class Invoice extends Model
         'link',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'invoice_date' => 'datetime',
+    ];
 
     /**
      * When creating a new invoice, set the invoice number to INV-{user_id}-{invoice_count} and the link to
